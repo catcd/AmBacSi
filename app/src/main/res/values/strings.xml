@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">AmBacSi</string>
+
+    <!-- Strings related to splash screen -->
+    <string name="splash_network_error">Cannot connect to the Internet!</string>
+    <string name="splash_offline">You are currently offline.</string>
+    <string name="splash_welcome">Welcome back!</string>
+
+    <!-- Strings related to sign up -->
+    <string name="sign_up_title">Sign Up</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_username_hint">Username</string>
+    <string name="sign_up_password_hint">Password</string>
+    <string name="sign_up_retype_password_hint">Retype Password</string>
+    <string name="sign_up_terms">
+        By clicking REGISTER you agree to our Terms of Use and Privacy Policy
+    </string>
+    <string name="sign_up_login">Already registered. Login Me!</string>
+    <string name="sign_up_error_invalid_email">This email address is invalid</string>
+    <string name="sign_up_error_existed_email">This email address is existed</string>
+    <string name="sign_up_error_invalid_username">This username is invalid</string>
+    <string name="sign_up_error_existed_username">This email address is existed</string>
+    <string name="sign_up_error_too_short_password">This password is too short</string>
+    <string name="sign_up_error_week_password">This password is not strong enough</string>
+    <string name="sign_up_error_not_matched_password">This password is not matched</string>
+    <string name="sign_up_error_field_required">This field is required</string>
+    <string name="sign_up_error_unknown">An error occurred. Please try again later!</string>
+    <string name="sign_up_success">Register successfully!</string>
+    <string name="sign_up_success_without_name">Register successfully, but your name was not saved.</string>
+
+    <!-- Strings related to login -->
+    <string name="login_title">AmBacSi</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_with">or login with</string>
+    <string name="login_forgot_password">Forgot your Password?</string>
+    <string name="login_sign_up">Not a member? Register now!</string>
+    <string name="login_error_invalid_username">This username is invalid</string>
+    <string name="login_error_not_exist_username">This username does not exist or has been disabled</string>
+    <string name="login_error_too_short_password">This password is too short</string>
+    <string name="login_error_incorrect_password">This password is incorrect</string>
+    <string name="login_error_field_required">This field is required</string>
+    <string name="login_error_unknown">An error occurred. Please try again later!</string>
+    <string name="login_success">Login successfully!</string>
+
+    <string name="login_error_authentication">Authentication failed.</string>
+    <string name="login_error_user_collision">Already exists an account with your email address.</string>
+    <string name="login_error_user_collision_facebook">Login and link your account to Facebook!</string>
+    <string name="login_error_user_collision_google">Login and link your account to Google!</string>
+
+    <string name="login_error_play_service_not_available">Google Play Services is not available.</string>
+    <string name="login_error_play_service_connection">Google Play Services error.</string>
+
+    <string name="login_error_facebook_not_available">Facebook Services is not available.</string>
+    <string name="login_error_facebook_connection">Facebook Services error.</string>
+
+    <!-- Strings related to forgot password -->
+    <string name="forgot_password_title">Forgot your Password?</string>
+    <string name="forgot_password_email_hint">Email</string>
+    <string name="forgot_password_instruction">
+        We just need your registered Email Id to sent you password reset instructions.
+    </string>
+    <string name="forgot_password_login"><![CDATA[<< BACK]]></string>
+    <string name="forgot_password_error_invalid_email">This email address is invalid</string>
+    <string name="forgot_password_error_not_existed_email">This email address is not existed</string>
+    <string name="forgot_password_error_field_required">This field is required</string>
+    <string name="forgot_password_error_unknown">An error occurred. Please try again later!</string>
+    <string name="forgot_password_success">Check your email for password reset instructions!</string>
+
+    <!-- Strings related to month calendar -->
+    <string name="month_calendar_title">Month Calendar</string>
+
+    <!-- Strings related to week calendar -->
+    <string name="week_calendar_title">Week Calendar</string>
+
+    <!-- Strings related to week calendar -->
+    <string name="events_calendar_title">Events Calendar</string>
+
+    <!-- Strings related to settings -->
+    <string name="settings_title">Settings</string>
+
+    <!-- Strings related to Register for Anonymous -->
+    <string name="register_anonymous_title">Register for Anonymous</string>
+
+    <!-- Strings related to Link my Account -->
+    <string name="link_my_account_title">Link my Account</string>
+
+    <!-- Strings related to Change Privacy -->
+    <string name="change_privacy_title">Change Privacy</string>
+
+    <!-- Strings related to Edit Profile -->
+    <string name="edit_profile_title">Edit Profile</string>
+
+    <!-- Strings related to My Profile -->
+    <string name="my_profile_title">My Profile</string>
+
+    <!-- Strings related to Show Calendar -->
+    <string name="calendars_title">Select Calendar</string>
+
+    <!-- Strings related to Shared with Me -->
+    <string name="shared_with_me_title">Shared with Me</string>
+
+    <!-- Strings related to Search -->
+    <string name="search_title">Search</string>
+
+    <!-- Strings related to Notifications -->
+    <string name="notifications_title">Notifications</string>
+
+    <!-- Strings related to Meeting Planner -->
+    <string name="meeting_planner_title">Meeting Planner</string>
+
+    <!-- Strings related to Schedule -->
+    <string name="schedule_title">Schedule</string>
+
+    <!-- Strings related to Import Calendar -->
+    <string name="import_calendar_title">Import Calendar</string>
+
+    <!-- Strings related to Help & feedback -->
+    <string name="help_title"><![CDATA[Help & feedback]]></string>
+
+    <!-- Strings related to button -->
+    <string name="btn_back">Back</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_login_anonymous">Use app WITHOUT login</string>
+    <string name="btn_login_facebook">Facebook</string>
+    <string name="btn_login_google">Google+</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_reset_password">RESET PASSWORD</string>
+    <string name="btn_save">Save</string>
+
+    <!-- Strings related to menu -->
+    <string name="menu_action_today">Today</string>
+    <string name="menu_action_month_calendar">Month Calendar</string>
+    <string name="menu_action_week_calendar">Week Calendar</string>
+    <string name="menu_action_three_days_calendar">3 Days Calendar</string>
+    <string name="menu_action_day_calendar">Day Calendar</string>
+    <string name="menu_action_events_calendar">Events Calendar</string>
+
+    <!-- Strings related to information notify to user -->
+    <string name="notify_press_back_again_to_exit">Please press BACK again to exit!</string>
+
+    <!-- Strings related to navigation drawer -->
+    <string name="drawer_item_calendars">Calendars</string>
+    <string name="drawer_item_shared_with_me">Shared with Me</string>
+    <string name="drawer_item_search">Search</string>
+    <string name="drawer_item_notifications">Notification</string>
+    <string name="drawer_item_notifications_badge">10</string>
+    <string name="drawer_item_meeting_planner">Meeting Planner</string>
+    <string name="drawer_item_schedule">Schedule</string>
+    <string name="drawer_item_import">Import Calendar</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_help"><![CDATA[Help & feedback]]></string>
+    <string name="drawer_item_logout">Logout</string>
+
+    <!-- Strings related to profile navigation drawer -->
+    <string name="profile_drawer_item_register">Register Now</string>
+    <string name="profile_drawer_item_link_my_account">Link My Account</string>
+    <string name="profile_drawer_item_change_privacy">Change Privacy</string>
+    <string name="profile_drawer_item_edit_profile">Edit Profile</string>
+</resources>

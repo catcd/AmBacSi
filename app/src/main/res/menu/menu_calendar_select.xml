@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_action_today"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_action_today">
+    </item>
+    <item
+        android:id="@+id/menu_action_month_calendar"
+        app:showAsAction="never"
+        android:title="@string/menu_action_month_calendar">
+    </item>
+    <item
+        android:id="@+id/menu_action_week_calendar"
+        app:showAsAction="never"
+        android:title="@string/menu_action_week_calendar">
+    </item>
+    <item
+        android:id="@+id/menu_action_three_days_calendar"
+        app:showAsAction="never"
+        android:title="@string/menu_action_three_days_calendar">
+    </item>
+    <item
+        android:id="@+id/menu_action_day_calendar"
+        app:showAsAction="never"
+        android:title="@string/menu_action_day_calendar">
+    </item>
+    <item
+        android:id="@+id/menu_action_events_calendar"
+        app:showAsAction="never"
+        android:title="@string/menu_action_events_calendar">
+    </item>
+</menu>

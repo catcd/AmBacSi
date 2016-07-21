@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#039be5</color>
+    <color name="colorPrimaryDark">#01579b</color>
+    <color name="colorAccent">#fff176</color>
+    <color name="colorError">#c62828</color>
+    <color name="colorSuccess">#00695c</color>
+    <color name="colorInfo">#0277bd</color>
+    <color name="colorWarning">#ef6C00</color>
+    <color name="colorFacebook">#3b5998</color>
+    <color name="colorGooglePlus">#dd4b39</color>
+    <color name="colorGrey100">#fafafa</color>
+    <color name="colorGrey900">#212121</color>
+    <color name="colorControlNormal">#fff</color>
+
+</resources>
