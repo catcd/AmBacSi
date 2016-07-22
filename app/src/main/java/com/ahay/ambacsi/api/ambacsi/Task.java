@@ -1,4 +1,4 @@
-package com.ahay.ambacsi.api.ambacsi.auth;
+package com.ahay.ambacsi.api.ambacsi;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -8,15 +8,15 @@ import android.support.annotation.Nullable;
  * Created by SONY on 21-Jul-16.
  */
 public abstract class Task<TResult> extends AsyncTask<Void, Void, TResult> {
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
-    private OnCompleteListener<TResult> mOnCompleteListener;
-    private OnSuccessListener<TResult> mOnSuccessListener;
-    private OnFailureListener<TResult> mOnFailureListener;
-    private TResult mResult;
+    protected OnCompleteListener<TResult> mOnCompleteListener;
+    protected OnSuccessListener<TResult> mOnSuccessListener;
+    protected OnFailureListener<TResult> mOnFailureListener;
+    protected TResult mResult;
 
-    private boolean isComplete;
-    private Exception mException;
+    protected boolean isComplete;
+    protected Exception mException;
 
     public boolean isComplete() {
         synchronized (this.lock) {

@@ -1,5 +1,7 @@
 package com.ahay.ambacsi.api.ambacsi.auth;
 
+import com.ahay.ambacsi.api.ambacsi.Task;
+
 /**
  * Created by SONY on 21-Jul-16.
  */
@@ -31,6 +33,7 @@ public class AmBacSiAuth {
                 // TODO success construct user and return
                 // TODO success assign AmBacSiAuth::mUser to result
                 // TODO if exception change this.mException and return null
+                this.isComplete = true;
                 return new AmBacSiUser();
             }
         };

@@ -4,6 +4,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.ahay.ambacsi.api.ambacsi.Task;
+import com.ahay.ambacsi.api.ambacsi.profile.UserProfileChangeRequest;
+
 /**
  * Created by SONY on 21-Jul-16.
  */
@@ -22,8 +25,6 @@ public class AmBacSiUser {
         this.mEmail = mEmail;
         this.mDisplayName = mDisplayName;
     }
-
-
 
     public AmBacSiUser(String mUid, String mEmail, String mDisplayName, Uri mPhotoUri, boolean isAnonymous) {
         this.mUid = mUid;
