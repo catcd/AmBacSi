@@ -5,72 +5,110 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.ahay.ambacsi.api.ambacsi.Task;
-import com.ahay.ambacsi.api.ambacsi.profile.UserProfileChangeRequest;
+import com.ahay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
 
 /**
  * Created by SONY on 21-Jul-16.
  */
 public class AmBacSiUser {
-    private String mUid;
-    private String mEmail;
-    private String mDisplayName;
-    private Uri mPhotoUri;
+    private String uid;
+    private String username;
+    private String email;
+    private String displayName;
+    private Uri photoUri;
+    private String token;
     private boolean isAnonymous;
 
-    public AmBacSiUser() {
+    public AmBacSiUser(String _uid, String _token) {
+        uid = _uid;
+        token = _token;
+
+        username = "";
+        email = "";
+        displayName = "Anonymous";
+        photoUri = null;
+        isAnonymous = true;
     }
 
-    public AmBacSiUser(String mUid, String mEmail, String mDisplayName) {
-        this.mUid = mUid;
-        this.mEmail = mEmail;
-        this.mDisplayName = mDisplayName;
+    public AmBacSiUser(String _uid, String _username, String _email, String _token) {
+        uid = _uid;
+        username = _username;
+        email = _email;
+        token = _token;
+
+        displayName = "";
+        photoUri = null;
+        isAnonymous = false;
     }
 
-    public AmBacSiUser(String mUid, String mEmail, String mDisplayName, Uri mPhotoUri, boolean isAnonymous) {
-        this.mUid = mUid;
-        this.mEmail = mEmail;
-        this.mDisplayName = mDisplayName;
-        this.mPhotoUri = mPhotoUri;
-        this.isAnonymous = isAnonymous;
+    public AmBacSiUser(String _uid, String _username, String _email, String _displayName, Uri _photoUri, String _token) {
+        uid = _uid;
+        username = _username;
+        email = _email;
+        displayName = _displayName;
+        photoUri = _photoUri;
+        token = _token;
+        isAnonymous = false;
     }
 
     @NonNull
-    public String getUid(){
-        return this.mUid;
+    public String getUid() {
+        return uid;
     }
 
-    public boolean isAnonymous(){
-        return this.isAnonymous;
+    @Nullable
+    public String getUsername() {
+        return username;
+    }
+
+    @NonNull
+    public String getToken() {
+        return token;
+    }
+
+    @Nullable
+    public Uri getPhotoUri() {
+        return photoUri;
     }
 
     @Nullable
     public String getDisplayName() {
-        return mDisplayName;
-    }
-
-    @Nullable
-    public Uri getPhotoUrl() {
-        return mPhotoUri;
+        return displayName;
     }
 
     @Nullable
     public String getEmail() {
-        return mEmail;
+        return email;
+    }
+
+    public boolean isAnonymous() {
+        return isAnonymous;
     }
 
     @NonNull
-    public Task<GetTokenResult> getToken(boolean var1) {
+    public Task<GetTokenResult> refreshToken() {
         return new Task<GetTokenResult>() {
             @Override
             protected GetTokenResult doInBackground(Void... voids) {
-                // TODO get user token
+                // TODO refresh user token
                 return null;
             }
         };
     }
 
     @NonNull
-    public Task<Void> updateProfile(@NonNull UserProfileChangeRequest var1) {
+    public Task<Void> createProfile(@NonNull ProfileChangeRequest var1) {
+        return new Task<Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                // TODO create profile
+                return null;
+            }
+        };
+    }
+
+    @NonNull
+    public Task<Void> updateProfile(@NonNull ProfileChangeRequest var1) {
         return new Task<Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -81,7 +119,7 @@ public class AmBacSiUser {
     }
 
     @NonNull
-    public Task<Void> updateEmail(@NonNull String var1) {
+    public Task<Void> updateEmail(@NonNull String newEmail) {
         return new Task<Void>() {
             @Override
             protected Void doInBackground(Void... voids) {

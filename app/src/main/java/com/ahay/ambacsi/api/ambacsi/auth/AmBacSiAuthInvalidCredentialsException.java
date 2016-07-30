@@ -10,8 +10,8 @@ import com.ahay.ambacsi.api.ambacsi.AmBacSiException;
  */
 public class AmBacSiAuthInvalidCredentialsException extends AmBacSiAuthException {
     public static final String ERROR_CODE_SIGNUP_INVALID_EMAIL = "The email address is malformed";
-    public static final String ERROR_CODE_SIGNIN_WRONG_PASSWORD = "The password is wrong";
-
+    public static final String ERROR_CODE_SIGNUP_INVALID_USERNAME = "The username is invalid";
+    public static final String ERROR_CODE_SIGNIN_FAILED = "Sign in failed";
 
     public AmBacSiAuthInvalidCredentialsException(@NonNull String errorCode, @NonNull String messageDetail) {
         super(errorCode, messageDetail);

@@ -1,0 +1,18 @@
+package com.ahay.ambacsi.api.ambacsi.profile;
+
+import org.json.JSONObject;
+
+/**
+ * Created by SONY on 21-Jul-16.
+ */
+public abstract class ProfileChangeRequest {
+    protected JSONObject request;
+
+    public ProfileChangeRequest() {
+        request = new JSONObject();
+    }
+
+    public String getHttpRequestBody() {
+        return request.toString();
+    }
+}
