@@ -10,14 +10,14 @@
                 tools:context=".ui.profiles.CreateProfileActivity">
 
     <include
-        android:id="@+id/searchToolbar"
+        android:id="@+id/mToolbar"
         layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:id="@+id/searchContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/searchToolbar"
+        android:layout_below="@+id/mToolbar"
         android:paddingBottom="@dimen/activity_container_margin"
         android:paddingLeft="@dimen/activity_container_margin"
         android:paddingRight="@dimen/activity_container_margin"

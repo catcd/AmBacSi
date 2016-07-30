@@ -28,6 +28,7 @@ import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuthInvalidCredentialsException;
 import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiUser;
 import com.ahay.ambacsi.ui.medicals.HomeActivity;
+import com.ahay.ambacsi.ui.profiles.CreateProfileActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -178,15 +179,27 @@ public class LoginActivity extends AppCompatActivity {
 
                         // TODO login with password complete download all data save to SQLite table
 
-                        Toast.makeText(LoginActivity.this,
-                                getResources().getString(R.string.login_success),
-                                Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                        finish();
+                        loginSuccess();
                     }
                 })
                 .execute();
+    }
+
+    private void loginSuccess() {
+        AmBacSiUser __user = AmBacSiAuth.getLoginUser();
+        if (__user != null) {
+            Toast.makeText(LoginActivity.this,
+                    getResources().getString(R.string.login_success),
+                    Toast.LENGTH_SHORT).show();
+
+            String __name = __user.getDisplayName();
+            if (__name == null || __name.equals("")) {
+                startActivity(new Intent(LoginActivity.this, CreateProfileActivity.class));
+            } else {
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            }
+            finish();
+        }
     }
 
     @OnClick(R.id.loginAnonymous) void loginAnonymous() {
