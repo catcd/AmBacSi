@@ -17,6 +17,11 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.outsides.SignUpActivity"
@@ -42,15 +47,46 @@
         <activity
             android:name=".ui.profiles.CreateProfileActivity"
             android:label="@string/create_profile_title"
-            android:windowSoftInputMode="adjustPan">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter></activity>
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.profiles.RegisterAnonymousActivity"
+            android:label="@string/register_anonymous_title"/>
+        <activity
+            android:name=".ui.profiles.LinkMyAccountActivity"
+            android:label="@string/link_my_account_title"/>
+        <activity
+            android:name=".ui.profiles.MyProfileActivity"
+            android:label="@string/my_profile_title"/>
+        <activity
+            android:name=".ui.socials.SearchActivity"
+            android:label="@string/search_title"/>
+        <activity
+            android:name=".ui.medicals.MyAppointmentActivity"
+            android:label="@string/my_appointment_title"/>
+        <activity
+            android:name=".ui.medicals.MyScheduleActivity"
+            android:label="@string/my_schedule_title"/>
+        <activity
+            android:name=".ui.socials.NotificationsActivity"
+            android:label="@string/notifications_title"/>
+        <activity
+            android:name=".ui.medicals.AppointmentPlanerActivity"
+            android:label="@string/appointment_planer_title"/>
+        <activity
+            android:name=".ui.medicals.ScheduleActivity"
+            android:label="@string/schedule_title"/>
+        <activity
+            android:name=".ui.medicals.MedicalRecordActivity"
+            android:label="@string/medical_record_title"/>
+        <activity
+            android:name=".ui.helpers.SettingsActivity"
+            android:label="@string/settings_title"/>
+        <activity
+            android:name=".ui.helpers.HelpActivity"
+            android:label="@string/help_title"/>
 
         <receiver
-            android:name=".ConnectivityReceiver"
+            android:name=".helper.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

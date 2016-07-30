@@ -1,10 +1,12 @@
-package com.ahay.ambacsi;
+package com.ahay.ambacsi.helper;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.ahay.ambacsi.MyApplication;
 
 /**
  * Created by SONY on 02-Jul-16.

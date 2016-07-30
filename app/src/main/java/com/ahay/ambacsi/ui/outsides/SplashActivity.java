@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.ahay.ambacsi.ConnectivityReceiver;
+import com.ahay.ambacsi.helper.ConnectivityReceiver;
 import com.ahay.ambacsi.R;
 import com.ahay.ambacsi.ui.medicals.HomeActivity;
+import com.ahay.ambacsi.ui.profiles.CreateProfileActivity;
 
 public class SplashActivity extends AppCompatActivity {
     boolean isLoggedIn = false;

@@ -7,14 +7,14 @@
                 android:paddingLeft="@dimen/activity_container_margin"
                 android:paddingRight="@dimen/activity_container_margin"
                 android:paddingTop="@dimen/activity_container_margin"
-                tools:context=".ui.medicals.HomeActivity">
+                tools:context="com.ahay.ambacsi.ui.socials.SearchActivity">
 
     <include
         android:id="@+id/mToolbar"
         layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/searchContent"
+        android:id="@+id/settingsContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/mToolbar"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/home_title"/>
+            android:text="@string/search_title"/>
     </RelativeLayout>
 
 </RelativeLayout>
