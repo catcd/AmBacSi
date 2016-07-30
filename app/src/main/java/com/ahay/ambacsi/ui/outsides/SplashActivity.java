@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.ahay.ambacsi.ConnectivityReceiver;
 import com.ahay.ambacsi.R;
-import com.ahay.ambacsi.ui.medicals.MainActivity;
+import com.ahay.ambacsi.ui.medicals.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
     boolean isLoggedIn = false;
@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         private boolean checkLoggedIn() {
-            // TODO check logged in offline and online
+
             return false;
         }
 
@@ -84,9 +84,7 @@ public class SplashActivity extends AppCompatActivity {
                     Toast.makeText(SplashActivity.this, R.string.splash_welcome, Toast.LENGTH_LONG).show();
                 }
 
-                // TODO put extra for main calendar
-                // Go to main activity (main activity)
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             } else if(isOnline) {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             } else {

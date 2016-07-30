@@ -1,0 +1,248 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.ahay.ambacsi.ui.profiles.SelectGroupFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/selectGroupText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_profile_select_group"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:id="@+id/selectGroupCaption"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:text="@string/create_profile_select_group_caption"
+            android:layout_below="@+id/selectGroupText"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/selectGroupUser"
+            android:orientation="horizontal"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/selectGroupCaption"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorAccent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/userImage"
+                android:src="@drawable/am_bac_si"
+                android:adjustViewBounds="true"
+                android:layout_margin="12dp"
+                android:clickable="false"/>
+
+            <View
+                android:id="@+id/userSplit"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="#ffeeeeee"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/userImage"
+                android:layout_toEndOf="@+id/userImage"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_centerVertical="true"
+                android:paddingRight="30dp"
+                android:paddingEnd="30dp"
+                android:layout_toRightOf="@+id/userSplit"
+                android:layout_toEndOf="@+id/userSplit">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_user"
+                    android:id="@+id/userCaption"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#aa000000"
+                    android:layout_margin="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_user_detail"
+                    android:id="@+id/userDetail"
+                    android:textSize="12sp"
+                    android:textColor="#aa000000"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/userClick"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_chevron_right_black_48dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:paddingLeft="275dp"
+                android:paddingStart="275dp"
+                android:alpha="0.3"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/selectGroupDoctor"
+            android:orientation="horizontal"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/selectGroupUser"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/doctorImage"
+                android:src="@drawable/am_bac_si"
+                android:adjustViewBounds="true"
+                android:layout_margin="12dp"
+                android:clickable="false"/>
+
+            <View
+                android:id="@+id/doctorSplit"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="#ffeeeeee"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/doctorImage"
+                android:layout_toEndOf="@+id/doctorImage"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_centerVertical="true"
+                android:paddingRight="30dp"
+                android:paddingEnd="30dp"
+                android:layout_toRightOf="@+id/doctorSplit"
+                android:layout_toEndOf="@+id/doctorSplit">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_doctor"
+                    android:id="@+id/doctorCaption"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:layout_margin="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_doctor_detail"
+                    android:id="@+id/doctorDetail"
+                    android:textSize="12sp"
+                    android:textColor="#aa000000"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/doctorClick"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_chevron_right_white_48dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:paddingLeft="275dp"
+                android:paddingStart="275dp"
+                android:alpha="0.5"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/selectGroupClinicalCenter"
+            android:orientation="horizontal"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/selectGroupDoctor"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimaryDark">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/clinicalCenterImage"
+                android:src="@drawable/am_bac_si"
+                android:adjustViewBounds="true"
+                android:layout_margin="12dp"
+                android:clickable="false"/>
+
+            <View
+                android:id="@+id/clinicalCenterSplit"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:background="#ffeeeeee"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/clinicalCenterImage"
+                android:layout_toEndOf="@+id/clinicalCenterImage"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_centerVertical="true"
+                android:paddingRight="30dp"
+                android:paddingEnd="30dp"
+                android:layout_toRightOf="@+id/clinicalCenterSplit"
+                android:layout_toEndOf="@+id/clinicalCenterSplit">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_clinical_center"
+                    android:id="@+id/clinicalCenterCaption"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:layout_margin="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_profile_clinical_center_detail"
+                    android:id="@+id/clinicalCenterDetail"
+                    android:textSize="12sp"
+                    android:textColor="#fff"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/clinicalCenterClick"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_chevron_right_white_48dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:paddingLeft="275dp"
+                android:paddingStart="275dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

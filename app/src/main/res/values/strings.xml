@@ -19,7 +19,7 @@
     <string name="sign_up_error_invalid_email">This email address is invalid</string>
     <string name="sign_up_error_existed_email">This email address is existed</string>
     <string name="sign_up_error_invalid_username">This username is invalid</string>
-    <string name="sign_up_error_existed_username">This email address is existed</string>
+    <string name="sign_up_error_existed_username">This username is existed</string>
     <string name="sign_up_error_too_short_password">This password is too short</string>
     <string name="sign_up_error_week_password">This password is not strong enough</string>
     <string name="sign_up_error_not_matched_password">This password is not matched</string>
@@ -41,6 +41,7 @@
     <string name="login_error_incorrect_password">This password is incorrect</string>
     <string name="login_error_field_required">This field is required</string>
     <string name="login_error_unknown">An error occurred. Please try again later!</string>
+    <string name="login_error_failed">Check your information.</string>
     <string name="login_success">Login successfully!</string>
 
     <string name="login_error_authentication">Authentication failed.</string>
@@ -67,14 +68,8 @@
     <string name="forgot_password_error_unknown">An error occurred. Please try again later!</string>
     <string name="forgot_password_success">Check your email for password reset instructions!</string>
 
-    <!-- Strings related to month calendar -->
-    <string name="month_calendar_title">Month Calendar</string>
-
-    <!-- Strings related to week calendar -->
-    <string name="week_calendar_title">Week Calendar</string>
-
-    <!-- Strings related to week calendar -->
-    <string name="events_calendar_title">Events Calendar</string>
+    <!-- Strings related to settings -->
+    <string name="home_title">Home</string>
 
     <!-- Strings related to settings -->
     <string name="settings_title">Settings</string>
@@ -94,26 +89,46 @@
     <!-- Strings related to My Profile -->
     <string name="my_profile_title">My Profile</string>
 
-    <!-- Strings related to Show Calendar -->
-    <string name="calendars_title">Select Calendar</string>
-
-    <!-- Strings related to Shared with Me -->
-    <string name="shared_with_me_title">Shared with Me</string>
-
     <!-- Strings related to Search -->
     <string name="search_title">Search</string>
 
+    <!-- Strings related to Create Profile -->
+    <string name="create_profile_title">Create Profile</string>
+    <string name="create_profile_select_group">Select account type</string>
+    <string name="create_profile_select_group_caption">Account type cannot be changed.</string>
+    <string name="create_profile_user">Standard User</string>
+    <string name="create_profile_user_detail">Use app as a normal user with standard feature</string>
+    <string name="create_profile_doctor">Doctor</string>
+    <string name="create_profile_doctor_detail">Use app to interact with your patients</string>
+    <string name="create_profile_clinical_center">Clinical Center</string>
+    <string name="create_profile_clinical_center_detail">Use app to manage your doctors, schedule</string>
+    <string name="create_profile_error_field_required">This field is required</string>
+
+    <string name="clinical_center_type">Clinical Center type</string>
+    <string name="clinical_center_type_private">Private Clinical Center</string>
+    <string name="clinical_center_type_hospital">Public Hospital</string>
+    <array name="clinical_center_type_select">
+        <item>@string/clinical_center_type</item>
+        <item>@string/clinical_center_type_private</item>
+        <item>@string/clinical_center_type_hospital</item>
+    </array>
+
+    <!-- String relate to form -->
+    <string name="gender_title">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
+    <array name="gender_select">
+        <item>@string/gender_title</item>
+        <item>@string/gender_male</item>
+        <item>@string/gender_female</item>
+        <item>@string/gender_other</item>
+    </array>
+
+    <string name="date_format">dd-MMM-yy</string>
+
     <!-- Strings related to Notifications -->
     <string name="notifications_title">Notifications</string>
-
-    <!-- Strings related to Meeting Planner -->
-    <string name="meeting_planner_title">Meeting Planner</string>
-
-    <!-- Strings related to Schedule -->
-    <string name="schedule_title">Schedule</string>
-
-    <!-- Strings related to Import Calendar -->
-    <string name="import_calendar_title">Import Calendar</string>
 
     <!-- Strings related to Help & feedback -->
     <string name="help_title"><![CDATA[Help & feedback]]></string>
@@ -129,14 +144,6 @@
     <string name="btn_register">REGISTER</string>
     <string name="btn_reset_password">RESET PASSWORD</string>
     <string name="btn_save">Save</string>
-
-    <!-- Strings related to menu -->
-    <string name="menu_action_today">Today</string>
-    <string name="menu_action_month_calendar">Month Calendar</string>
-    <string name="menu_action_week_calendar">Week Calendar</string>
-    <string name="menu_action_three_days_calendar">3 Days Calendar</string>
-    <string name="menu_action_day_calendar">Day Calendar</string>
-    <string name="menu_action_events_calendar">Events Calendar</string>
 
     <!-- Strings related to information notify to user -->
     <string name="notify_press_back_again_to_exit">Please press BACK again to exit!</string>
@@ -159,4 +166,27 @@
     <string name="profile_drawer_item_link_my_account">Link My Account</string>
     <string name="profile_drawer_item_change_privacy">Change Privacy</string>
     <string name="profile_drawer_item_edit_profile">Edit Profile</string>
+
+    <!-- Strings related to introduction slider -->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Welcome 1</string>
+    <string name="slide_1_desc">The easiest way to manage your calendars and your events!</string>
+
+    <string name="slide_2_title">Welcome 2</string>
+    <string name="slide_2_desc">Look for meeting time with your partners and friends.</string>
+
+    <string name="slide_3_title">Welcome 3</string>
+    <string name="slide_3_desc">Easy to schedule everything you want.</string>
+
+    <string name="slide_4_title">Welcome 4</string>
+    <string name="slide_4_desc">Import your calendar to use or start over as well.</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Help &amp; feedback -> Welcome slider</string>
+    <string name="play_again">Play Again</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

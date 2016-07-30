@@ -2,27 +2,44 @@ package com.ahay.ambacsi.ui.outsides;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ahay.ambacsi.R;
-import com.ahay.ambacsi.ui.medicals.MainActivity;
+import com.ahay.ambacsi.api.ambacsi.OnCompleteListener;
+import com.ahay.ambacsi.api.ambacsi.OnFailureListener;
+import com.ahay.ambacsi.api.ambacsi.OnSuccessListener;
+import com.ahay.ambacsi.api.ambacsi.Task;
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuthInvalidCredentialsException;
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuthUserCollisionException;
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuthWeakPasswordException;
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
+import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME;
 
 public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpAppName) TextView signUpAppName;
@@ -31,6 +48,14 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpPassword) EditText signUpPassword;
     @BindView(R.id.signUpRetypePassword) EditText signUpRetypePassword;
     @BindView(R.id.signUpProgressBar) ProgressBar signUpProgressBar;
+    @BindView(R.id.signUpForm) RelativeLayout signUpForm;
+
+    private AmBacSiAuth amBacSiAuth;
+    private SharedPreferences sharedPreferencesLoginUser;
+
+    private boolean onLoading = false;
+
+    private static final String TAG = "SignUpActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +65,11 @@ public class SignUpActivity extends AppCompatActivity {
         setAppNameFont();
 
         specifyInputMethodAction();
+
+        amBacSiAuth = AmBacSiAuth.getInstance();
+
+        // get shared preference editor
+        sharedPreferencesLoginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
     }
 
     private void setAppNameFont() {
@@ -64,7 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        signUpProgressBar.setVisibility(View.GONE);
+
+        if (!onLoading) {
+            stopLoading();
+        } else {
+            startLoading();
+        }
     }
 
     @OnClick(R.id.signUpSubmit) void register() {
@@ -116,21 +151,78 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        signUpProgressBar.setVisibility(View.VISIBLE);
+        startLoading();
         //create user
+        amBacSiAuth.createUserWithUsernameAndPassword(mUsername, mPassword, mEmail)
+                .addOnCompleteListener(new OnCompleteListener<AmBacSiUser>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AmBacSiUser> task) {
+                        stopLoading();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener<AmBacSiUser>() {
+                    @Override
+                    public void onFailure(@NonNull Task<AmBacSiUser> task) {
+                        if (task.getException() instanceof AmBacSiAuthWeakPasswordException) {
+                            signUpPassword.requestFocus();
+                            signUpPassword.setError(getResources().getString(R.string.sign_up_error_week_password));
+                        } else if (task.getException() instanceof AmBacSiAuthInvalidCredentialsException) {
+                            if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_EMAIL)) {
+                                signUpEmail.requestFocus();
+                                signUpEmail.setError(getResources().getString(R.string.sign_up_error_invalid_email));
+                            } else if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_USERNAME)) {
+                                signUpUsername.requestFocus();
+                                signUpUsername.setError(getResources().getString(R.string.sign_up_error_invalid_username));
+                            }
+                        } else if (task.getException() instanceof AmBacSiAuthUserCollisionException) {
+                            if (((AmBacSiAuthUserCollisionException) task.getException()).getErrorCode().equals(AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_EMAIL_EXISTED)) {
+                                signUpEmail.requestFocus();
+                                signUpEmail.setError(getResources().getString(R.string.sign_up_error_existed_email));
+                            } else if (((AmBacSiAuthUserCollisionException) task.getException()).getErrorCode().equals(AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_USERNAME_EXISTED)) {
+                                signUpUsername.requestFocus();
+                                signUpUsername.setError(getResources().getString(R.string.sign_up_error_existed_username));
+                            }
+                        } else {
+                            Toast.makeText(SignUpActivity.this,
+                                    getResources().getString(R.string.sign_up_error_unknown),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .addOnSuccessListener(new OnSuccessListener<AmBacSiUser>() {
+                    @Override
+                    public void onSuccess(@NonNull Task<AmBacSiUser> task) {
+                        // get ID, token
+                        AmBacSiUser user = task.getResult();
+                        sharedPreferencesLoginUser.edit()
+                                .putString(PREFS_LOGIN_USER_ID, user.getUid())
+                                .putString(PREFS_LOGIN_USER_USERNAME, user.getUsername())
+                                .putString(PREFS_LOGIN_USER_EMAIL, user.getEmail())
+                                .putString(PREFS_LOGIN_USER_TOKEN, user.getToken())
+                                .putString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_PASSWORD)
+                                .apply();
 
-        signUpProgressBar.setVisibility(View.GONE);
-        // TODO login complete download all data save to SQLite table
-        // Set local status to logged in
-        Toast.makeText(SignUpActivity.this,
-                getResources().getString(R.string.login_success),
-                Toast.LENGTH_SHORT).show();
-
-        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-        finish();
+                        Intent i = new Intent(SignUpActivity.this, WelcomeActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    }
+                })
+                .execute();
     }
 
     @OnClick(R.id.signUpLogin) void login() {
         finish();
+    }
+
+    private void startLoading() {
+        onLoading = true;
+        signUpForm.setVisibility(View.GONE);
+        signUpProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoading() {
+        onLoading = false;
+        signUpForm.setVisibility(View.VISIBLE);
+        signUpProgressBar.setVisibility(View.GONE);
     }
 }

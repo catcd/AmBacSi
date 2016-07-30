@@ -21,112 +21,124 @@
         android:textColor="#fff"
         android:textSize="65sp" />
 
-    <EditText
-        android:id="@+id/signUpEmail"
-        android:inputType="textEmailAddress"
-        android:hint="@string/sign_up_email_hint"
-        android:layout_below="@+id/signUpAppName"
-        android:singleLine="true"
-        android:imeOptions="actionNext"
-        style="@style/AppStyle.Input.IconLeft" />
-
-    <ImageView
-        android:src="@drawable/ic_email_black_24dp"
-        android:layout_alignTop="@+id/signUpEmail"
-        android:layout_alignLeft="@+id/signUpEmail"
-        android:layout_alignStart="@+id/signUpEmail"
-        android:contentDescription="@string/sign_up_email_hint"
-        style="@style/AppStyle.Icon.InputIcon" />
-
-    <EditText
-        android:id="@+id/signUpUsername"
-        android:inputType="text"
-        android:hint="@string/sign_up_username_hint"
-        android:layout_below="@+id/signUpEmail"
-        android:singleLine="true"
-        android:imeOptions="actionNext"
-        style="@style/AppStyle.Input.IconLeft" />
-
-    <ImageView
-        android:src="@drawable/ic_person_black_24dp"
-        android:layout_alignTop="@+id/signUpUsername"
-        android:layout_alignLeft="@+id/signUpUsername"
-        android:layout_alignStart="@+id/signUpUsername"
-        android:contentDescription="@string/sign_up_username_hint"
-        style="@style/AppStyle.Icon.InputIcon" />
-
-    <EditText
-        android:id="@+id/signUpPassword"
-        android:inputType="textPassword"
-        android:hint="@string/sign_up_password_hint"
-        android:layout_below="@+id/signUpUsername"
-        android:singleLine="true"
-        android:imeOptions="actionNext"
-        style="@style/AppStyle.Input.IconLeft" />
-
-    <ImageView
-        android:src="@drawable/ic_lock_black_24dp"
-        android:layout_alignTop="@+id/signUpPassword"
-        android:layout_alignLeft="@+id/signUpPassword"
-        android:layout_alignStart="@+id/signUpPassword"
-        android:contentDescription="@string/sign_up_password_hint"
-        style="@style/AppStyle.Icon.InputIcon" />
-
-    <EditText
-        android:id="@+id/signUpRetypePassword"
-        android:inputType="textPassword"
-        android:hint="@string/sign_up_retype_password_hint"
-        android:layout_below="@+id/signUpPassword"
-        android:singleLine="true"
-        android:imeOptions="actionDone"
-        style="@style/AppStyle.Input.IconLeft" />
-
-    <ImageView
-        android:src="@drawable/ic_repeat_black_24dp"
-        android:layout_alignTop="@+id/signUpRetypePassword"
-        android:layout_alignLeft="@+id/signUpRetypePassword"
-        android:layout_alignStart="@+id/signUpRetypePassword"
-        android:contentDescription="@string/login_password_hint"
-        style="@style/AppStyle.Icon.InputIcon" />
-
-    <TextView
-        android:id="@+id/signUpTerms"
+    <RelativeLayout
+        android:id="@+id/signUpForm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/sign_up_terms"
-        android:textColor="#fff"
-        android:textSize="16sp"
-        android:layout_below="@+id/signUpRetypePassword"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/signUpAppName">
 
-    <Button
-        android:id="@+id/signUpSubmit"
-        android:text="@string/btn_register"
-        android:layout_below="@+id/signUpTerms"
-        android:layout_marginTop="10dp"
-        style="@style/AppStyle.Button" />
+        <EditText
+            android:id="@+id/signUpEmail"
+            android:inputType="textEmailAddress"
+            android:hint="@string/sign_up_email_hint"
+            android:layout_alignParentTop="true"
+            android:singleLine="true"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionNext"
+            style="@style/AppStyle.Input.IconLeft" />
+
+        <ImageView
+            android:src="@drawable/ic_email_black_24dp"
+            android:layout_alignTop="@+id/signUpEmail"
+            android:layout_alignLeft="@+id/signUpEmail"
+            android:layout_alignStart="@+id/signUpEmail"
+            android:contentDescription="@string/sign_up_email_hint"
+            style="@style/AppStyle.Icon.InputIcon" />
+
+        <EditText
+            android:id="@+id/signUpUsername"
+            android:inputType="text"
+            android:hint="@string/sign_up_username_hint"
+            android:layout_below="@+id/signUpEmail"
+            android:singleLine="true"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionNext"
+            style="@style/AppStyle.Input.IconLeft" />
+
+        <ImageView
+            android:src="@drawable/ic_person_black_24dp"
+            android:layout_alignTop="@+id/signUpUsername"
+            android:layout_alignLeft="@+id/signUpUsername"
+            android:layout_alignStart="@+id/signUpUsername"
+            android:contentDescription="@string/sign_up_username_hint"
+            style="@style/AppStyle.Icon.InputIcon" />
+
+        <EditText
+            android:id="@+id/signUpPassword"
+            android:inputType="textPassword"
+            android:hint="@string/sign_up_password_hint"
+            android:layout_below="@+id/signUpUsername"
+            android:singleLine="true"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionNext"
+            style="@style/AppStyle.Input.IconLeft" />
+
+        <ImageView
+            android:src="@drawable/ic_lock_black_24dp"
+            android:layout_alignTop="@+id/signUpPassword"
+            android:layout_alignLeft="@+id/signUpPassword"
+            android:layout_alignStart="@+id/signUpPassword"
+            android:contentDescription="@string/sign_up_password_hint"
+            style="@style/AppStyle.Icon.InputIcon" />
+
+        <EditText
+            android:id="@+id/signUpRetypePassword"
+            android:inputType="textPassword"
+            android:hint="@string/sign_up_retype_password_hint"
+            android:layout_below="@+id/signUpPassword"
+            android:singleLine="true"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionDone"
+            style="@style/AppStyle.Input.IconLeft" />
+
+        <ImageView
+            android:src="@drawable/ic_repeat_black_24dp"
+            android:layout_alignTop="@+id/signUpRetypePassword"
+            android:layout_alignLeft="@+id/signUpRetypePassword"
+            android:layout_alignStart="@+id/signUpRetypePassword"
+            android:contentDescription="@string/login_password_hint"
+            style="@style/AppStyle.Icon.InputIcon" />
+
+        <TextView
+            android:id="@+id/signUpTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/sign_up_terms"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:layout_below="@+id/signUpRetypePassword"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/signUpSubmit"
+            android:text="@string/btn_register"
+            android:layout_below="@+id/signUpTerms"
+            android:layout_marginTop="10dp"
+            style="@style/AppStyle.Button" />
+
+        <!-- Link to Login Screen -->
+        <Button
+            android:id="@+id/signUpLogin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#22000000"
+            android:text="@string/sign_up_login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            android:layout_alignParentBottom="true"
+            style="?android:attr/borderlessButtonStyle" />
+
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/signUpProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signUpSubmit"
-        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
-
-    <!-- Link to Login Screen -->
-    <Button
-        android:id="@+id/signUpLogin"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#22000000"
-        android:text="@string/sign_up_login"
-        android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        android:layout_alignParentBottom="true"
-        style="?android:attr/borderlessButtonStyle" />
 
 </RelativeLayout>
