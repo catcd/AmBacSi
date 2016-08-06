@@ -6,27 +6,47 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.ahay.ambacsi.api.ambacsi.Constant.UserGroupConstant.GROUP_DOCTOR;
+import com.ahay.ambacsi.api.ambacsi.Constant.UserGroupConstant;
+import com.ahay.ambacsi.api.ambacsi.Constant.FormatConstant;
 
 /**
  * Created by SONY on 29-Jul-16.
  */
 public class DoctorProfileChangeRequest extends ProfileChangeRequest {
+    public static final String KEY_FIRST_NAME = "firstName";
+    public static final String KEY_LAST_NAME = "lastName";
+    public static final String KEY_GENDER = "gender";
+    public static final String KEY_DOB = "dob";
+    public static final String KEY_ID_CARD_NO = "idCardNo";
+    public static final String KEY_HOME_ADDRESS= "homeAddress";
+    public static final String KEY_EXPERIENCE_YEAR = "experienceYear";
+
     public DoctorProfileChangeRequest() {
         super();
-        request.remove("group");
         try {
-            request.put("group", GROUP_DOCTOR);
+            request.putOpt(KEY_ROLE, UserGroupConstant.GROUP_DOCTOR);
         } catch (JSONException _e) {
             _e.printStackTrace();
         }
     }
 
+    @Override
+    public String getDisplayName() {
+        String __fName = request.optString(KEY_FIRST_NAME, "");
+        String __lName = request.optString(KEY_LAST_NAME, "");
+
+        return (!__fName.equals("") && !__lName.equals("")) ?
+                (__fName + " " + __lName) :
+                (!__fName.equals("") ?
+                        __fName :
+                        __lName
+                );
+    }
+
     public DoctorProfileChangeRequest setFirstName(String _firstName) {
         try {
-            request.put("firstName", _firstName);
+            request.putOpt(KEY_FIRST_NAME, _firstName);
         } catch (JSONException _e) {
-            request.remove("firstName");
             _e.printStackTrace();
         }
         return this;
@@ -34,9 +54,8 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setLastName(String _lastName) {
         try {
-            request.put("lastName", _lastName);
+            request.putOpt(KEY_LAST_NAME, _lastName);
         } catch (JSONException _e) {
-            request.remove("lastName");
             _e.printStackTrace();
         }
         return this;
@@ -44,9 +63,8 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setGender(int _gender) {
         try {
-            request.put("gender", _gender);
+            request.putOpt(KEY_GENDER, _gender);
         } catch (JSONException _e) {
-            request.remove("gender");
             _e.printStackTrace();
         }
         return this;
@@ -54,11 +72,10 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setDob(Calendar _dob) {
         try {
-            String myFormat = "yyyy-MM-dd";
+            String myFormat = FormatConstant.DATE_FORMAT;
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            request.put("dob", sdf.format(_dob.getTime()));
+            request.putOpt(KEY_DOB, sdf.format(_dob.getTime()));
         } catch (JSONException _e) {
-            request.remove("dob");
             _e.printStackTrace();
         }
         return this;
@@ -66,9 +83,8 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setIdCardNo(String _idCardNo) {
         try {
-            request.put("idCardNo", _idCardNo);
+            request.putOpt(KEY_ID_CARD_NO, _idCardNo);
         } catch (JSONException _e) {
-            request.remove("idCardNo");
             _e.printStackTrace();
         }
         return this;
@@ -76,9 +92,8 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setHomeAddress(String _homeAddress) {
         try {
-            request.put("homeAddress", _homeAddress);
+            request.putOpt(KEY_HOME_ADDRESS, _homeAddress);
         } catch (JSONException _e) {
-            request.remove("homeAddress");
             _e.printStackTrace();
         }
         return this;
@@ -86,9 +101,8 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
 
     public DoctorProfileChangeRequest setExperienceYear(int _experienceYear) {
         try {
-            request.put("experienceYear", _experienceYear);
+            request.putOpt(KEY_EXPERIENCE_YEAR, _experienceYear);
         } catch (JSONException _e) {
-            request.remove("experienceYear");
             _e.printStackTrace();
         }
         return this;

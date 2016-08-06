@@ -2,7 +2,6 @@ package com.ahay.ambacsi.ui.outsides;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,14 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME;
-
 public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpAppName) TextView signUpAppName;
     @BindView(R.id.signUpEmail) EditText signUpEmail;
@@ -51,7 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.signUpForm) RelativeLayout signUpForm;
 
     private AmBacSiAuth amBacSiAuth;
-    private SharedPreferences sharedPreferencesLoginUser;
 
     private boolean onLoading = false;
 
@@ -67,9 +57,6 @@ public class SignUpActivity extends AppCompatActivity {
         specifyInputMethodAction();
 
         amBacSiAuth = AmBacSiAuth.getInstance();
-
-        // get shared preference editor
-        sharedPreferencesLoginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
     }
 
     private void setAppNameFont() {
@@ -194,13 +181,6 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onSuccess(@NonNull Task<AmBacSiUser> task) {
                         // get ID, token
                         AmBacSiUser user = task.getResult();
-                        sharedPreferencesLoginUser.edit()
-                                .putString(PREFS_LOGIN_USER_ID, user.getUid())
-                                .putString(PREFS_LOGIN_USER_USERNAME, user.getUsername())
-                                .putString(PREFS_LOGIN_USER_EMAIL, user.getEmail())
-                                .putString(PREFS_LOGIN_USER_TOKEN, user.getToken())
-                                .putString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_PASSWORD)
-                                .apply();
 
                         Intent i = new Intent(SignUpActivity.this, WelcomeActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

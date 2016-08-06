@@ -8,6 +8,8 @@ import org.json.JSONObject;
 public abstract class ProfileChangeRequest {
     protected JSONObject request;
 
+    public static final String KEY_ROLE = "role";
+
     public ProfileChangeRequest() {
         request = new JSONObject();
     }
@@ -15,4 +17,6 @@ public abstract class ProfileChangeRequest {
     public String getHttpRequestBody() {
         return request.toString();
     }
+
+    abstract public String getDisplayName();
 }

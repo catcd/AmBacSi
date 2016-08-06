@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ahay.ambacsi.R;
+import com.ahay.ambacsi.api.ambacsi.Constant.LoginUserTypeConstant;
+import com.ahay.ambacsi.api.ambacsi.Constant.UserDataConstant;
+import com.ahay.ambacsi.api.ambacsi.OnCompleteListener;
+import com.ahay.ambacsi.api.ambacsi.OnFailureListener;
+import com.ahay.ambacsi.api.ambacsi.OnSuccessListener;
+import com.ahay.ambacsi.api.ambacsi.Task;
 import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiUser;
 import com.ahay.ambacsi.helper.ConnectivityReceiver;
@@ -45,38 +51,29 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_APPOINTMENT_PLANER;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_HELP;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_LOGOUT;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_MY_APPOINTMENT;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_MY_MEDICAL_RECORD;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_MY_SCHEDULE;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_NOTIFICATIONS;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_SCHEDULE;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_SEARCH;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.DRAWER_ITEM_SETTINGS;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT;
-import static com.ahay.ambacsi.constant.AppDrawerConstant.PROFILE_DRAWER_ITEM_REGISTER;
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_ANONYMOUS;
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_FACEBOOK;
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_GOOGLE;
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_AVATAR_FILE_NAME;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_SETTINGS;
-
 /**
  * Created by SONY on 07-Jul-16.
  */
 public abstract class AppDrawerActivity extends AppBaseActivity {
-    protected Drawer mDrawer;
-    protected String mLoginType = "";
-    protected String mName = "";
-    protected String mEmail = "";
-    protected Drawable mAvatar = null;
+    public static final int DRAWER_ITEM_MY_APPOINTMENT = 0;
+    public static final int DRAWER_ITEM_MY_SCHEDULE = 1;
+    public static final int DRAWER_ITEM_SEARCH = 2;
+    public static final int DRAWER_ITEM_NOTIFICATIONS = 3;
+    public static final int DRAWER_ITEM_APPOINTMENT_PLANER = 4;
+    public static final int DRAWER_ITEM_SCHEDULE = 5;
+    public static final int DRAWER_ITEM_MY_MEDICAL_RECORD = 6;
+    public static final int DRAWER_ITEM_SETTINGS = 7;
+    public static final int DRAWER_ITEM_HELP = 8;
+    public static final int DRAWER_ITEM_LOGOUT = 9;
+
+    public static final int PROFILE_DRAWER_ITEM_REGISTER = 0;
+    public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 1;
+
+    protected Drawer drawer;
+    protected String loginType = "";
+    protected String displayName = "";
+    protected String email = "";
+    protected Drawable avatar = null;
 
     protected void setupNavigationDrawer(Activity mActivity, Toolbar mToolbar, int mSelected) {
         getAccountInformationForDrawer();
@@ -130,9 +127,9 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
 
         // Item on profile section
         ProfileDrawerItem itemAccountProfile = new ProfileDrawerItem()
-                .withName(mName)
-                .withEmail(mEmail)
-                .withIcon(mAvatar);
+                .withName(displayName)
+                .withEmail(email)
+                .withIcon(avatar);
         ProfileSettingDrawerItem itemRegister = new ProfileSettingDrawerItem()
                 .withIdentifier(PROFILE_DRAWER_ITEM_REGISTER)
                 .withName(getResources().getString(R.string.profile_drawer_item_register))
@@ -176,14 +173,14 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                 })
                 .build();
 
-        if (!mLoginType.equals(LOGIN_USER_TYPE_ANONYMOUS)) {
+        if (!loginType.equals(LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
             header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
         } else {
             header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT);
         }
 
         //create the drawer and remember the `Drawer` result object
-        mDrawer = new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(mActivity)
                 .withToolbar(mToolbar)
                 .withAccountHeader(header)
@@ -253,14 +250,34 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ProgressDialog dialog = new ProgressDialog(AppDrawerActivity.this);
-                            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                            dialog.setMessage(getResources().getString(R.string.logout_progress));
-                            dialog.setIndeterminate(true);
-                            dialog.setCanceledOnTouchOutside(false);
-                            dialog.show();
+                            final ProgressDialog __dialog = new ProgressDialog(AppDrawerActivity.this);
+                            __dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            __dialog.setMessage(getResources().getString(R.string.logout_progress));
+                            __dialog.setIndeterminate(true);
+                            __dialog.setCanceledOnTouchOutside(false);
+                            __dialog.show();
 
-                            logout(dialog);
+                            AmBacSiAuth.logout()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> var1) {
+                                            __dialog.dismiss();
+                                        }
+                                    })
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(@NonNull Task<Void> var1) {
+                                            startActivity(new Intent(AppDrawerActivity.this, LoginActivity.class));
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener<Void>() {
+                                        @Override
+                                        public void onFailure(@NonNull Task<Void> var1) {
+                                            Toast.makeText(AppDrawerActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .execute();
                         }
                     })
                     .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
@@ -269,7 +286,7 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                             // Do nothing
                         }
                     });
-            if (mLoginType.equals(LOGIN_USER_TYPE_ANONYMOUS)) {
+            if (loginType.equals(LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
                 alertBuilder.setMessage(R.string.logout_anonymous_confirm).create().show();
             } else {
                 alertBuilder.create().show();
@@ -281,63 +298,22 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
         }
     }
 
-    private void logout(ProgressDialog dialog) {
-        // TODO logout delete event from SQLite
-        // TODO logout delete noti from SQLite
-
-        // Delete shared preferences
-        getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE).edit().clear().apply();
-        getSharedPreferences(PREFS_SETTINGS, MODE_PRIVATE).edit().clear().apply();
-
-        // Delete avatar
-        new ImageSaver(AppDrawerActivity.this)
-                .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
-                .delete();
-
-        switch (mLoginType) {
-            case LOGIN_USER_TYPE_ANONYMOUS:
-                AmBacSiUser user = AmBacSiAuth.getLoginUser();
-                if (user != null) {
-                    deleteAnonymousUser(user);
-                }
-                break;
-            case LOGIN_USER_TYPE_GOOGLE:
-                break;
-            case LOGIN_USER_TYPE_FACEBOOK:
-                break;
-            case LOGIN_USER_TYPE_PASSWORD:
-                break;
-            default:
-                break;
-        }
-
-        // Navigate to login
-        startActivity(new Intent(AppDrawerActivity.this, LoginActivity.class));
-
-        dialog.dismiss();
-        finish();
-    }
-
-    private void deleteAnonymousUser(final AmBacSiUser user) {
-        // TODO delete anonymous user on server
-    }
-
     private void getAccountInformationForDrawer() {
         // get current name, email, avatar
-        // Restore preferences
-        SharedPreferences loginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
-        mLoginType = loginUser.getString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_ANONYMOUS);
-        mName = loginUser.getString(PREFS_LOGIN_USER_FULL_NAME, "AmBacSi");
-        mEmail = loginUser.getString(PREFS_LOGIN_USER_EMAIL, "ahay.ambacsi@gmail.com");
+        AmBacSiUser __user = AmBacSiAuth.getLoginUser();
+        loginType = __user.getLoginType();
+        displayName = __user.getDisplayName();
+        email = __user.getEmail();
 
+        // TODO Move to profile
         // get avatar
         Bitmap avatar = new ImageSaver(AppDrawerActivity.this)
-                .setFileName(PREFS_LOGIN_USER_AVATAR_FILE_NAME)
+                .setFileName(UserDataConstant.USER_DATA_AVATAR_FILE_NAME)
                 .load();
         if (avatar != null) {
-            mAvatar = new BitmapDrawable(getResources(), avatar);
+            this.avatar = new BitmapDrawable(getResources(), avatar);
         } else {
-            mAvatar = getResources().getDrawable(R.drawable.am_bac_si_with_background);
+            this.avatar = getResources().getDrawable(R.drawable.am_bac_si_with_background);
         }
     }
 }

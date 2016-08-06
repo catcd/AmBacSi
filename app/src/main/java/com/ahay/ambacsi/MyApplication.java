@@ -2,6 +2,7 @@ package com.ahay.ambacsi;
 
 import android.app.Application;
 
+import com.ahay.ambacsi.api.ambacsi.GlobalContext;
 import com.ahay.ambacsi.helper.ConnectivityReceiver;
 
 /**
@@ -15,6 +16,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         mInstance = this;
+        GlobalContext.setContext(this.getApplicationContext());
     }
 
     public static synchronized MyApplication getInstance() {

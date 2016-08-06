@@ -36,8 +36,8 @@ public class HomeActivity extends AppDrawerActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawer.isDrawerOpen()) {
-            mDrawer.closeDrawer();
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
         } else {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();

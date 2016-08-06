@@ -2,7 +2,6 @@ package com.ahay.ambacsi.ui.outsides;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -34,15 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ahay.ambacsi.constant.LoginConstant.LOGIN_USER_TYPE_PASSWORD;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_FULL_NAME;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_ID;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE;
-import static com.ahay.ambacsi.constant.SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME;
-
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.loginAppName) TextView loginAppName;
     @BindView(R.id.loginUsername) EditText loginUsername;
@@ -51,12 +41,10 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.loginForm) RelativeLayout loginForm;
 
     private AmBacSiAuth amBacSiAuth;
-    private SharedPreferences sharedPreferencesLoginUser;
 
     private boolean onLoading = false;
 
     private static final String TAG = "LoginActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         specifyInputMethodAction();
 
         amBacSiAuth = AmBacSiAuth.getInstance();
-
-        // get shared preference editor
-        sharedPreferencesLoginUser = getSharedPreferences(PREFS_LOGIN_USER, MODE_PRIVATE);
     }
 
     private void setAppNameFont() {
@@ -167,15 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(@NonNull Task<AmBacSiUser> task) {
                         // get ID, mail, full name
                         AmBacSiUser user = task.getResult();
-
-                        sharedPreferencesLoginUser.edit()
-                                .putString(PREFS_LOGIN_USER_ID, user.getUid())
-                                .putString(PREFS_LOGIN_USER_USERNAME, user.getUsername())
-                                .putString(PREFS_LOGIN_USER_EMAIL, user.getEmail())
-                                .putString(PREFS_LOGIN_USER_FULL_NAME, user.getDisplayName())
-                                .putString(PREFS_LOGIN_USER_TOKEN, user.getToken())
-                                .putString(PREFS_LOGIN_USER_TYPE, LOGIN_USER_TYPE_PASSWORD)
-                                .apply();
 
                         // TODO login with password complete download all data save to SQLite table
 

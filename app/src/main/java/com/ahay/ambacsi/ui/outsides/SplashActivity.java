@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.ahay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import com.ahay.ambacsi.helper.ConnectivityReceiver;
 import com.ahay.ambacsi.R;
 import com.ahay.ambacsi.ui.medicals.HomeActivity;
@@ -42,8 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         private boolean checkLoggedIn() {
-
-            return false;
+            return AmBacSiAuth.loadOfflineLoginUser() != null;
         }
 
         @Override
