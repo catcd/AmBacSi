@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.ahay.ambacsi">
+          package="vn.ahaay.ambacsi">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -84,6 +84,12 @@
         <activity
             android:name=".ui.helpers.HelpActivity"
             android:label="@string/help_title"/>
+        <activity
+            android:name=".ui.medicals.EditScheduleActivity"
+            android:label="@string/edit_schedule_title"/>
+        <activity
+            android:name=".ui.medicals.ViewScheduleActivity"
+            android:label="@string/view_schedule_title"/>
 
         <receiver
             android:name=".helper.ConnectivityReceiver"
@@ -92,6 +98,24 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+
+        <!-- <service -->
+        <!-- android:name=".MyFirebaseMessagingService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <!-- <service -->
+        <!-- android:name=".MyFirebaseInstanceIDService"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/> -->
+        <!-- </intent-filter> -->
+        <!-- </service> -->
+        <service
+            android:name=".service.MyFirebaseInstanceIDService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "975126904615",
+    "firebase_url": "https://ambacsi-7ca4e.firebaseio.com",
+    "project_id": "ambacsi-7ca4e",
+    "storage_bucket": "ambacsi-7ca4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975126904615:android:c6c3dea16f138d75",
+        "android_client_info": {
+          "package_name": "vn.ahaay.ambacsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975126904615-2jm2ivd2l1990impopfjfps8b2n21q4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEa4g2MivDyhcGMWSMKl2bHI10NhjoBDM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

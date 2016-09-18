@@ -3,18 +3,19 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:paddingBottom="@dimen/activity_container_margin"
                 android:paddingLeft="@dimen/activity_container_margin"
                 android:paddingRight="@dimen/activity_container_margin"
                 android:paddingTop="@dimen/activity_container_margin"
-                tools:context=".ui.medicals.HomeActivity">
+                tools:context="vn.ahaay.ambacsi.ui.medicals.HomeActivity">
 
     <include
         android:id="@+id/mToolbar"
         layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/searchContent"
+        android:id="@+id/viewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/mToolbar"
@@ -23,10 +24,70 @@
         android:paddingRight="@dimen/activity_container_margin"
         android:paddingTop="@dimen/activity_container_margin"
         android:focusableInTouchMode="true">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/home_title"/>
-    </RelativeLayout>
 
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floatActionMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            fab:menu_fab_size="normal"
+            fab:menu_showShadow="true"
+            fab:menu_colorNormal="@color/colorPrimary"
+            fab:menu_colorPressed="@color/colorPrimaryDark"
+            fab:menu_colorRipple="#99FFFFFF"
+            fab:menu_animationDelayPerItem="50"
+            fab:menu_icon="@drawable/ic_add_white_24dp"
+            fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+            fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+            fab:menu_labels_maxLines="1"
+            fab:menu_labels_position="left"
+            fab:menu_openDirection="up"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_fab_label="Add new"
+            fab:menu_fab_show_animation="@anim/fab_scale_up"
+            fab:menu_fab_hide_animation="@anim/fab_scale_down">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/addSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_label="Add new schedule" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/addRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_label="Add record" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/addLabTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_label="Add lab test" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/menuItem4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_mode_edit_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_label="Menu item 4..." />
+        </com.github.clans.fab.FloatingActionMenu>
+    </RelativeLayout>
 </RelativeLayout>

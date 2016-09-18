@@ -164,6 +164,13 @@
     <string name="btn_reset_password">RESET PASSWORD</string>
     <string name="btn_save">Save</string>
 
+    <!-- Strings related to menu -->
+    <string name="menu_action_today">Today</string>
+    <string name="menu_action_week_calendar">View Week</string>
+    <string name="menu_action_three_days_calendar">View 3 Days</string>
+    <string name="menu_action_day_calendar">View 1 Day</string>
+    <string name="menu_action_events_calendar">View Agenda (not done)</string>
+
     <!-- Strings related to information notify to user -->
     <string name="notify_press_back_again_to_exit">Please press BACK again to exit!</string>
 
@@ -208,4 +215,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_action_edit">Edit</string>
+    <string name="menu_action_delete">Delete</string>
+    <string name="menu_action_cancel">Cancel</string>
+    <string name="menu_action_save">Save</string>
+    <string name="view_schedule_title">Details</string>
+    <string name="edit_schedule_title">Edit schedule</string>
 </resources>

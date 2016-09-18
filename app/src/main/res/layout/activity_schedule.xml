@@ -7,14 +7,14 @@
                 android:paddingLeft="@dimen/activity_container_margin"
                 android:paddingRight="@dimen/activity_container_margin"
                 android:paddingTop="@dimen/activity_container_margin"
-                tools:context="com.ahay.ambacsi.ui.medicals.ScheduleActivity">
+                tools:context="vn.ahaay.ambacsi.ui.medicals.ScheduleActivity">
 
     <include
         android:id="@+id/mToolbar"
         layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/settingsContent"
+        android:id="@+id/viewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/mToolbar"
