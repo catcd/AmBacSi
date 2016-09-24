@@ -3,9 +3,7 @@ package vn.ahaay.ambacsi.api.device;
 import android.graphics.Bitmap;
 
 import vn.ahaay.ambacsi.api.GlobalContext;
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
 import vn.ahaay.ambacsi.api.device.constant.ImageFileName;
-import vn.ahaay.ambacsi.ui.AppDrawerActivity;
 
 /**
  * Created by Can on 24-Sep-16.

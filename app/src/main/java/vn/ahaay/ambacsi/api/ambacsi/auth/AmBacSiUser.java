@@ -163,12 +163,12 @@ public class AmBacSiUser {
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            LoginUserPreference.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_NAME,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
                                     .putString(
-                                            LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME,
+                                            LoginUserPreference.LOGIN_USER_DISPLAY_NAME,
                                             _changeRequest.getDisplayName()
                                     )
                                     .apply();

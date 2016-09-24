@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +18,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import vn.ahaay.ambacsi.R;
-import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import vn.ahaay.ambacsi.R;
+import vn.ahaay.ambacsi.api.sharedpreference.WelcomeManager;
 
 public class WelcomeActivity extends AppCompatActivity {
     @BindView(R.id.view_pager) ViewPager viewPager;
@@ -33,10 +32,18 @@ public class WelcomeActivity extends AppCompatActivity {
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView[] dots;
     private int[] layouts;
+    private WelcomeManager welcomeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Checking for first time launch - before calling setContentView()
+        welcomeManager = new WelcomeManager(this);
+        if (!welcomeManager.isFirstTimeLaunch()) {
+            launchSplashScreen();
+            finish();
+        }
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -68,7 +75,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCreateProfile();
+                launchLoginScreen();
             }
         });
 
@@ -82,10 +89,21 @@ public class WelcomeActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchCreateProfile();
+                    launchLoginScreen();
                 }
             }
         });
+    }
+
+    private void launchSplashScreen() {
+        startActivity(new Intent(WelcomeActivity.this, SplashActivity.class));
+        finish();
+    }
+
+    private void launchLoginScreen() {
+        welcomeManager.setFirstTimeLaunch(false);
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        finish();
     }
 
     private void addBottomDots(int currentPage) {
@@ -109,11 +127,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
-    }
-
-    private void launchCreateProfile() {
-        startActivity(new Intent(WelcomeActivity.this, CreateProfileActivity.class));
-        finish();
     }
 
     //  viewpager change listener

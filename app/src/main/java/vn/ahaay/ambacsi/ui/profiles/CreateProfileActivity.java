@@ -105,9 +105,9 @@ public class CreateProfileActivity extends AppCompatActivity implements
 
     @Override
     public void selectGroup(int group) {
-        SharedPreferences loginUser = getSharedPreferences(LoginUserPreference.PREFS_LOGIN_USER, MODE_PRIVATE);
-        String __email = loginUser.getString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, "");
-        String __username = loginUser.getString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, "");
+        SharedPreferences loginUser = getSharedPreferences(LoginUserPreference.PREFS_NAME, MODE_PRIVATE);
+        String __email = loginUser.getString(LoginUserPreference.LOGIN_USER_EMAIL, "");
+        String __username = loginUser.getString(LoginUserPreference.LOGIN_USER_USERNAME, "");
 
         Fragment fragment;
 

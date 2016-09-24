@@ -64,15 +64,15 @@ public final class AmBacSiAuth {
     public static AmBacSiUser loadOfflineLoginUser() {
         // Restore preferences
 //        SharedPreferences __preferences = GlobalContext.getContext()
-//                .getSharedPreferences(LoginUserPreference.PREFS_LOGIN_USER, Context.MODE_PRIVATE);
+//                .getSharedPreferences(LoginUserPreference.PREFS_NAME, Context.MODE_PRIVATE);
 //
 //        String __loginType = __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TYPE, "");
 //        AmBacSiUser __user;
 //        switch (__loginType) {
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS:
 //                __user = new AmBacSiUser(
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_ID, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, "")
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_ID, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_TOKEN, "")
 //                );
 //                mUser = __user;
 //                return __user;
@@ -80,13 +80,13 @@ public final class AmBacSiAuth {
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_GOOGLE:
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_FACEBOOK:
 //                __user = new AmBacSiUser(
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_ID, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_PHOTO_URI, ""),
-//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, ""),
-//                        __preferences.getInt(LoginUserPreference.PREFS_LOGIN_USER_ROLE, 0),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_ID, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_USERNAME, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_EMAIL, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_DISPLAY_NAME, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_PHOTO_URI, ""),
+//                        __preferences.getString(LoginUserPreference.LOGIN_USER_TOKEN, ""),
+//                        __preferences.getInt(LoginUserPreference.LOGIN_USER_ROLE, 0),
 //                        __loginType
 //                );
 //                mUser = __user;
@@ -105,7 +105,7 @@ public final class AmBacSiAuth {
                 // TODO delete all shared preference if add more
                 GlobalContext.getContext()
                         .getSharedPreferences(
-                                LoginUserPreference.PREFS_LOGIN_USER,
+                                LoginUserPreference.PREFS_NAME,
                                 Context.MODE_PRIVATE
                         ).edit().clear().apply();
                 GlobalContext.getContext()
@@ -175,17 +175,17 @@ public final class AmBacSiAuth {
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            LoginUserPreference.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_NAME,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_ID, __uid)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, __username)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, __email)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME, __displayName)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_PHOTO_URI, __uri)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, __token)
-                                    .putInt(LoginUserPreference.PREFS_LOGIN_USER_ROLE, __role)
+                                    .putString(LoginUserPreference.LOGIN_USER_ID, __uid)
+                                    .putString(LoginUserPreference.LOGIN_USER_USERNAME, __username)
+                                    .putString(LoginUserPreference.LOGIN_USER_EMAIL, __email)
+                                    .putString(LoginUserPreference.LOGIN_USER_DISPLAY_NAME, __displayName)
+                                    .putString(LoginUserPreference.LOGIN_USER_PHOTO_URI, __uri)
+                                    .putString(LoginUserPreference.LOGIN_USER_TOKEN, __token)
+                                    .putInt(LoginUserPreference.LOGIN_USER_ROLE, __role)
                                     .apply();
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             this.isComplete = true;
@@ -286,14 +286,14 @@ public final class AmBacSiAuth {
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            LoginUserPreference.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_NAME,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_ID, __uid)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, __username)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, __email)
-                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, __token)
+                                    .putString(LoginUserPreference.LOGIN_USER_ID, __uid)
+                                    .putString(LoginUserPreference.LOGIN_USER_USERNAME, __username)
+                                    .putString(LoginUserPreference.LOGIN_USER_EMAIL, __email)
+                                    .putString(LoginUserPreference.LOGIN_USER_TOKEN, __token)
                                     .apply();
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             JSONObject __result = JSONParse.parse(__httpResponse);
