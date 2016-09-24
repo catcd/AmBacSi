@@ -153,10 +153,10 @@ public class SignUpActivity extends AppCompatActivity {
                             signUpPassword.requestFocus();
                             signUpPassword.setError(getResources().getString(vn.ahaay.ambacsi.R.string.sign_up_error_week_password));
                         } else if (task.getException() instanceof AmBacSiAuthInvalidCredentialsException) {
-                            if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_EMAIL)) {
+                            if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_EMAIL)) {
                                 signUpEmail.requestFocus();
                                 signUpEmail.setError(getResources().getString(vn.ahaay.ambacsi.R.string.sign_up_error_invalid_email));
-                            } else if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_USERNAME)) {
+                            } else if (((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_USERNAME)) {
                                 signUpUsername.requestFocus();
                                 signUpUsername.setError(getResources().getString(vn.ahaay.ambacsi.R.string.sign_up_error_invalid_username));
                             }

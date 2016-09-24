@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.localdb;
+package vn.ahaay.ambacsi.api.localdb;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,15 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
-import vn.ahaay.ambacsi.api.ambacsi.model.Appointment;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.UUID;
+
+import vn.ahaay.ambacsi.api.model.Appointment;
+import vn.ahaay.ambacsi.api.localdb.constant.LocalDBFormatter;
 
 /**
  * Created by SONY on 06-Aug-16.
@@ -202,7 +202,7 @@ public class AppointmentDBHandler extends SQLiteOpenHelper {
         }
 
         Calendar __appointmentTime = Calendar.getInstance();
-        __appointmentTime.setTime(FormatConstant.DATETIME_FORMAT.parse(_appointment.getString("appointment_time")));
+        __appointmentTime.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_appointment.getString("appointment_time")));
         row.put(COLUMN_APPOINTMENT_TIME, __appointmentTime.getTimeInMillis()/1000);
 
         row.put(COLUMN_INSURANCE_ID, _appointment.getString("insurance_id"));
@@ -217,11 +217,11 @@ public class AppointmentDBHandler extends SQLiteOpenHelper {
         row.put(COLUMN_CANCEL_BY, _appointment.getString("cancel_by"));
 
         Calendar __updatedAt = Calendar.getInstance();
-        __updatedAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_appointment.getString("updated_at")));
+        __updatedAt.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_appointment.getString("updated_at")));
         row.put(COLUMN_UPDATED_AT, __updatedAt.getTimeInMillis()/1000);
 
         Calendar __createdAt = Calendar.getInstance();
-        __createdAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_appointment.getString("created_at")));
+        __createdAt.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_appointment.getString("created_at")));
         row.put(COLUMN_CREATED_AT, __createdAt.getTimeInMillis()/1000);
 
         return row;

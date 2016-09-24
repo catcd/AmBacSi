@@ -11,17 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import vn.ahaay.ambacsi.api.ambacsi.OnCompleteListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnFailureListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnSuccessListener;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
+import vn.ahaay.ambacsi.api.ambacsi.constant.UserRole;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
+import vn.ahaay.ambacsi.api.sharedpreference.constant.LoginUserPreference;
 import vn.ahaay.ambacsi.ui.medicals.HomeActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
 
 public class CreateProfileActivity extends AppCompatActivity implements
         SelectGroupFragment.OnFragmentInteractionListener,
@@ -77,7 +78,7 @@ public class CreateProfileActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void createProfile(ProfileChangeRequest _request) {
+    public void createProfile(ProfileChangeRequest _request) throws AmBacSiAuthException {
         // TODO show create profile loading
         AmBacSiAuth.getLoginUser().createProfile(_request)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -104,20 +105,20 @@ public class CreateProfileActivity extends AppCompatActivity implements
 
     @Override
     public void selectGroup(int group) {
-        SharedPreferences loginUser = getSharedPreferences(Constant.SharedPreferencesConstant.PREFS_LOGIN_USER, MODE_PRIVATE);
-        String __email = loginUser.getString(Constant.SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL, "");
-        String __username = loginUser.getString(Constant.SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME, "");
+        SharedPreferences loginUser = getSharedPreferences(LoginUserPreference.PREFS_LOGIN_USER, MODE_PRIVATE);
+        String __email = loginUser.getString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, "");
+        String __username = loginUser.getString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, "");
 
         Fragment fragment;
 
         switch (group) {
-            case Constant.UserGroupConstant.GROUP_USER:
+            case UserRole.ROLE_USER:
                 fragment = CreateProfileUserFragment.newInstance(__username, __email);
                 break;
-            case Constant.UserGroupConstant.GROUP_DOCTOR:
+            case UserRole.ROLE_DOCTOR:
                 fragment = CreateProfileDoctorFragment.newInstance(__username, __email);
                 break;
-            case Constant.UserGroupConstant.GROUP_CLINICAL_CENTER:
+            case UserRole.ROLE_CLINICAL_CENTER:
                 fragment = CreateProfileClinicalCenterFragment.newInstance(__username, __email);
                 break;
             default:

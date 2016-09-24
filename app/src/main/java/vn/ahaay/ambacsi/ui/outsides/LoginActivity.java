@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithEmailAndPassword", task.getException());
                             // there was an error
                             if (task.getException() instanceof AmBacSiAuthInvalidCredentialsException
-                                    && ((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNIN_FAILED)) {
+                                    && ((AmBacSiAuthInvalidCredentialsException) task.getException()).getErrorCode().equals(AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_IN_FAILED)) {
                                 loginUsername.requestFocus();
                                 loginUsername.setError(getResources().getString(vn.ahaay.ambacsi.R.string.login_error_failed));
                             } else {

@@ -3,7 +3,7 @@ package vn.ahaay.ambacsi.api.ambacsi.constant;
 /**
  * Created by Can on 10-Sep-16.
  */
-public class ApiUrlConstant {
+public class ApiUrl {
     private static final String DOMAIN = "http://63.142.253.167";
     private static final String API_URL = "/wecare/api";
     public static final String PREFIX_URL = DOMAIN + API_URL;

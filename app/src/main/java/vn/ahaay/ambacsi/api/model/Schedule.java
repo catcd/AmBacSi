@@ -1,15 +1,14 @@
-package vn.ahaay.ambacsi.api.ambacsi.model;
+package vn.ahaay.ambacsi.api.model;
 
 import android.text.TextUtils;
-
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Calendar;
+
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
 
 /**
  * Created by SONY on 06-Aug-16.
@@ -116,12 +115,12 @@ public class Schedule {
         status = _schedule.getString("status");
 
         Calendar __updatedAt = Calendar.getInstance();
-        __updatedAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
+        __updatedAt.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
         updatedAt = __updatedAt;
 
 
         Calendar __createdAt = Calendar.getInstance();
-        __createdAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
+        __createdAt.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
         createdAt = __createdAt;
 
         summary = _schedule.getString("summary");
@@ -134,11 +133,11 @@ public class Schedule {
         }
 
         Calendar __start = Calendar.getInstance();
-        __start.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("start")));
+        __start.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("start")));
         start = __start;
 
         Calendar __end = Calendar.getInstance();
-        __end.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("end")));
+        __end.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("end")));
         end = __end;
 
         endTimeUnspecified = _schedule.getInt("end_time_unspecified") != 0;
@@ -313,16 +312,16 @@ public class Schedule {
         return "{" +
                 "id='" + serverId + '\'' +
                 ", status='" + status + '\'' +
-                ", updatedAt=" + Constant.FormatConstant.DATETIME_FORMAT.format(updatedAt) +
-                ", createdAt=" + Constant.FormatConstant.DATETIME_FORMAT.format(createdAt) +
+                ", updatedAt=" + ServerFormatter.DATETIME_FORMAT.format(updatedAt) +
+                ", createdAt=" + ServerFormatter.DATETIME_FORMAT.format(createdAt) +
                 ", summary='" + summary + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
                 ", colorId=" + colorId +
                 ", doctorId='" + doctorId + '\'' +
                 ", clinicalCenterId='" + clinicalCenterId + '\'' +
-                ", start=" + Constant.FormatConstant.DATETIME_FORMAT.format(start) +
-                ", end=" + Constant.FormatConstant.DATETIME_FORMAT.format(end) +
+                ", start=" + ServerFormatter.DATETIME_FORMAT.format(start) +
+                ", end=" + ServerFormatter.DATETIME_FORMAT.format(end) +
                 ", endTimeUnspecified=" + (endTimeUnspecified ? 1 : 0) +
                 ", recurrence=" + TextUtils.join(";", recurrence) +
                 ", visibility='" + visibility + '\'' +

@@ -4,8 +4,8 @@ import org.json.JSONException;
 
 import java.util.Calendar;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant.UserGroupConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
+import vn.ahaay.ambacsi.api.ambacsi.constant.UserRole;
 
 /**
  * Created by SONY on 29-Jul-16.
@@ -20,7 +20,7 @@ public final class ClinicalCenterProfileChangeRequest extends ProfileChangeReque
     public ClinicalCenterProfileChangeRequest() {
         super();
         try {
-            request.putOpt(KEY_ROLE, UserGroupConstant.GROUP_CLINICAL_CENTER);
+            request.putOpt(KEY_ROLE, UserRole.ROLE_CLINICAL_CENTER);
         } catch (JSONException _e) {
             _e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public final class ClinicalCenterProfileChangeRequest extends ProfileChangeReque
 
     public ClinicalCenterProfileChangeRequest setFoundYear(Calendar _fYear) {
         try {
-            request.putOpt(KEY_FOUND_YEAR, FormatConstant.DATE_FORMAT.format(_fYear.getTime()));
+            request.putOpt(KEY_FOUND_YEAR, ServerFormatter.DATE_FORMAT.format(_fYear.getTime()));
         } catch (JSONException _e) {
             _e.printStackTrace();
         }

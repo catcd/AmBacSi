@@ -20,11 +20,11 @@ import java.text.ParseException;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrlConstant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
 import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.ambacsi.model.FriendGroup;
-import vn.ahaay.ambacsi.api.ambacsi.model.FriendRequest;
-import vn.ahaay.ambacsi.api.ambacsi.model.Relationship;
+import vn.ahaay.ambacsi.api.model.FriendGroup;
+import vn.ahaay.ambacsi.api.model.FriendRequest;
+import vn.ahaay.ambacsi.api.model.Relationship;
 
 /**
  * Created by Can on 9/2/2016.
@@ -44,7 +44,7 @@ public class AmBacSiRelationship {
 //            protected Void doInBackground(String... _strings) {
 //                if (_strings[0] == null) {
 //                    // URL
-//                    String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_GET_FRIEND_REQUEST;
+//                    String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_FRIEND_REQUEST;
 //
 //                    // Creating HTTP client
 //                    HttpClient __httpClient = new DefaultHttpClient();
@@ -215,7 +215,7 @@ public class AmBacSiRelationship {
             @Override
             protected String doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_CREATE_FRIEND_REQUEST;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_CREATE_FRIEND_REQUEST;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -264,7 +264,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_DELETE_FRIEND_REQUEST, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_DELETE_FRIEND_REQUEST, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -309,7 +309,7 @@ public class AmBacSiRelationship {
 //            protected Void doInBackground(String... _strings) {
 //                if (_strings[0] == null) {
 //                    // URL
-//                    String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_GET_FRIEND_REQUEST;
+//                    String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_FRIEND_REQUEST;
 //
 //                    // Creating HTTP client
 //                    HttpClient __httpClient = new DefaultHttpClient();
@@ -480,7 +480,7 @@ public class AmBacSiRelationship {
             @Override
             protected Relationship doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_GET_RELATIONSHIP_ID, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_GET_RELATIONSHIP_ID, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -527,7 +527,7 @@ public class AmBacSiRelationship {
             @Override
             protected String doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_CREATE_RELATIONSHIP;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_CREATE_RELATIONSHIP;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -578,7 +578,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_DELETE_RELATIONSHIP, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_DELETE_RELATIONSHIP, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -623,7 +623,7 @@ public class AmBacSiRelationship {
 //            protected Void doInBackground(String... _strings) {
 //                if (_strings[0] == null) {
 //                    // URL
-//                    String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_GET_FRIEND_REQUEST;
+//                    String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_FRIEND_REQUEST;
 //
 //                    // Creating HTTP client
 //                    HttpClient __httpClient = new DefaultHttpClient();
@@ -794,7 +794,7 @@ public class AmBacSiRelationship {
             @Override
             protected FriendGroup doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_GET_FRIEND_GROUP_ID, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_GET_FRIEND_GROUP_ID, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -840,7 +840,7 @@ public class AmBacSiRelationship {
             @Override
             protected String doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_CREATE_FRIEND_GROUP;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_CREATE_FRIEND_GROUP;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -889,7 +889,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_UPDATE_FRIEND_GROUP, _friendGroup.getId());
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_UPDATE_FRIEND_GROUP, _friendGroup.getId());
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -935,7 +935,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_FRIEND_GROUP_ADD, _friendGroupId);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_FRIEND_GROUP_ADD, _friendGroupId);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -983,7 +983,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_FRIEND_GROUP_REMOVE, _friendGroupId);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_FRIEND_GROUP_REMOVE, _friendGroupId);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -1031,7 +1031,7 @@ public class AmBacSiRelationship {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_DELETE_FRIEND_GROUP, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_DELETE_FRIEND_GROUP, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();

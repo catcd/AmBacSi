@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.model;
+package vn.ahaay.ambacsi.api.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.Calendar;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
 
 /**
  * Created by Can on 10-Sep-16.
@@ -43,7 +43,7 @@ public class Relationship {
         account2Id = _schedule.getJSONObject("account_2").getString("account_id");
 
         Calendar __acceptTime = Calendar.getInstance();
-        __acceptTime.setTime(Constant.FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("accept_time")));
+        __acceptTime.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("accept_time")));
         acceptTime = __acceptTime;
 
         relationshipRole = _schedule.getString("relationship_role");

@@ -5,15 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrlConstant;
-import vn.ahaay.ambacsi.api.ambacsi.GlobalContext;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
+import vn.ahaay.ambacsi.api.GlobalContext;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.ambacsi.localdb.CacheProfileDBHandler;
-import vn.ahaay.ambacsi.api.ambacsi.localdb.ScheduleDBHandler;
-import vn.ahaay.ambacsi.api.ambacsi.model.Schedule;
+import vn.ahaay.ambacsi.api.localdb.CacheProfileDBHandler;
+import vn.ahaay.ambacsi.api.localdb.ScheduleDBHandler;
+import vn.ahaay.ambacsi.api.model.Schedule;
 import vn.ahaay.ambacsi.api.ambacsi.profile.AmBacSiCacheProfile;
 import vn.ahaay.ambacsi.api.ambacsi.helper.Synchronized;
 
@@ -50,7 +50,7 @@ public class AmBacSiSchedule {
             protected Void doInBackground(String... _strings) {
                 if (_strings[0] == null) {
                     // URL
-                    String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_GET_SCHEDULE;
+                    String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_SCHEDULE;
 
                     // Creating HTTP client
                     HttpClient __httpClient = new DefaultHttpClient();
@@ -212,7 +212,7 @@ public class AmBacSiSchedule {
             @Override
             protected Schedule doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_GET_SCHEDULE_ID, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_GET_SCHEDULE_ID, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -258,7 +258,7 @@ public class AmBacSiSchedule {
             @Override
             protected String doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_CREATE_SCHEDULE;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_CREATE_SCHEDULE;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -307,7 +307,7 @@ public class AmBacSiSchedule {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_DELETE_SCHEDULE, _id);
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_DELETE_SCHEDULE, _id);
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -351,7 +351,7 @@ public class AmBacSiSchedule {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + String.format(ApiUrlConstant.URL_UPDATE_SCHEDULE, _schedule.getServerId());
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_UPDATE_SCHEDULE, _schedule.getServerId());
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();

@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.model;
+package vn.ahaay.ambacsi.api.model;
 
 import com.alamkanak.weekview.WeekViewEvent;
 

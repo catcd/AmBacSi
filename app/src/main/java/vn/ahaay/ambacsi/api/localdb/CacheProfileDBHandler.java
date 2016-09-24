@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.localdb;
+package vn.ahaay.ambacsi.api.localdb;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import vn.ahaay.ambacsi.api.ambacsi.model.CacheProfile;
+import vn.ahaay.ambacsi.api.model.CacheProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;

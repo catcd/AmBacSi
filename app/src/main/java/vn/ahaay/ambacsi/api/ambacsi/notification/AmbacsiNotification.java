@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrlConstant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
 
 /**
  * Created by Can on 17-Sep-16.
@@ -37,7 +37,7 @@ public class AmbacsiNotification {
     public static void sendRegistrationToServer(String _fcmToken) throws AmBacSiAuthException {
         final String __userToken = AmBacSiAuth.getLoginUser().getToken();
         // URL
-        String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_REGISTER_FCM_TOKEN;
+        String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_REGISTER_FCM_TOKEN;
 
         // Creating HTTP client
         HttpClient __httpClient = new DefaultHttpClient();

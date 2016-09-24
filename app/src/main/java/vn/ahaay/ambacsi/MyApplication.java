@@ -2,7 +2,7 @@ package vn.ahaay.ambacsi;
 
 import android.app.Application;
 
-import vn.ahaay.ambacsi.api.ambacsi.GlobalContext;
+import vn.ahaay.ambacsi.api.GlobalContext;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 
 /**

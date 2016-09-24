@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.helper;
+package vn.ahaay.ambacsi.api.device;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.ambacsi.localdb;
+package vn.ahaay.ambacsi.api.localdb;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,9 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
-import vn.ahaay.ambacsi.api.ambacsi.model.Schedule;
-import vn.ahaay.ambacsi.api.ambacsi.model.SimpleSchedule;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import org.json.JSONException;
@@ -24,10 +21,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import vn.ahaay.ambacsi.api.localdb.constant.LocalDBFormatter;
+import vn.ahaay.ambacsi.api.model.Schedule;
+import vn.ahaay.ambacsi.api.model.SimpleSchedule;
+
 /**
  * Created by SONY on 06-Aug-16.
  */
-public class NotificationDBHandler extends SQLiteOpenHelper {
+public class ScheduleDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "wecare";
     public static final String TABLE_NAME = "apt_schedules";
@@ -52,7 +53,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_REMINDERS = "reminders";
     public static final String COLUMN_SOURCE = "source";
 
-    public NotificationDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
+    public ScheduleDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
         super(_context, DATABASE_NAME, _factory, DATABASE_VERSION);
     }
 
@@ -61,7 +62,7 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
                 + "("
                 + COLUMN_LOCAL_ID + " TEXT PRIMARY KEY,"
-                + COLUMN_SERVER_ID + " INTEGER UNIQUE,"
+                + COLUMN_SERVER_ID + " TEXT UNIQUE,"
                 + COLUMN_STATUS + " TEXT,"
                 + COLUMN_UPDATED_AT + " INTEGER,"
                 + COLUMN_CREATED_AT + " INTEGER,"
@@ -69,8 +70,8 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
                 + COLUMN_DESCRIPTION + " TEXT,"
                 + COLUMN_LOCATION + " TEXT,"
                 + COLUMN_COLOR_ID + " INTEGER,"
-                + COLUMN_DOCTOR_ID + " INTEGER,"
-                + COLUMN_CLINICAL_CENTER_ID + " INTEGER,"
+                + COLUMN_DOCTOR_ID + " TEXT,"
+                + COLUMN_CLINICAL_CENTER_ID + " TEXT,"
                 + COLUMN_START + " INTEGER,"
                 + COLUMN_END + " INTEGER,"
                 + COLUMN_END_TIME_UNSPECIFIED + " INTEGER,"
@@ -218,14 +219,17 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
                 __schedule.setColor(Color.parseColor("#636161"));
                 __schedules.add(__schedule);
             }
+            __cursor.close();
         }
+
+        __database.close();
 
         return __schedules;
     }
 
     public Cursor fetchAll() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(NotificationDBHandler.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -263,12 +267,12 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         row.put(COLUMN_STATUS, _schedule.getString("status"));
 
         Calendar __updatedAt = Calendar.getInstance();
-        __updatedAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
+        __updatedAt.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
         row.put(COLUMN_UPDATED_AT, __updatedAt.getTimeInMillis()/1000);
 
         Calendar __createdAt = Calendar.getInstance();
-        __createdAt.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
-        row.put(COLUMN_UPDATED_AT, __createdAt.getTimeInMillis()/1000);
+        __createdAt.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
+        row.put(COLUMN_CREATED_AT, __createdAt.getTimeInMillis()/1000);
 
         row.put(COLUMN_SUMMARY, _schedule.getString("summary"));
         row.put(COLUMN_DESCRIPTION, _schedule.getString("description"));
@@ -281,14 +285,14 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
         }
 
         Calendar __start = Calendar.getInstance();
-        __start.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("start")));
+        __start.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_schedule.getString("start")));
         row.put(COLUMN_START, __start.getTimeInMillis()/1000);
 
         Calendar __end = Calendar.getInstance();
-        __end.setTime(FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("end")));
+        __end.setTime(LocalDBFormatter.DATETIME_FORMAT.parse(_schedule.getString("end")));
         row.put(COLUMN_END, __end.getTimeInMillis()/1000);
 
-        row.put(COLUMN_LOCATION, _schedule.getInt("end_time_unspecified"));
+        row.put(COLUMN_END_TIME_UNSPECIFIED, _schedule.getInt("end_time_unspecified"));
         row.put(COLUMN_RECURRENCE, _schedule.getString("recurrence"));
         row.put(COLUMN_RECURRING_EVENT_ID, _schedule.getString("recurring_event_id"));
         row.put(COLUMN_VISIBILITY, _schedule.getString("visibility"));
@@ -319,6 +323,8 @@ public class NotificationDBHandler extends SQLiteOpenHelper {
             __schedule.setDescription(_cursor.getString(6));
             __schedule.setLocation(_cursor.getString(7));
             __schedule.setColorId(Integer.parseInt(_cursor.getString(8)));
+            __schedule.setDoctorId(_cursor.getString(9));
+            __schedule.setClinicalCenterId(_cursor.getString(10));
 
             Calendar __start = Calendar.getInstance();
             __start.setTimeInMillis(Long.parseLong(_cursor.getString(11)) * 1000);

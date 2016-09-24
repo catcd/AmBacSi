@@ -14,28 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import vn.ahaay.ambacsi.api.ambacsi.OnCompleteListener;
-import vn.ahaay.ambacsi.api.ambacsi.OnFailureListener;
-import vn.ahaay.ambacsi.api.ambacsi.OnSuccessListener;
-import vn.ahaay.ambacsi.api.ambacsi.Task;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
-import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
-import vn.ahaay.ambacsi.api.ambacsi.helper.ImageSaver;
-import vn.ahaay.ambacsi.ui.helpers.HelpActivity;
-import vn.ahaay.ambacsi.ui.helpers.SettingsActivity;
-import vn.ahaay.ambacsi.ui.medicals.AppointmentPlanerActivity;
-import vn.ahaay.ambacsi.ui.medicals.MedicalRecordActivity;
-import vn.ahaay.ambacsi.ui.medicals.MyAppointmentActivity;
-import vn.ahaay.ambacsi.ui.medicals.MyScheduleActivity;
-import vn.ahaay.ambacsi.ui.medicals.ScheduleActivity;
-import vn.ahaay.ambacsi.ui.outsides.LoginActivity;
-import vn.ahaay.ambacsi.ui.profiles.LinkMyAccountActivity;
-import vn.ahaay.ambacsi.ui.profiles.MyProfileActivity;
-import vn.ahaay.ambacsi.ui.profiles.RegisterAnonymousActivity;
-import vn.ahaay.ambacsi.ui.socials.NotificationsActivity;
-import vn.ahaay.ambacsi.ui.socials.SearchActivity;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -49,7 +27,28 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
+import vn.ahaay.ambacsi.api.ambacsi.OnCompleteListener;
+import vn.ahaay.ambacsi.api.ambacsi.OnFailureListener;
+import vn.ahaay.ambacsi.api.ambacsi.OnSuccessListener;
+import vn.ahaay.ambacsi.api.ambacsi.Task;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
+import vn.ahaay.ambacsi.api.device.DeviceUserData;
+import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
+import vn.ahaay.ambacsi.ui.helpers.HelpActivity;
+import vn.ahaay.ambacsi.ui.helpers.SettingsActivity;
+import vn.ahaay.ambacsi.ui.medicals.AppointmentPlanerActivity;
+import vn.ahaay.ambacsi.ui.medicals.MedicalRecordActivity;
+import vn.ahaay.ambacsi.ui.medicals.MyAppointmentActivity;
+import vn.ahaay.ambacsi.ui.medicals.MyScheduleActivity;
+import vn.ahaay.ambacsi.ui.medicals.ScheduleActivity;
+import vn.ahaay.ambacsi.ui.outsides.LoginActivity;
+import vn.ahaay.ambacsi.ui.profiles.LinkMyAccountActivity;
+import vn.ahaay.ambacsi.ui.profiles.MyProfileActivity;
+import vn.ahaay.ambacsi.ui.profiles.RegisterAnonymousActivity;
+import vn.ahaay.ambacsi.ui.socials.NotificationsActivity;
+import vn.ahaay.ambacsi.ui.socials.SearchActivity;
 
 /**
  * Created by SONY on 07-Jul-16.
@@ -70,7 +69,6 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
     public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 1;
 
     protected Drawer drawer;
-    protected String loginType = "";
     protected String displayName = "";
     protected String email = "";
     protected Drawable avatar = null;
@@ -173,11 +171,11 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                 })
                 .build();
 
-        if (!loginType.equals(Constant.LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
-            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
-        } else {
-            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT);
-        }
+//        if (!loginType.equals(Constant.LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
+//            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
+//        } else {
+//            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT);
+//        }
 
         //create the drawer and remember the `Drawer` result object
         drawer = new DrawerBuilder()
@@ -286,11 +284,11 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                             // Do nothing
                         }
                     });
-            if (loginType.equals(Constant.LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
-                alertBuilder.setMessage(vn.ahaay.ambacsi.R.string.logout_anonymous_confirm).create().show();
-            } else {
-                alertBuilder.create().show();
-            }
+//            if (loginType.equals(Constant.LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
+//                alertBuilder.setMessage(vn.ahaay.ambacsi.R.string.logout_anonymous_confirm).create().show();
+//            } else {
+//                alertBuilder.create().show();
+//            }
         } else {
             Toast.makeText(AppDrawerActivity.this,
                     getResources().getString(vn.ahaay.ambacsi.R.string.logout_error_no_connection),
@@ -306,15 +304,12 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
         } catch (AmBacSiAuthException _e) {
             _e.printStackTrace();
         }
-        loginType = __user.getLoginType();
         displayName = __user.getDisplayName();
         email = __user.getEmail();
 
         // TODO Move to profile
         // get avatar
-        Bitmap avatar = new ImageSaver(AppDrawerActivity.this)
-                .setFileName(Constant.UserDataConstant.USER_DATA_AVATAR_FILE_NAME)
-                .load();
+        Bitmap avatar = DeviceUserData.loadUserAvatar();
         if (avatar != null) {
             this.avatar = new BitmapDrawable(getResources(), avatar);
         } else {

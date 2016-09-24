@@ -1,16 +1,10 @@
 package vn.ahaay.ambacsi.api.ambacsi.auth;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Credentials;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import vn.ahaay.ambacsi.api.ambacsi.GlobalContext;
-import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.ambacsi.Task;
-import vn.ahaay.ambacsi.api.ambacsi.helper.ImageSaver;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,11 +18,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrlConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.LoginUserTypeConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.ServerApiErrorConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.SharedPreferencesConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.UserDataConstant;
+import vn.ahaay.ambacsi.api.GlobalContext;
+import vn.ahaay.ambacsi.api.ambacsi.Task;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerApiError;
+import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
+import vn.ahaay.ambacsi.api.device.DeviceUserData;
+import vn.ahaay.ambacsi.api.sharedpreference.constant.LoginUserPreference;
+import vn.ahaay.ambacsi.api.sharedpreference.constant.SettingPreference;
 
 /**
  * Created by SONY on 21-Jul-16.
@@ -66,37 +63,38 @@ public final class AmBacSiAuth {
     @Nullable
     public static AmBacSiUser loadOfflineLoginUser() {
         // Restore preferences
-        SharedPreferences __preferences = GlobalContext.getContext()
-                .getSharedPreferences(SharedPreferencesConstant.PREFS_LOGIN_USER, Context.MODE_PRIVATE);
-
-        String __loginType = __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE, "");
-        AmBacSiUser __user;
-        switch (__loginType) {
-            case LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS:
-                __user = new AmBacSiUser(
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_ID, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN, "")
-                );
-                mUser = __user;
-                return __user;
-            case LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD:
-            case LoginUserTypeConstant.LOGIN_USER_TYPE_GOOGLE:
-            case LoginUserTypeConstant.LOGIN_USER_TYPE_FACEBOOK:
-                __user = new AmBacSiUser(
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_ID, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_DISPLAY_NAME, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_PHOTO_URI, ""),
-                        __preferences.getString(SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN, ""),
-                        __preferences.getInt(SharedPreferencesConstant.PREFS_LOGIN_USER_ROLE, 0),
-                        __loginType
-                );
-                mUser = __user;
-                return __user;
-            default:
-                return null;
-        }
+//        SharedPreferences __preferences = GlobalContext.getContext()
+//                .getSharedPreferences(LoginUserPreference.PREFS_LOGIN_USER, Context.MODE_PRIVATE);
+//
+//        String __loginType = __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TYPE, "");
+//        AmBacSiUser __user;
+//        switch (__loginType) {
+//            case LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS:
+//                __user = new AmBacSiUser(
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_ID, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, "")
+//                );
+//                mUser = __user;
+//                return __user;
+//            case LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD:
+//            case LoginUserTypeConstant.LOGIN_USER_TYPE_GOOGLE:
+//            case LoginUserTypeConstant.LOGIN_USER_TYPE_FACEBOOK:
+//                __user = new AmBacSiUser(
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_ID, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_PHOTO_URI, ""),
+//                        __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, ""),
+//                        __preferences.getInt(LoginUserPreference.PREFS_LOGIN_USER_ROLE, 0),
+//                        __loginType
+//                );
+//                mUser = __user;
+//                return __user;
+//            default:
+//                return null;
+//        }
+        return null;
     }
 
     @NonNull
@@ -107,12 +105,12 @@ public final class AmBacSiAuth {
                 // TODO delete all shared preference if add more
                 GlobalContext.getContext()
                         .getSharedPreferences(
-                                SharedPreferencesConstant.PREFS_LOGIN_USER,
+                                LoginUserPreference.PREFS_LOGIN_USER,
                                 Context.MODE_PRIVATE
                         ).edit().clear().apply();
                 GlobalContext.getContext()
                         .getSharedPreferences(
-                                SharedPreferencesConstant.PREFS_SETTINGS,
+                                SettingPreference.PREFS_SETTINGS,
                                 Context.MODE_PRIVATE
                         ).edit().clear().apply();
 
@@ -121,9 +119,8 @@ public final class AmBacSiAuth {
                 // TODO delete caches
 
                 // Delete avatar
-                new ImageSaver(GlobalContext.getContext())
-                        .setFileName(UserDataConstant.USER_DATA_AVATAR_FILE_NAME)
-                        .delete();
+                DeviceUserData.deleteUserAvatar();
+
                 this.isComplete = true;
                 return null;
             }
@@ -136,7 +133,7 @@ public final class AmBacSiAuth {
             @Override
             protected AmBacSiUser doInBackground(Void... voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_LOGIN;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_LOGIN;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -174,28 +171,27 @@ public final class AmBacSiAuth {
                             int __role           = __result.getInt("role");
 
                             this.isComplete = true;
-                            mUser = new AmBacSiUser(__uid, __username, __email, __displayName, __uri, __token, __role, LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD);
+                            mUser = new AmBacSiUser(__uid, __username, __email, __displayName, __uri, __token, __role);
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            SharedPreferencesConstant.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_LOGIN_USER,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_ID, __uid)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME, __username)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL, __email)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_DISPLAY_NAME, __displayName)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_PHOTO_URI, __uri)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN, __token)
-                                    .putInt(SharedPreferencesConstant.PREFS_LOGIN_USER_ROLE, __role)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE, LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_ID, __uid)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, __username)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, __email)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME, __displayName)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_PHOTO_URI, __uri)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, __token)
+                                    .putInt(LoginUserPreference.PREFS_LOGIN_USER_ROLE, __role)
                                     .apply();
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             this.isComplete = true;
                             this.mException = new AmBacSiAuthInvalidCredentialsException(
-                                    AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNIN_FAILED,
-                                    AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNIN_FAILED
+                                    AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_IN_FAILED,
+                                    AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_IN_FAILED
                             );
                         } else {
                             this.isComplete = false;
@@ -230,7 +226,7 @@ public final class AmBacSiAuth {
             @Override
             protected AmBacSiUser doInBackground(Void... voids) {
                 // URL
-                String url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_LOGIN_WITH_CREDENTIAL;
+                String url = ApiUrl.PREFIX_URL + ApiUrl.URL_LOGIN_WITH_CREDENTIAL;
 
                 // Creating HTTP client
                 HttpClient httpClient = new DefaultHttpClient();
@@ -250,7 +246,7 @@ public final class AmBacSiAuth {
             @Override
             protected AmBacSiUser doInBackground(Void... voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_REGISTER;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_REGISTER;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -290,15 +286,14 @@ public final class AmBacSiAuth {
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            SharedPreferencesConstant.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_LOGIN_USER,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_ID, __uid)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_USERNAME, __username)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_EMAIL, __email)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_TOKEN, __token)
-                                    .putString(SharedPreferencesConstant.PREFS_LOGIN_USER_TYPE, LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_ID, __uid)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_USERNAME, __username)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_EMAIL, __email)
+                                    .putString(LoginUserPreference.PREFS_LOGIN_USER_TOKEN, __token)
                                     .apply();
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             JSONObject __result = JSONParse.parse(__httpResponse);
@@ -307,12 +302,12 @@ public final class AmBacSiAuth {
                             if (__result.has("email")) {
                                 JSONArray error = __result.getJSONArray("email");
 
-                                if (error.getString(0).equals(ServerApiErrorConstant.EMAIL_INVALID)) {
+                                if (error.getString(0).equals(ServerApiError.EMAIL_INVALID)) {
                                     this.mException = new AmBacSiAuthInvalidCredentialsException(
-                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_EMAIL,
-                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_EMAIL
+                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_EMAIL,
+                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_EMAIL
                                     );
-                                } else if (error.getString(0).equals(ServerApiErrorConstant.EMAIL_EXISTED)) {
+                                } else if (error.getString(0).equals(ServerApiError.EMAIL_EXISTED)) {
                                     this.mException = new AmBacSiAuthUserCollisionException(
                                             AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_EMAIL_EXISTED,
                                             AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_EMAIL_EXISTED
@@ -321,12 +316,12 @@ public final class AmBacSiAuth {
                             } else if (__result.has("username")) {
                                 JSONArray error = __result.getJSONArray("username");
 
-                                if (error.getString(0).equals(ServerApiErrorConstant.USERNAME_INVALID)) {
+                                if (error.getString(0).equals(ServerApiError.USERNAME_INVALID)) {
                                     this.mException = new AmBacSiAuthInvalidCredentialsException(
-                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_USERNAME,
-                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGNUP_INVALID_USERNAME
+                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_USERNAME,
+                                            AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_UP_INVALID_USERNAME
                                     );
-                                } else if (error.getString(0).equals(ServerApiErrorConstant.USERNAME_EXISTED)) {
+                                } else if (error.getString(0).equals(ServerApiError.USERNAME_EXISTED)) {
                                     this.mException = new AmBacSiAuthUserCollisionException(
                                             AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_USERNAME_EXISTED,
                                             AmBacSiAuthUserCollisionException.ERROR_CODE_SIGNUP_USERNAME_EXISTED
@@ -335,7 +330,7 @@ public final class AmBacSiAuth {
                             } else if (__result.has("password")) {
                                 JSONArray error = __result.getJSONArray("password");
 
-                                if (error.getString(0).equals(ServerApiErrorConstant.PASSWORD_INVALID)) {
+                                if (error.getString(0).equals(ServerApiError.PASSWORD_INVALID)) {
                                     this.mException = new AmBacSiAuthWeakPasswordException(
                                             AmBacSiAuthWeakPasswordException.ERROR_CODE_PASSWORD_LESS_THAN_SIX,
                                             AmBacSiAuthWeakPasswordException.ERROR_CODE_PASSWORD_LESS_THAN_SIX

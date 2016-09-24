@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.UserRole;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,19 +67,19 @@ public class SelectGroupFragment extends Fragment {
 
     @OnClick(vn.ahaay.ambacsi.R.id.userClick) void selectGroupUser() {
         if (mListener != null) {
-            mListener.selectGroup(Constant.UserGroupConstant.GROUP_USER);
+            mListener.selectGroup(UserRole.ROLE_USER);
         }
     }
 
     @OnClick(vn.ahaay.ambacsi.R.id.doctorClick) void selectGroupDoctor() {
         if (mListener != null) {
-            mListener.selectGroup(Constant.UserGroupConstant.GROUP_DOCTOR);
+            mListener.selectGroup(UserRole.ROLE_DOCTOR);
         }
     }
 
     @OnClick(vn.ahaay.ambacsi.R.id.clinicalCenterClick) void selectGroupClinicalCenter() {
         if (mListener != null) {
-            mListener.selectGroup(Constant.UserGroupConstant.GROUP_CLINICAL_CENTER);
+            mListener.selectGroup(UserRole.ROLE_CLINICAL_CENTER);
         }
     }
 

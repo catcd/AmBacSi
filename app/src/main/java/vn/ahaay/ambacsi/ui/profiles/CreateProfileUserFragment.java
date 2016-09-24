@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
 import vn.ahaay.ambacsi.api.ambacsi.profile.UserProfileChangeRequest;
 
@@ -141,7 +142,11 @@ public class CreateProfileUserFragment extends Fragment {
                 .setDob(__dob);
 
         if (mListener != null) {
-            mListener.createProfile(__request);
+            try {
+                mListener.createProfile(__request);
+            } catch (AmBacSiAuthException _e) {
+                _e.printStackTrace();
+            }
         }
     }
 
@@ -241,6 +246,6 @@ public class CreateProfileUserFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
-        void createProfile(ProfileChangeRequest _request);
+        void createProfile(ProfileChangeRequest _request) throws AmBacSiAuthException;
     }
 }

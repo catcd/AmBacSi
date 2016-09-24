@@ -4,8 +4,8 @@ import org.json.JSONException;
 
 import java.util.Calendar;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant.UserGroupConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
+import vn.ahaay.ambacsi.api.ambacsi.constant.UserRole;
 
 /**
  * Created by SONY on 29-Jul-16.
@@ -19,7 +19,7 @@ public class UserProfileChangeRequest extends ProfileChangeRequest {
     public UserProfileChangeRequest() {
         super();
         try {
-            request.putOpt(KEY_ROLE, UserGroupConstant.GROUP_USER);
+            request.putOpt(KEY_ROLE, UserRole.ROLE_USER);
         } catch (JSONException _e) {
             _e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class UserProfileChangeRequest extends ProfileChangeRequest {
 
     public UserProfileChangeRequest setDob(Calendar _dob) {
         try {
-            request.putOpt(KEY_DOB, FormatConstant.DATE_FORMAT.format(_dob.getTime()));
+            request.putOpt(KEY_DOB, ServerFormatter.DATE_FORMAT.format(_dob.getTime()));
         } catch (JSONException _e) {
             _e.printStackTrace();
         }

@@ -6,12 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import vn.ahaay.ambacsi.api.ambacsi.Constant.SharedPreferencesConstant;
-import vn.ahaay.ambacsi.api.ambacsi.GlobalContext;
-import vn.ahaay.ambacsi.api.ambacsi.Task;
-import vn.ahaay.ambacsi.api.ambacsi.profile.AmBacSiProfile;
-import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -21,9 +15,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrlConstant;
-import vn.ahaay.ambacsi.api.ambacsi.Constant.LoginUserTypeConstant;
+import vn.ahaay.ambacsi.api.GlobalContext;
+import vn.ahaay.ambacsi.api.ambacsi.Task;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
+import vn.ahaay.ambacsi.api.ambacsi.profile.AmBacSiProfile;
+import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
 import vn.ahaay.ambacsi.api.ambacsi.schedule.AmBacSiSchedule;
+import vn.ahaay.ambacsi.api.sharedpreference.constant.LoginUserPreference;
 
 /**
  * Created by SONY on 21-Jul-16.
@@ -42,7 +40,6 @@ public class AmBacSiUser {
     private Uri photoUri;
     private String token;
     private boolean isAnonymous;
-    private String loginType;
     private int role;
 
     public AmBacSiUser(String _uid, String _token) {
@@ -56,7 +53,6 @@ public class AmBacSiUser {
         role = 0;
         photoUri = null;
         isAnonymous = true;
-        loginType = LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS;
     }
 
     public AmBacSiUser(String _uid, String _username, String _email, String _token) {
@@ -70,10 +66,9 @@ public class AmBacSiUser {
         role = 0;
         photoUri = null;
         isAnonymous = false;
-        loginType = LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD;
     }
 
-    public AmBacSiUser(String _uid, String _username, String _email, String _displayName, String _photoUri, String _token, int _role, String _loginType) {
+    public AmBacSiUser(String _uid, String _username, String _email, String _displayName, String _photoUri, String _token, int _role) {
         uid = _uid;
         username = _username;
         email = _email;
@@ -81,7 +76,6 @@ public class AmBacSiUser {
         photoUri = new Uri.Builder().path(_photoUri).build();
         token = _token;
         isAnonymous = false;
-        loginType = _loginType;
         role = _role;
     }
 
@@ -108,11 +102,6 @@ public class AmBacSiUser {
     @Nullable
     public String getEmail() {
         return email;
-    }
-
-    @NonNull
-    public String getLoginType() {
-        return loginType;
     }
 
     public boolean isAnonymous() {
@@ -149,7 +138,7 @@ public class AmBacSiUser {
             @Override
             protected Void doInBackground(Void... voids) {
                 // URL
-                String __url = ApiUrlConstant.PREFIX_URL + ApiUrlConstant.URL_PROFILE;
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_PROFILE;
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -174,12 +163,12 @@ public class AmBacSiUser {
 
                             GlobalContext.getContext()
                                     .getSharedPreferences(
-                                            SharedPreferencesConstant.PREFS_LOGIN_USER,
+                                            LoginUserPreference.PREFS_LOGIN_USER,
                                             Context.MODE_PRIVATE
                                     )
                                     .edit()
                                     .putString(
-                                            SharedPreferencesConstant.PREFS_LOGIN_USER_DISPLAY_NAME,
+                                            LoginUserPreference.PREFS_LOGIN_USER_DISPLAY_NAME,
                                             _changeRequest.getDisplayName()
                                     )
                                     .apply();

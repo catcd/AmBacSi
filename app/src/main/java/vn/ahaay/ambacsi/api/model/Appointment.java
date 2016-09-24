@@ -1,12 +1,12 @@
-package vn.ahaay.ambacsi.api.ambacsi.model;
-
-import vn.ahaay.ambacsi.api.ambacsi.Constant;
+package vn.ahaay.ambacsi.api.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Calendar;
+
+import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
 
 /**
  * Created by Can on 9/2/2016.
@@ -104,7 +104,7 @@ public class Appointment {
         clinicalCenterId = _schedule.getJSONObject("clinical_center").getString("account_id");
 
         Calendar __appointmentTime = Calendar.getInstance();
-        __appointmentTime.setTime(Constant.FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("appointment_time")));
+        __appointmentTime.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("appointment_time")));
         appointmentTime = __appointmentTime;
 
         insuranceId = _schedule.getString("insurance_id");
@@ -119,12 +119,12 @@ public class Appointment {
         cancelBy = _schedule.getString("cancel_by");
 
         Calendar __updatedAt = Calendar.getInstance();
-        __updatedAt.setTime(Constant.FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
+        __updatedAt.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("updated_at")));
         updatedAt = __updatedAt;
 
 
         Calendar __createdAt = Calendar.getInstance();
-        __createdAt.setTime(Constant.FormatConstant.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
+        __createdAt.setTime(ServerFormatter.DATETIME_FORMAT.parse(_schedule.getString("created_at")));
         createdAt = __createdAt;
     }
 
@@ -279,7 +279,7 @@ public class Appointment {
                 ", account_d='" + accountId + '\'' +
                 ", doctor_id='" + doctorId + '\'' +
                 ", clinical_center_id='" + clinicalCenterId + '\'' +
-                ", appointment_time=" + Constant.FormatConstant.DATETIME_FORMAT.format(appointmentTime) +
+                ", appointment_time=" + ServerFormatter.DATETIME_FORMAT.format(appointmentTime) +
                 ", insurance_id='" + insuranceId + '\'' +
                 ", deposited=" + deposited +
                 ", specialty_id_list='" + specialtyIdList + '\'' +
@@ -290,8 +290,8 @@ public class Appointment {
                 ", isVisit_before=" + (isVisitBefore ? 1 : 0) +
                 ", status=" + status +
                 ", cancel_by='" + cancelBy + '\'' +
-                ", updated_at=" + Constant.FormatConstant.DATETIME_FORMAT.format(updatedAt) +
-                ", created_at=" + Constant.FormatConstant.DATETIME_FORMAT.format(createdAt) +
+                ", updated_at=" + ServerFormatter.DATETIME_FORMAT.format(updatedAt) +
+                ", created_at=" + ServerFormatter.DATETIME_FORMAT.format(createdAt) +
                 '}';
     }
 }
