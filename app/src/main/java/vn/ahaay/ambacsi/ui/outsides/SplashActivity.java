@@ -2,11 +2,11 @@ package vn.ahaay.ambacsi.ui.outsides;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
+import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 import vn.ahaay.ambacsi.ui.medicals.HomeActivity;
 
@@ -37,11 +37,8 @@ public class SplashActivity extends AppCompatActivity {
             super.onPreExecute();
             // Before making http calls
             isOnline = ConnectivityReceiver.isConnected();
-            isLoggedIn = checkLoggedIn();
-        }
 
-        private boolean checkLoggedIn() {
-            return AmBacSiAuth.loadOfflineLoginUser() != null;
+            isLoggedIn = new UserDataManager(SplashActivity.this).isLoggedIn();
         }
 
         @Override
@@ -57,12 +54,12 @@ public class SplashActivity extends AppCompatActivity {
              * 5. etc.,
              */
             if (isOnline && isLoggedIn) {
-                loadNewOnlineData();
+                updateData();
             }
             return null;
         }
 
-        private void loadNewOnlineData() {
+        private void updateData() {
             // TODO load new online data
             // new notification
             // new event request
@@ -79,14 +76,13 @@ public class SplashActivity extends AppCompatActivity {
                 // Notify user if user is offline
                 if (!isOnline) {
                     Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_offline, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_welcome, Toast.LENGTH_LONG).show();
                 }
 
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             } else if(isOnline) {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             } else {
+                // TODO start setting for result
                 Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_network_error, Toast.LENGTH_LONG).show();
             }
 

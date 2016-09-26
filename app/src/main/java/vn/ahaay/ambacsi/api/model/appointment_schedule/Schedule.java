@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.model;
+package vn.ahaay.ambacsi.api.model.appointment_schedule;
 
 import android.text.TextUtils;
 
@@ -11,8 +11,11 @@ import java.util.Calendar;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
 
 /**
+ * Status: ON DEBUGGING
  * Created by SONY on 06-Aug-16.
+ * Last updated by Cat Can on 26-Sep-16.
  */
+
 public class Schedule {
     private String localId;
     private String serverId;

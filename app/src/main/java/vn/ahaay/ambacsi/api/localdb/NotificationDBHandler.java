@@ -11,8 +11,8 @@ package vn.ahaay.ambacsi.api.localdb;
 //import android.text.TextUtils;
 //
 //import vn.ahaay.ambacsi.api.ambacsi.Constant.FormatConstant;
-//import vn.ahaay.ambacsi.api.model.Schedule;
-//import vn.ahaay.ambacsi.api.model.SimpleSchedule;
+//import vn.ahaay.ambacsi.api.model.appointment_schedule.Schedule;
+//import vn.ahaay.ambacsi.api.model.appointment_schedule.SimpleSchedule;
 //import com.alamkanak.weekview.WeekViewEvent;
 //
 //import org.json.JSONException;

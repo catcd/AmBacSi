@@ -12,9 +12,9 @@ import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.helper.Synchronized;
-import vn.ahaay.ambacsi.api.localdb.AppointmentDBHandler;
-import vn.ahaay.ambacsi.api.localdb.CacheProfileDBHandler;
-import vn.ahaay.ambacsi.api.model.Appointment;
+import vn.ahaay.ambacsi.api.localdb.appointment_schedule.AppointmentDBHandler;
+import vn.ahaay.ambacsi.api.localdb.profile.CacheProfileDBHandler;
+import vn.ahaay.ambacsi.api.model.appointment_schedule.Appointment;
 import vn.ahaay.ambacsi.api.ambacsi.profile.AmBacSiCacheProfile;
 
 import org.apache.http.HttpResponse;

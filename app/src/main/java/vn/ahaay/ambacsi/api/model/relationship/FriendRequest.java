@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.model;
+package vn.ahaay.ambacsi.api.model.relationship;
 
 import java.util.Calendar;
 

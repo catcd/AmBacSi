@@ -33,6 +33,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Created by Cat Can.
+ * Last update on 26-Sep-2016
+ */
+
 public class LoginActivity extends AppCompatActivity {
     @BindView(vn.ahaay.ambacsi.R.id.loginAppName) TextView loginAppName;
     @BindView(vn.ahaay.ambacsi.R.id.loginUsername) EditText loginUsername;
@@ -59,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setAppNameFont() {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/hemi-head-426.bold-italic.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
         loginAppName.setTypeface(font);
     }
 

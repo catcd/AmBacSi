@@ -22,9 +22,9 @@ import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
 import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.model.FriendGroup;
-import vn.ahaay.ambacsi.api.model.FriendRequest;
-import vn.ahaay.ambacsi.api.model.Relationship;
+import vn.ahaay.ambacsi.api.model.relationship.FriendGroup;
+import vn.ahaay.ambacsi.api.model.relationship.FriendRequest;
+import vn.ahaay.ambacsi.api.model.relationship.Relationship;
 
 /**
  * Created by Can on 9/2/2016.

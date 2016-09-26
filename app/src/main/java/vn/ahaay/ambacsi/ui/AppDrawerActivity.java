@@ -34,7 +34,7 @@ import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
-import vn.ahaay.ambacsi.api.device.DeviceUserData;
+import vn.ahaay.ambacsi.api.device.UserDataManager;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 import vn.ahaay.ambacsi.ui.helpers.HelpActivity;
 import vn.ahaay.ambacsi.ui.helpers.SettingsActivity;
@@ -309,7 +309,7 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
 
         // TODO Move to profile
         // get avatar
-        Bitmap avatar = DeviceUserData.loadUserAvatar();
+        Bitmap avatar = UserDataManager.loadUserAvatar();
         if (avatar != null) {
             this.avatar = new BitmapDrawable(getResources(), avatar);
         } else {

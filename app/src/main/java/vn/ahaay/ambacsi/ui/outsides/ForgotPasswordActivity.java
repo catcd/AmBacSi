@@ -34,7 +34,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void setAppNameFont() {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/hemi-head-426.bold-italic.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/rotulona-hand.ffp.otf");
         forgotPasswordAppName.setTypeface(font);
     }
 

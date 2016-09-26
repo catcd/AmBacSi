@@ -23,7 +23,7 @@ import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ServerApiError;
 import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.device.DeviceUserData;
+import vn.ahaay.ambacsi.api.device.UserDataManager;
 import vn.ahaay.ambacsi.api.sharedpreference.constant.LoginUserPreference;
 import vn.ahaay.ambacsi.api.sharedpreference.constant.SettingPreference;
 
@@ -119,7 +119,7 @@ public final class AmBacSiAuth {
                 // TODO delete caches
 
                 // Delete avatar
-                DeviceUserData.deleteUserAvatar();
+                UserDataManager.deleteUserAvatar();
 
                 this.isComplete = true;
                 return null;

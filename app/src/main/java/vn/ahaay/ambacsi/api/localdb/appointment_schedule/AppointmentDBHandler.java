@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.localdb;
+package vn.ahaay.ambacsi.api.localdb.appointment_schedule;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.UUID;
 
-import vn.ahaay.ambacsi.api.model.Appointment;
+import vn.ahaay.ambacsi.api.model.appointment_schedule.Appointment;
 import vn.ahaay.ambacsi.api.localdb.constant.LocalDBFormatter;
 
 /**
@@ -24,26 +24,26 @@ import vn.ahaay.ambacsi.api.localdb.constant.LocalDBFormatter;
 public class AppointmentDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "wecare";
-    public static final String TABLE_NAME = "apt_appointments";
+    private static final String TABLE_NAME = "apt_appointments";
 
-    public static final String COLUMN_LOCAL_ID = "localId";
-    public static final String COLUMN_SERVER_ID = "serverId";
-    public static final String COLUMN_ACCOUNT_ID = "accountId";
-    public static final String COLUMN_DOCTOR_ID = "doctorId";
-    public static final String COLUMN_CLINICAL_CENTER_ID = "clinicalCenterId";
-    public static final String COLUMN_APPOINTMENT_TIME = "appointmentTime";
-    public static final String COLUMN_INSURANCE_ID = "insuranceId";
-    public static final String COLUMN_DEPOSITED = "deposited";
-    public static final String COLUMN_SPECIALTY_ID_LIST = "specialtyIdList";
-    public static final String COLUMN_NOTE = "note";
-    public static final String COLUMN_PAYMENT_METHOD = "paymentMethod";
-    public static final String COLUMN_PAID_AMOUNT = "paidAmount";
-    public static final String COLUMN_TOTAL_PAYMENT = "totalPayment";
-    public static final String COLUMN_IS_VISIT_BEFORE = "isVisitBefore";
-    public static final String COLUMN_STATUS = "status";
-    public static final String COLUMN_CANCEL_BY = "cancelBy";
-    public static final String COLUMN_UPDATED_AT = "updatedAt";
-    public static final String COLUMN_CREATED_AT = "createdAt";
+    private static final String COLUMN_LOCAL_ID = "localId";
+    private static final String COLUMN_SERVER_ID = "serverId";
+    private static final String COLUMN_ACCOUNT_ID = "accountId";
+    private static final String COLUMN_DOCTOR_ID = "doctorId";
+    private static final String COLUMN_CLINICAL_CENTER_ID = "clinicalCenterId";
+    private static final String COLUMN_APPOINTMENT_TIME = "appointmentTime";
+    private static final String COLUMN_INSURANCE_ID = "insuranceId";
+    private static final String COLUMN_DEPOSITED = "deposited";
+    private static final String COLUMN_SPECIALTY_ID_LIST = "specialtyIdList";
+    private static final String COLUMN_NOTE = "note";
+    private static final String COLUMN_PAYMENT_METHOD = "paymentMethod";
+    private static final String COLUMN_PAID_AMOUNT = "paidAmount";
+    private static final String COLUMN_TOTAL_PAYMENT = "totalPayment";
+    private static final String COLUMN_IS_VISIT_BEFORE = "isVisitBefore";
+    private static final String COLUMN_STATUS = "status";
+    private static final String COLUMN_CANCEL_BY = "cancelBy";
+    private static final String COLUMN_UPDATED_AT = "updatedAt";
+    private static final String COLUMN_CREATED_AT = "createdAt";
 
     public AppointmentDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
         super(_context, DATABASE_NAME, _factory, DATABASE_VERSION);

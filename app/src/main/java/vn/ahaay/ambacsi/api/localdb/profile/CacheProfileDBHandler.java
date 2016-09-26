@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.localdb;
+package vn.ahaay.ambacsi.api.localdb.profile;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import vn.ahaay.ambacsi.api.model.CacheProfile;
+import vn.ahaay.ambacsi.api.model.profile.CacheProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,16 +16,18 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 /**
+ * Status: ON DEBUGGING
  * Created by SONY on 13-Aug-16.
+ * Last updated by Cat Can on 26-Sep-2016.
  */
 public class CacheProfileDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "wecare";
-    public static final String TABLE_NAME = "cache_profiles";
+    private static final String TABLE_NAME = "cache_profiles";
 
-    public static final String COLUMN_ACCOUNT_ID = "accountId";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_THUMB_PATH = "thumbPath";
+    private static final String COLUMN_ACCOUNT_ID = "accountId";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_THUMB_PATH = "thumbPath";
 
     public CacheProfileDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
         super(_context, DATABASE_NAME, _factory, DATABASE_VERSION);
@@ -60,7 +62,7 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
         ContentValues __row = parseCacheProfile(_profile);
 
         if (__cursor.moveToFirst()) {
-            if (!(!__cursor.getString(1).equals(_profile.getName()) || !__cursor.getString(2).equals(_profile.getThumbPath()))) {
+            if (!(!__cursor.getString(1).equals(_profile.getDisplayName()) || !__cursor.getString(2).equals(_profile.getThumbPath()))) {
                 __result = false;
             } else {
                 __result = !__cursor.getString(2).equals(_profile.getThumbPath());
@@ -169,7 +171,7 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
     private ContentValues parseCacheProfile(CacheProfile _profile) {
         ContentValues row = new ContentValues();
         row.put(COLUMN_ACCOUNT_ID, _profile.getAccountId());
-        row.put(COLUMN_NAME, _profile.getName());
+        row.put(COLUMN_NAME, _profile.getDisplayName());
         row.put(COLUMN_THUMB_PATH, _profile.getThumbPath());
         return row;
     }
@@ -191,7 +193,7 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
             _cursor.moveToFirst();
 
             __profile.setAccountId(_cursor.getString(0));
-            __profile.setName(_cursor.getString(1));
+            __profile.setDisplayName(_cursor.getString(1));
             __profile.setThumbPath(_cursor.getString(2));
         } else {
             __profile = null;

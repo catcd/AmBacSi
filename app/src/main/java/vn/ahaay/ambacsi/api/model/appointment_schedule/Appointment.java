@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.model;
+package vn.ahaay.ambacsi.api.model.appointment_schedule;
 
 import org.json.JSONException;
 import org.json.JSONObject;

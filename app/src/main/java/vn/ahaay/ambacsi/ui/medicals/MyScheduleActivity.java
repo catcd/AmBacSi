@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import vn.ahaay.ambacsi.constant.CalendarConstant;
-import vn.ahaay.ambacsi.api.localdb.ScheduleDBHandler;
+import vn.ahaay.ambacsi.api.localdb.appointment_schedule.ScheduleDBHandler;
 import vn.ahaay.ambacsi.api.ambacsi.helper.Synchronized;
 import vn.ahaay.ambacsi.ui.AppBaseActivity;
 import com.alamkanak.weekview.DateTimeInterpreter;

@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.api.localdb;
+package vn.ahaay.ambacsi.api.localdb.appointment_schedule;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,36 +22,38 @@ import java.util.List;
 import java.util.UUID;
 
 import vn.ahaay.ambacsi.api.localdb.constant.LocalDBFormatter;
-import vn.ahaay.ambacsi.api.model.Schedule;
-import vn.ahaay.ambacsi.api.model.SimpleSchedule;
+import vn.ahaay.ambacsi.api.model.appointment_schedule.Schedule;
+import vn.ahaay.ambacsi.api.model.appointment_schedule.SimpleSchedule;
 
 /**
+ * Status: ON DEBUGGING
  * Created by SONY on 06-Aug-16.
+ * Last updated by Cat Can on 26-Sep-2016.
  */
 public class ScheduleDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "wecare";
-    public static final String TABLE_NAME = "apt_schedules";
+    private static final String TABLE_NAME = "apt_schedules";
 
-    public static final String COLUMN_LOCAL_ID = "localId";
-    public static final String COLUMN_SERVER_ID = "serverId";
-    public static final String COLUMN_STATUS = "status";
-    public static final String COLUMN_UPDATED_AT = "updatedAt";
-    public static final String COLUMN_CREATED_AT = "createdAt";
-    public static final String COLUMN_SUMMARY = "summary";
-    public static final String COLUMN_DESCRIPTION = "description";
-    public static final String COLUMN_LOCATION = "location";
-    public static final String COLUMN_COLOR_ID = "colorId";
-    public static final String COLUMN_DOCTOR_ID = "doctorId";
-    public static final String COLUMN_CLINICAL_CENTER_ID = "clinicalCenterId";
-    public static final String COLUMN_START = "start";
-    public static final String COLUMN_END = "end";
-    public static final String COLUMN_END_TIME_UNSPECIFIED = "endTimeUnspecified";
-    public static final String COLUMN_RECURRENCE = "recurrence";
-    public static final String COLUMN_RECURRING_EVENT_ID = "recurringEventId";
-    public static final String COLUMN_VISIBILITY = "visibility";
-    public static final String COLUMN_REMINDERS = "reminders";
-    public static final String COLUMN_SOURCE = "source";
+    private static final String COLUMN_LOCAL_ID = "localId";
+    private static final String COLUMN_SERVER_ID = "serverId";
+    private static final String COLUMN_STATUS = "status";
+    private static final String COLUMN_UPDATED_AT = "updatedAt";
+    private static final String COLUMN_CREATED_AT = "createdAt";
+    private static final String COLUMN_SUMMARY = "summary";
+    private static final String COLUMN_DESCRIPTION = "description";
+    private static final String COLUMN_LOCATION = "location";
+    private static final String COLUMN_COLOR_ID = "colorId";
+    private static final String COLUMN_DOCTOR_ID = "doctorId";
+    private static final String COLUMN_CLINICAL_CENTER_ID = "clinicalCenterId";
+    private static final String COLUMN_START = "start";
+    private static final String COLUMN_END = "end";
+    private static final String COLUMN_END_TIME_UNSPECIFIED = "endTimeUnspecified";
+    private static final String COLUMN_RECURRENCE = "recurrence";
+    private static final String COLUMN_RECURRING_EVENT_ID = "recurringEventId";
+    private static final String COLUMN_VISIBILITY = "visibility";
+    private static final String COLUMN_REMINDERS = "reminders";
+    private static final String COLUMN_SOURCE = "source";
 
     public ScheduleDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
         super(_context, DATABASE_NAME, _factory, DATABASE_VERSION);
