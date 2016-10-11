@@ -131,7 +131,7 @@ public class Schedule {
         location = _schedule.getString("location");
         colorId = _schedule.getInt("color_id");
         doctorId = _schedule.getJSONObject("doctor").getString("account_id");
-        if(_schedule.getJSONObject("clinical_center") != null) {
+        if(_schedule.has("clinical_center")) {
             clinicalCenterId = _schedule.getJSONObject("clinical_center").getString("account_id");
         }
 
@@ -315,17 +315,15 @@ public class Schedule {
         return "{" +
                 "id='" + serverId + '\'' +
                 ", status='" + status + '\'' +
-                ", updatedAt=" + ServerFormatter.DATETIME_FORMAT.format(updatedAt) +
-                ", createdAt=" + ServerFormatter.DATETIME_FORMAT.format(createdAt) +
                 ", summary='" + summary + '\'' +
                 ", description='" + description + '\'' +
                 ", location='" + location + '\'' +
-                ", colorId=" + colorId +
-                ", doctorId='" + doctorId + '\'' +
-                ", clinicalCenterId='" + clinicalCenterId + '\'' +
+                ", color_id=" + colorId +
+                ", doctor_id='" + doctorId + '\'' +
+                ", clinical_center_id='" + clinicalCenterId + '\'' +
                 ", start=" + ServerFormatter.DATETIME_FORMAT.format(start) +
                 ", end=" + ServerFormatter.DATETIME_FORMAT.format(end) +
-                ", endTimeUnspecified=" + (endTimeUnspecified ? 1 : 0) +
+                ", end_time_unspecified=" + (endTimeUnspecified ? 1 : 0) +
                 ", recurrence=" + TextUtils.join(";", recurrence) +
                 ", visibility='" + visibility + '\'' +
                 ", reminders=" + reminders +

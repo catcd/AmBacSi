@@ -1,4 +1,4 @@
-package vn.ahaay.ambacsi.ui.medicals;
+package vn.ahaay.ambacsi.ui.appointment_schedule;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,13 +9,13 @@ import vn.ahaay.ambacsi.ui.AppBaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AppointmentPlanerActivity extends AppBaseActivity {
+public class MyAppointmentActivity extends AppBaseActivity {
     @BindView(vn.ahaay.ambacsi.R.id.mToolbar) Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(vn.ahaay.ambacsi.R.layout.activity_appointment_planer);
+        setContentView(vn.ahaay.ambacsi.R.layout.activity_my_appointment);
         ButterKnife.bind(this);
 
         // setup toolbar

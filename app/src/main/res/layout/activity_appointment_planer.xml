@@ -7,7 +7,7 @@
                 android:paddingLeft="@dimen/activity_container_margin"
                 android:paddingRight="@dimen/activity_container_margin"
                 android:paddingTop="@dimen/activity_container_margin"
-                tools:context="vn.ahaay.ambacsi.ui.medicals.AppointmentPlanerActivity">
+                tools:context="vn.ahaay.ambacsi.ui.appointment_schedule.AppointmentPlanerActivity">
 
     <include
         android:id="@+id/mToolbar"

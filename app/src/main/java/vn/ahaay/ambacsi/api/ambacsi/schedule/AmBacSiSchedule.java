@@ -1,21 +1,7 @@
 package vn.ahaay.ambacsi.api.ambacsi.schedule;
 
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
-
-import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
-import vn.ahaay.ambacsi.api.GlobalContext;
-import vn.ahaay.ambacsi.api.ambacsi.Task;
-import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.localdb.profile.CacheProfileDBHandler;
-import vn.ahaay.ambacsi.api.localdb.appointment_schedule.ScheduleDBHandler;
-import vn.ahaay.ambacsi.api.model.appointment_schedule.Schedule;
-import vn.ahaay.ambacsi.api.ambacsi.profile.AmBacSiCacheProfile;
-import vn.ahaay.ambacsi.api.ambacsi.helper.Synchronized;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,104 +17,55 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.ahaay.ambacsi.api.ambacsi.Task;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
+import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
+import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
+import vn.ahaay.ambacsi.api.model.appointment_schedule.Schedule;
 
 /**
- * Created by Can on 9/2/2016.
+ * Status: ON DEBUGGING
+ * Created by SONY on 10-Sep-16.
+ * Last updated by Cat Can on 11-Oct-16.
  */
 public class AmBacSiSchedule {
     private static final String TAG = "AmBacSiSchedule";
-    private static final String DIRECTION_PREV = "prev";
-    private static final String DIRECTION_NEXT = "next";
-    private static boolean nextScheduleDone = false;
-    private static boolean prevScheduleDone = false;
 
-    public static void downloadSchedule(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
+    public static Task<List<Schedule>> downloadSchedule() throws AmBacSiAuthException {
         final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
-        new AsyncTask<String, Void, Void>() {
+        return new Task<List<Schedule>>() {
             @Override
-            protected Void doInBackground(String... _strings) {
-                if (_strings[0] == null) {
-                    // URL
-                    String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_SCHEDULE;
+            protected List<Schedule> doInBackground(Void... _voids) {
+                // URL
+                String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_GET_SCHEDULE;
 
-                    // Creating HTTP client
-                    HttpClient __httpClient = new DefaultHttpClient();
+                // Creating HTTP client
+                HttpClient __httpClient = new DefaultHttpClient();
 
-                    // Creating HTTP Post
-                    HttpGet __httpGet = new HttpGet(__url);
+                // Creating HTTP Post
+                HttpGet __httpGet = new HttpGet(__url);
 
-                    // Url Encoding the POST parameters
-                    __httpGet.addHeader("Authorization", "Token " + __token);
+                // Url Encoding the POST parameters
+                __httpGet.addHeader("Authorization", "Token " + __token);
 
-                    // Making HTTP Request
-                    try {
-                        HttpResponse __httpResponse = __httpClient.execute(__httpGet);
+                ArrayList<Schedule> __schedules = new ArrayList<>();
 
-                        if (__httpResponse.getStatusLine().getStatusCode() == 200) {
-                            JSONObject __result = JSONParse.parse(__httpResponse);
+                // Making HTTP Request
+                try {
+                    HttpResponse __httpResponse = __httpClient.execute(__httpGet);
 
-                            JSONArray __results = __result.getJSONArray("results");
-                            ScheduleDBHandler __dbHandler = new ScheduleDBHandler(GlobalContext.getContext(), null);
-                            CacheProfileDBHandler __cacheProfileDBHandler = new CacheProfileDBHandler(GlobalContext.getContext(), null);
-                            for (int i = 0; i < __results.length(); i++) {
-                                JSONObject __temp = __results.getJSONObject(i);
-                                __dbHandler.addSchedule(__temp);
+                    if (__httpResponse.getStatusLine().getStatusCode() == 200) {
+                        JSONObject __result = JSONParse.parse(__httpResponse);
 
-//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-//                                }
-//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-//                                }
-                            }
-
-                            String __next =  __result.getString("next");
-                            if (__next != null) {
-                                downloadSchedule(__next, DIRECTION_NEXT);
-                            } else {
-                                nextScheduleDone = true;
-                            }
-
-                            String __prev =  __result.getString("previous");
-                            if (__prev != null) {
-                                downloadSchedule(__prev, DIRECTION_PREV);
-                            } else if (nextScheduleDone) {
-                                Synchronized.setScheduleSynchronized(true);
-                            } else {
-                                prevScheduleDone = true;
-                            }
-                        }
-                    } catch (IOException | JSONException | AmBacSiAuthException _e) {
-                        // writing error to Log
-                        Log.e(TAG + ":dScd", _e.getMessage());
-                    }
-                } else if (_strings[1].equals(DIRECTION_PREV)) {
-                    // URL
-                    String __url = _strings[0];
-
-                    // Creating HTTP client
-                    HttpClient __httpClient = new DefaultHttpClient();
-
-                    // Creating HTTP Post
-                    HttpGet __httpGet = new HttpGet(__url);
-
-                    // Url Encoding the POST parameters
-                    __httpGet.addHeader("Authorization", "Token " + __token);
-
-                    // Making HTTP Request
-                    try {
-                        HttpResponse __httpResponse = __httpClient.execute(__httpGet);
-
-                        if (__httpResponse.getStatusLine().getStatusCode() == 200) {
-                            JSONObject __result = JSONParse.parse(__httpResponse);
-
-                            JSONArray __results = __result.getJSONArray("results");
-                            ScheduleDBHandler __dbHandler = new ScheduleDBHandler(GlobalContext.getContext(), null);
-                            CacheProfileDBHandler __cacheProfileDBHandler = new CacheProfileDBHandler(GlobalContext.getContext(), null);
-                            for (int i = 0; i < __results.length(); i++) {
-                                JSONObject __temp = __results.getJSONObject(i);
-                                __dbHandler.addSchedule(__temp);
+                        JSONArray __results = __result.getJSONArray("results");
+                        for (int i = 0; i < __results.length(); i++) {
+                            JSONObject __temp = __results.getJSONObject(i);
+                            __schedules.add(new Schedule(__temp));
 
 //                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
 //                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
@@ -136,73 +73,16 @@ public class AmBacSiSchedule {
 //                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
 //                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
 //                                }
-                            }
-
-                            String __prev =  __result.getString("previous");
-                            if (__prev != null) {
-                                downloadSchedule(__prev, DIRECTION_PREV);
-                            } else if (nextScheduleDone) {
-                                Synchronized.setScheduleSynchronized(true);
-                            } else {
-                                prevScheduleDone = true;
-                            }
                         }
-                    } catch (IOException | JSONException | AmBacSiAuthException _e) {
-                        // writing error to Log
-                        Log.e(TAG + ":dScd", _e.getMessage());
                     }
-                } else {
-                    // URL
-                    String __url = _strings[0];
-
-                    // Creating HTTP client
-                    HttpClient __httpClient = new DefaultHttpClient();
-
-                    // Creating HTTP Post
-                    HttpGet __httpGet = new HttpGet(__url);
-
-                    // Url Encoding the POST parameters
-                    __httpGet.addHeader("Authorization", "Token " + __token);
-
-                    // Making HTTP Request
-                    try {
-                        HttpResponse __httpResponse = __httpClient.execute(__httpGet);
-
-                        if (__httpResponse.getStatusLine().getStatusCode() == 200) {
-                            JSONObject __result = JSONParse.parse(__httpResponse);
-
-                            JSONArray __results = __result.getJSONArray("results");
-                            ScheduleDBHandler __dbHandler = new ScheduleDBHandler(GlobalContext.getContext(), null);
-                            CacheProfileDBHandler __cacheProfileDBHandler = new CacheProfileDBHandler(GlobalContext.getContext(), null);
-                            for (int i = 0; i < __results.length(); i++) {
-                                JSONObject __temp = __results.getJSONObject(i);
-                                __dbHandler.addSchedule(__temp);
-
-//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-//                                }
-//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-//                                }
-                            }
-
-                            String __next =  __result.getString("next");
-                            if (__next != null) {
-                                    downloadSchedule(__next, DIRECTION_NEXT);
-                            } else if (prevScheduleDone) {
-                                Synchronized.setScheduleSynchronized(true);
-                            }  else {
-                                nextScheduleDone = true;
-                            }
-                        }
-                    } catch (IOException | JSONException | AmBacSiAuthException _e) {
-                        // writing error to Log
-                        Log.e(TAG + ":dScd", _e.getMessage());
-                    }
+                } catch (IOException | JSONException | ParseException _e) {
+                    // writing error to Log
+                    Log.e(TAG + ":dScd", _e.getMessage());
                 }
-                return null;
+
+                return __schedules;
             }
-        }.execute(_link, _direction);
+        };
     }
 
     public static Task<Schedule> getSchedule(@NonNull final String _id) throws AmBacSiAuthException {
@@ -251,7 +131,7 @@ public class AmBacSiSchedule {
         };
     }
 
-    public static Task<String> createSchedule(@NonNull final Schedule _schedule) throws AmBacSiAuthException {
+    public static Task<String> createSchedule(@NonNull final ScheduleChangeRequest _schedule) throws AmBacSiAuthException {
         final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
@@ -272,7 +152,7 @@ public class AmBacSiSchedule {
 
                 // Making HTTP Request
                 try {
-                    __httpPost.setEntity(new StringEntity(_schedule.toString()));
+                    __httpPost.setEntity(new StringEntity(_schedule.getHttpRequestBody()));
                     HttpResponse __httpResponse = __httpClient.execute(__httpPost);
 
                     if (__httpResponse.getStatusLine().getStatusCode() == 201) {
@@ -344,14 +224,14 @@ public class AmBacSiSchedule {
         };
     }
 
-    public static Task<Void> updateSchedule(@NonNull final Schedule _schedule) throws AmBacSiAuthException {
+    public static Task<Void> updateSchedule(@NonNull final ScheduleChangeRequest _schedule) throws AmBacSiAuthException {
         final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
             protected Void doInBackground(Void... _voids) {
                 // URL
-                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_UPDATE_SCHEDULE, _schedule.getServerId());
+                String __url = ApiUrl.PREFIX_URL + String.format(ApiUrl.URL_UPDATE_SCHEDULE, _schedule.getId());
 
                 // Creating HTTP client
                 HttpClient __httpClient = new DefaultHttpClient();
@@ -365,7 +245,7 @@ public class AmBacSiSchedule {
 
                 // Making HTTP Request
                 try {
-                    __httpPut.setEntity(new StringEntity(_schedule.toString()));
+                    __httpPut.setEntity(new StringEntity(_schedule.getHttpRequestBody()));
                     HttpResponse __httpResponse = __httpClient.execute(__httpPut);
 
                     if (__httpResponse.getStatusLine().getStatusCode() == 200) {

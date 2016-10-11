@@ -182,7 +182,6 @@ public class AmBacSiAccount {
 
     public void downloadData() throws AmBacSiAuthException {
         AmBacSiProfile.downloadProfile();
-        AmBacSiSchedule.downloadSchedule(null, null);
     }
 
     public void refreshData() {

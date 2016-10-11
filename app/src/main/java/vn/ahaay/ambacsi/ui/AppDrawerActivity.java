@@ -1,6 +1,5 @@
 package vn.ahaay.ambacsi.ui;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,11 +40,11 @@ import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 import vn.ahaay.ambacsi.ui.helpers.HelpActivity;
 import vn.ahaay.ambacsi.ui.helpers.SettingsActivity;
-import vn.ahaay.ambacsi.ui.medicals.AppointmentPlanerActivity;
+import vn.ahaay.ambacsi.ui.appointment_schedule.AppointmentPlanerActivity;
 import vn.ahaay.ambacsi.ui.medicals.MedicalRecordActivity;
-import vn.ahaay.ambacsi.ui.medicals.MyAppointmentActivity;
-import vn.ahaay.ambacsi.ui.medicals.MyScheduleActivity;
-import vn.ahaay.ambacsi.ui.medicals.ScheduleActivity;
+import vn.ahaay.ambacsi.ui.appointment_schedule.MyAppointmentActivity;
+import vn.ahaay.ambacsi.ui.appointment_schedule.MyScheduleActivity;
+import vn.ahaay.ambacsi.ui.appointment_schedule.ScheduleActivity;
 import vn.ahaay.ambacsi.ui.outsides.LoginActivity;
 import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
 import vn.ahaay.ambacsi.ui.profiles.LinkMyAccountActivity;

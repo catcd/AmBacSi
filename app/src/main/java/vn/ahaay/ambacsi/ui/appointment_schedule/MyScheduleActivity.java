@@ -1,5 +1,6 @@
-package vn.ahaay.ambacsi.ui.medicals;
+package vn.ahaay.ambacsi.ui.appointment_schedule;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,9 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import butterknife.OnClick;
+import vn.ahaay.ambacsi.R;
 import vn.ahaay.ambacsi.constant.CalendarConstant;
 import vn.ahaay.ambacsi.api.localdb.appointment_schedule.ScheduleDBHandler;
-import vn.ahaay.ambacsi.api.ambacsi.helper.Synchronized;
 import vn.ahaay.ambacsi.ui.AppBaseActivity;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -29,6 +31,9 @@ public class MyScheduleActivity extends AppBaseActivity implements
         WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
 
     private int mWeekViewType = CalendarConstant.CAL_TYPE_THREE_DAY_VIEW;
+    public static final int CREATE_SCHEDULE_REQUEST_CODE = 0;
+    public static final int VIEW_SCHEDULE_REQUEST_CODE = 1;
+
     @BindView(vn.ahaay.ambacsi.R.id.mToolbar) Toolbar mToolbar;
     @BindView(vn.ahaay.ambacsi.R.id.weekCalendarView) WeekView weekCalendarView;
 
@@ -46,10 +51,6 @@ public class MyScheduleActivity extends AppBaseActivity implements
         // setup toolbar
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
-        if (!Synchronized.isScheduleSynchronized()) {
-            Toast.makeText(MyScheduleActivity.this, "Syncing...", Toast.LENGTH_SHORT).show();
-        }
 
         scheduleDBHandler = new ScheduleDBHandler(this, null);
     }
@@ -91,6 +92,36 @@ public class MyScheduleActivity extends AppBaseActivity implements
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CREATE_SCHEDULE_REQUEST_CODE:
+                switch (resultCode) {
+                    case EditScheduleActivity.EDIT_SCHEDULE_RESULT_CODE_CHANGED:
+                        weekCalendarView.notifyDatasetChanged();
+                        break;
+                    case EditScheduleActivity.EDIT_SCHEDULE_RESULT_CODE_NOT_CHANGED:
+                        break;
+                }
+                break;
+            case VIEW_SCHEDULE_REQUEST_CODE:
+                switch (resultCode) {
+                    case ViewScheduleActivity.VIEW_SCHEDULE_RESULT_CODE_CHANGED:
+                        weekCalendarView.notifyDatasetChanged();
+                        break;
+                    case ViewScheduleActivity.VIEW_SCHEDULE_RESULT_CODE_NOT_CHANGED:
+                        break;
+                }
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.addSchedule) void addSchedule() {
+        startActivityForResult(new Intent(this, EditScheduleActivity.class), CREATE_SCHEDULE_REQUEST_CODE);
     }
 
     private void setupWeekView() {
@@ -174,7 +205,7 @@ public class MyScheduleActivity extends AppBaseActivity implements
         });
     }
 
-    private String getEventTitle(java.util.Calendar time) {
+    private String getTimeDetail(java.util.Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(java.util.Calendar.HOUR_OF_DAY), time.get(java.util.Calendar.MINUTE), time.get(java.util.Calendar.MONTH)+1, time.get(java.util.Calendar.DAY_OF_MONTH));
     }
 
@@ -190,7 +221,7 @@ public class MyScheduleActivity extends AppBaseActivity implements
 
     @Override
     public void onEmptyViewLongPress(java.util.Calendar time) {
-        Toast.makeText(MyScheduleActivity.this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyScheduleActivity.this, "Empty view long pressed: " + getTimeDetail(time), Toast.LENGTH_SHORT).show();
     }
 
     @Override

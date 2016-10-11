@@ -31,7 +31,7 @@ import vn.ahaay.ambacsi.api.model.appointment_schedule.SimpleSchedule;
  * Last updated by Cat Can on 26-Sep-2016.
  */
 public class ScheduleDBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "wecare";
     private static final String TABLE_NAME = "apt_schedules";
 

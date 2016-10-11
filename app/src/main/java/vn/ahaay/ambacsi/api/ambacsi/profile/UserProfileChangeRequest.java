@@ -5,16 +5,15 @@ import org.json.JSONException;
 import java.util.Calendar;
 
 import vn.ahaay.ambacsi.api.ambacsi.constant.ServerFormatter;
-import vn.ahaay.ambacsi.api.ambacsi.constant.UserRole;
 
 /**
  * Created by SONY on 29-Jul-16.
  */
 public class UserProfileChangeRequest extends ProfileChangeRequest {
-    public static final String KEY_FIRST_NAME = "first_name";
-    public static final String KEY_LAST_NAME = "last_name";
-    public static final String KEY_GENDER = "gender";
-    public static final String KEY_DOB = "dob";
+    private static final String KEY_FIRST_NAME = "first_name";
+    private static final String KEY_LAST_NAME = "last_name";
+    private static final String KEY_GENDER = "gender";
+    private static final String KEY_DOB = "dob";
 
     @Override
     public String getDisplayName() {

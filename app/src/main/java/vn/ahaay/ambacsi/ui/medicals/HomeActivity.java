@@ -1,19 +1,14 @@
 package vn.ahaay.ambacsi.ui.medicals;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import vn.ahaay.ambacsi.R;
-import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
-import vn.ahaay.ambacsi.ui.AppDrawerActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import vn.ahaay.ambacsi.ui.AppDrawerActivity;
 
 public class HomeActivity extends AppDrawerActivity {
     private final int TIME_INTERVAL = 2000;

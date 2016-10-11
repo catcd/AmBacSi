@@ -61,19 +61,19 @@
             android:name=".ui.socials.SearchActivity"
             android:label="@string/search_title"/>
         <activity
-            android:name=".ui.medicals.MyAppointmentActivity"
+            android:name=".ui.appointment_schedule.MyAppointmentActivity"
             android:label="@string/my_appointment_title"/>
         <activity
-            android:name=".ui.medicals.MyScheduleActivity"
+            android:name=".ui.appointment_schedule.MyScheduleActivity"
             android:label="@string/my_schedule_title"/>
         <activity
             android:name=".ui.socials.NotificationsActivity"
             android:label="@string/notifications_title"/>
         <activity
-            android:name=".ui.medicals.AppointmentPlanerActivity"
+            android:name=".ui.appointment_schedule.AppointmentPlanerActivity"
             android:label="@string/appointment_planer_title"/>
         <activity
-            android:name=".ui.medicals.ScheduleActivity"
+            android:name=".ui.appointment_schedule.ScheduleActivity"
             android:label="@string/schedule_title"/>
         <activity
             android:name=".ui.medicals.MedicalRecordActivity"
@@ -85,10 +85,10 @@
             android:name=".ui.helpers.HelpActivity"
             android:label="@string/help_title"/>
         <activity
-            android:name=".ui.medicals.EditScheduleActivity"
+            android:name=".ui.appointment_schedule.EditScheduleActivity"
             android:label="@string/edit_schedule_title"/>
         <activity
-            android:name=".ui.medicals.ViewScheduleActivity"
+            android:name=".ui.appointment_schedule.ViewScheduleActivity"
             android:label="@string/view_schedule_title"/>
 
         <receiver

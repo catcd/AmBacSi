@@ -132,19 +132,26 @@
     <!-- Strings related to Search -->
     <string name="search_title">Search</string>
 
-    <!-- Strings related to Search -->
+    <!-- Strings related to Medical Record -->
     <string name="medical_record_title">Medical Record</string>
 
-    <!-- Strings related to Search -->
+    <!-- Strings related to Schedule -->
     <string name="schedule_title">Schedule</string>
 
-    <!-- Strings related to Search -->
+    <!-- Strings related to Appointment Planer -->
     <string name="appointment_planer_title">Appointment Planer</string>
 
-    <!-- Strings related to Search -->
+    <!-- Strings related to My Schedule -->
     <string name="my_schedule_title">My Schedule</string>
 
-    <!-- Strings related to Search -->
+    <!-- Strings related to View Schedule -->
+    <string name="view_schedule_title">Details</string>
+
+    <!-- Strings related to Edit schedule -->
+    <string name="edit_schedule_title">Edit schedule</string>
+    <string name="edit_schedule_title_new">New schedule</string>
+
+    <!-- Strings related to My Appointments -->
     <string name="my_appointment_title">My Appointments</string>
 
     <!-- Strings related to my profile -->
@@ -225,6 +232,4 @@
     <string name="menu_action_done">Done</string>
     <string name="menu_action_skip">Skip</string>
     <string name="menu_action_save">Save</string>
-    <string name="view_schedule_title">Details</string>
-    <string name="edit_schedule_title">Edit schedule</string>
 </resources>
