@@ -35,7 +35,7 @@ public class AmbacsiNotification {
      * @param _fcmToken The new token.
      */
     public static void sendRegistrationToServer(String _fcmToken) throws AmBacSiAuthException {
-        final String __userToken = AmBacSiAuth.getLoginUser().getToken();
+        final String __userToken = AmBacSiAuth.getLoginAccount().getToken();
         // URL
         String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_REGISTER_FCM_TOKEN;
 

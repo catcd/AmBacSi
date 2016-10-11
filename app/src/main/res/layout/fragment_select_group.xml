@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/selectGroupCaption"
-            android:layout_width="260dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_profile_select_group_caption"
             android:layout_below="@+id/selectGroupText"

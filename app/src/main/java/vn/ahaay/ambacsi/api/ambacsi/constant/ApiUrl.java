@@ -8,15 +8,25 @@ public class ApiUrl {
     private static final String API_URL = "/wecare/api";
     public static final String PREFIX_URL = DOMAIN + API_URL;
 
-    public static final String URL_REGISTER = "/account/register";
+    // for account
+    public static final String URL_REGISTER = "/account/create";
     public static final String URL_LOGIN = "/account/login";
     public static final String URL_LOGIN_WITH_CREDENTIAL = "/account/login_with_credential";
+    public static final String URL_CHANGE_EMAIL = "/account/change_email";
+    public static final String URL_CHANGE_PASSWORD = "/account/change_password";
+    public static final String URL_RESET_PASSWORD = "/account/reset_password";
+
+    // for user profile
+    public static final String URL_CREATE_USER_PROFILE = "/profile/user/create";
+    // for doctor profile
+    public static final String URL_CREATE_DOCTOR_PROFILE = "/profile/doctor/create";
+    // for clinical center profile
+    public static final String URL_CREATE_CLINICAL_CENTER_PROFILE = "/profile/clinical_center/create";
+
     public static final String URL_UPDATE_PROFILE = "/account/profile/%1$s/update";
     public static final String URL_GET_PROFILE = "/account/profile";
     public static final String URL_GET_PROFILE_ID = "/account/profile/%1$s";
     public static final String URL_PROFILE = "/account/profile";
-    public static final String URL_CHANGE_EMAIL = "/account/change_email";
-    public static final String URL_CHANGE_PASSWORD = "/account/change_password";
 
     public static final String URL_CREATE_SCHEDULE = "/schedule/create";
     public static final String URL_DELETE_SCHEDULE = "/schedule/%1$s/delete";

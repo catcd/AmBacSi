@@ -9,7 +9,7 @@ import vn.ahaay.ambacsi.api.device.constant.ImageFileName;
  * Created by Can on 24-Sep-16.
  */
 
-public class UserDataManager {
+public class DeviceUserDataManager {
     public static void deleteUserAvatar(int id) {
         new ImageSaver(GlobalContext.getContext())
                 .setFileName(ImageFileName.USER_DATA_AVATAR_FILE_NAME)

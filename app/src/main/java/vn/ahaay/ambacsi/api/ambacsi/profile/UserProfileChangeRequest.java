@@ -16,15 +16,6 @@ public class UserProfileChangeRequest extends ProfileChangeRequest {
     public static final String KEY_GENDER = "gender";
     public static final String KEY_DOB = "dob";
 
-    public UserProfileChangeRequest() {
-        super();
-        try {
-            request.putOpt(KEY_ROLE, UserRole.ROLE_USER);
-        } catch (JSONException _e) {
-            _e.printStackTrace();
-        }
-    }
-
     @Override
     public String getDisplayName() {
         String __fName = request.optString(KEY_FIRST_NAME, "");

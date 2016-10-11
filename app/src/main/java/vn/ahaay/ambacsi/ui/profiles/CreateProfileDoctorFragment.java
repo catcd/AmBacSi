@@ -11,9 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import vn.ahaay.ambacsi.R;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.profile.DoctorProfileChangeRequest;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
@@ -51,9 +54,13 @@ public class CreateProfileDoctorFragment extends Fragment {
     @BindView(vn.ahaay.ambacsi.R.id.createDoctorIdCardNo) EditText createDoctorIdCardNo;
     @BindView(vn.ahaay.ambacsi.R.id.createDoctorHomeAddress) EditText createDoctorHomeAddress;
     @BindView(vn.ahaay.ambacsi.R.id.createDoctorExperienceYear) EditText createDoctorExperienceYear;
+    @BindView(R.id.progressBarCreateDoctor) ProgressBar progressBarCreateDoctor;
+    @BindView(R.id.submitCreateDoctor) Button submitCreateDoctor;
 
     private String username;
     private String email;
+
+    private boolean onLoading = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -101,7 +108,7 @@ public class CreateProfileDoctorFragment extends Fragment {
         return __view;
     }
 
-    @OnClick(vn.ahaay.ambacsi.R.id.submit) void submit() {
+    @OnClick(R.id.submitCreateDoctor) void submit() {
         String __firstName = createDoctorFirstName.getText().toString();
         String __lastName = createDoctorLastName.getText().toString();
         String __genderString = createDoctorGender.getText().toString();
@@ -164,7 +171,7 @@ public class CreateProfileDoctorFragment extends Fragment {
 
         if (mListener != null) {
             try {
-                mListener.createProfile(__request);
+                mListener.createDoctorProfile(__request);
             } catch (AmBacSiAuthException _e) {
                 _e.printStackTrace();
             }
@@ -260,6 +267,18 @@ public class CreateProfileDoctorFragment extends Fragment {
         createDoctorDob.setText(sdf.format(myCalendar.getTime()));
     }
 
+    public void startLoading() {
+        onLoading = true;
+        submitCreateDoctor.setVisibility(View.GONE);
+        progressBarCreateDoctor.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoading() {
+        onLoading = false;
+        submitCreateDoctor.setVisibility(View.VISIBLE);
+        progressBarCreateDoctor.setVisibility(View.GONE);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -267,6 +286,6 @@ public class CreateProfileDoctorFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
-        void createProfile(ProfileChangeRequest _request) throws AmBacSiAuthException;
+        void createDoctorProfile(DoctorProfileChangeRequest _request) throws AmBacSiAuthException;
     }
 }

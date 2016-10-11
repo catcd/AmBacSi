@@ -25,11 +25,14 @@ import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthInvalidCredentialsException;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthUserCollisionException;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthWeakPasswordException;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAccount;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
+import vn.ahaay.ambacsi.api.sharedpreference.constant.UserDataPreference;
+import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
 
 public class SignUpActivity extends AppCompatActivity {
     @BindView(vn.ahaay.ambacsi.R.id.signUpAppName) TextView signUpAppName;
@@ -140,15 +143,15 @@ public class SignUpActivity extends AppCompatActivity {
         startLoading();
         //create user
         amBacSiAuth.createUserWithUsernameAndPassword(mUsername, mPassword, mEmail)
-                .addOnCompleteListener(new OnCompleteListener<AmBacSiUser>() {
+                .addOnCompleteListener(new OnCompleteListener<AmBacSiAccount>() {
                     @Override
-                    public void onComplete(@NonNull Task<AmBacSiUser> task) {
+                    public void onComplete(@NonNull Task<AmBacSiAccount> task) {
                         stopLoading();
                     }
                 })
-                .addOnFailureListener(new OnFailureListener<AmBacSiUser>() {
+                .addOnFailureListener(new OnFailureListener<AmBacSiAccount>() {
                     @Override
-                    public void onFailure(@NonNull Task<AmBacSiUser> task) {
+                    public void onFailure(@NonNull Task<AmBacSiAccount> task) {
                         if (task.getException() instanceof AmBacSiAuthWeakPasswordException) {
                             signUpPassword.requestFocus();
                             signUpPassword.setError(getResources().getString(vn.ahaay.ambacsi.R.string.sign_up_error_week_password));
@@ -175,13 +178,21 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .addOnSuccessListener(new OnSuccessListener<AmBacSiUser>() {
+                .addOnSuccessListener(new OnSuccessListener<AmBacSiAccount>() {
                     @Override
-                    public void onSuccess(@NonNull Task<AmBacSiUser> task) {
-                        // get ID, token
-                        AmBacSiUser user = task.getResult();
+                    public void onSuccess(@NonNull Task<AmBacSiAccount> task) {
+                        AmBacSiAccount __account = task.getResult();
+                        UserDataManager __userDataManager = new UserDataManager(SignUpActivity.this);
 
-                        Intent i = new Intent(SignUpActivity.this, WelcomeActivity.class);
+                        __userDataManager.setLoggedIn(true);
+                        __userDataManager.setLoggedInAccount(
+                                __account.getUsername(),
+                                __account.getUid(),
+                                __account.getEmail(),
+                                __account.getToken()
+                        );
+
+                        Intent i = new Intent(SignUpActivity.this, CreateProfileActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                     }

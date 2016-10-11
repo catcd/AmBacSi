@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -27,14 +26,18 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.ahaay.ambacsi.R;
 import vn.ahaay.ambacsi.api.ambacsi.OnCompleteListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnFailureListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnSuccessListener;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
-import vn.ahaay.ambacsi.api.device.UserDataManager;
+import vn.ahaay.ambacsi.api.model.profile.CacheProfile;
+import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 import vn.ahaay.ambacsi.ui.helpers.HelpActivity;
 import vn.ahaay.ambacsi.ui.helpers.SettingsActivity;
@@ -44,6 +47,7 @@ import vn.ahaay.ambacsi.ui.medicals.MyAppointmentActivity;
 import vn.ahaay.ambacsi.ui.medicals.MyScheduleActivity;
 import vn.ahaay.ambacsi.ui.medicals.ScheduleActivity;
 import vn.ahaay.ambacsi.ui.outsides.LoginActivity;
+import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
 import vn.ahaay.ambacsi.ui.profiles.LinkMyAccountActivity;
 import vn.ahaay.ambacsi.ui.profiles.MyProfileActivity;
 import vn.ahaay.ambacsi.ui.profiles.RegisterAnonymousActivity;
@@ -65,17 +69,99 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
     public static final int DRAWER_ITEM_HELP = 8;
     public static final int DRAWER_ITEM_LOGOUT = 9;
 
-    public static final int PROFILE_DRAWER_ITEM_REGISTER = 0;
-    public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 1;
+    public static final int PROFILE_DRAWER_ITEM_ADD_PROFILE = 100;
+    public static final int PROFILE_DRAWER_ITEM_ACCOUNT_SETTING = 101;
+    public static final int PROFILE_DRAWER_ITEM_REGISTER = 102;
+    public static final int PROFILE_DRAWER_ITEM_LINK_MY_ACCOUNT = 103;
+
+    public static final int PROFILE_MIN_IDENTIFIER = 200;
 
     protected Drawer drawer;
-    protected String displayName = "";
-    protected String email = "";
-    protected Drawable avatar = null;
+    protected List<CacheProfile> cacheProfiles = new ArrayList<>();
+    protected CacheProfile selectedProfile;
+    protected List<Bitmap> avatars = new ArrayList<>();
 
-    protected void setupNavigationDrawer(Activity mActivity, Toolbar mToolbar, int mSelected) {
+    protected String email;
+
+    protected Drawable avatar;
+
+    protected void setupNavigationDrawer(final Toolbar mToolbar, int mSelected){
         getAccountInformationForDrawer();
+        final UserDataManager __userDataManager = new UserDataManager(this);
+        // select profile
+        if (__userDataManager.isSetPrimaryProfile()) {
+            selectedProfile = __userDataManager.getPrimaryProfile();
+            AmBacSiAuth.setAccountProfile(selectedProfile);
 
+            // setup navigation drawer
+            // extent from AppDrawerActivity
+            buildNavigationDrawer(mToolbar, -1);
+        } else if(cacheProfiles.size() == 1) {
+            selectedProfile = cacheProfiles.get(0);
+            __userDataManager.setPrimaryProfile(true);
+            __userDataManager.setPrimaryProfile(selectedProfile);
+            AmBacSiAuth.setAccountProfile(selectedProfile);
+
+            // setup navigation drawer
+            // extent from AppDrawerActivity
+            buildNavigationDrawer(mToolbar, -1);
+        } else {
+            String[] __strings = new String[cacheProfiles.size()];
+            for (int i = 0; i < cacheProfiles.size(); i++) {
+                __strings[i] = cacheProfiles.get(i).getRoleString()
+                        + ": "
+                        + cacheProfiles.get(i).getDisplayName();
+            }
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.home_select_profile_title))
+                    .setSingleChoiceItems(
+                            __strings,
+                            0,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface _dialogInterface, int _i) {
+                                    selectedProfile = cacheProfiles.get(_i);
+                                    __userDataManager.setPrimaryProfile(true);
+                                    __userDataManager.setPrimaryProfile(selectedProfile);
+                                    AmBacSiAuth.setAccountProfile(selectedProfile);
+
+                                    _dialogInterface.dismiss();
+
+                                    // setup navigation drawer
+                                    // extent from AppDrawerActivity
+                                    buildNavigationDrawer(mToolbar, -1);
+                                }
+                            }
+                    )
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        }
+    }
+
+    private void getAccountInformationForDrawer() {
+        // get all profile
+        final UserDataManager __userDataManager = new UserDataManager(this);
+        cacheProfiles = __userDataManager.getProfileList();
+
+        try {
+            this.email = AmBacSiAuth.getLoginAccount().getEmail();
+        } catch (AmBacSiAuthException _e) {
+            this.email = "";
+        }
+
+        // TODO get avatar
+        this.avatar = getResources().getDrawable(vn.ahaay.ambacsi.R.drawable.am_bac_si_with_background);
+
+//        Bitmap avatar = DeviceUserDataManager.loadUserAvatar();
+//        if (avatar != null) {
+//            this.avatar = new BitmapDrawable(getResources(), avatar);
+//        } else {
+//            this.avatar = getResources().getDrawable(vn.ahaay.ambacsi.R.drawable.am_bac_si_with_background);
+//        }
+    }
+
+    private void buildNavigationDrawer(Toolbar mToolbar, int mSelected) {
         // Items for main drawer
         PrimaryDrawerItem itemCalendars = new PrimaryDrawerItem()
                 .withIdentifier(DRAWER_ITEM_MY_APPOINTMENT)
@@ -124,10 +210,29 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                 .withIcon(GoogleMaterial.Icon.gmd_transfer_within_a_station);
 
         // Item on profile section
-        ProfileDrawerItem itemAccountProfile = new ProfileDrawerItem()
-                .withName(displayName)
-                .withEmail(email)
-                .withIcon(avatar);
+        ProfileSettingDrawerItem itemAddProfile = new ProfileSettingDrawerItem()
+                .withIdentifier(PROFILE_DRAWER_ITEM_ADD_PROFILE)
+                .withName(getResources().getString(R.string.profile_drawer_item_add_profile))
+                .withIcon(GoogleMaterial.Icon.gmd_add)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        startActivity(new Intent(AppDrawerActivity.this, CreateProfileActivity.class));
+                        return false;
+                    }
+                });
+        ProfileSettingDrawerItem itemAccountSetting = new ProfileSettingDrawerItem()
+                .withIdentifier(PROFILE_DRAWER_ITEM_ACCOUNT_SETTING)
+                .withName(getResources().getString(R.string.profile_drawer_item_account_setting))
+                .withIcon(GoogleMaterial.Icon.gmd_settings)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // TODO create account setting activity
+                        startActivity(new Intent(AppDrawerActivity.this, LinkMyAccountActivity.class));
+                        return false;
+                    }
+                });
         ProfileSettingDrawerItem itemRegister = new ProfileSettingDrawerItem()
                 .withIdentifier(PROFILE_DRAWER_ITEM_REGISTER)
                 .withName(getResources().getString(vn.ahaay.ambacsi.R.string.profile_drawer_item_register))
@@ -152,24 +257,47 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
                 });
 
         // Create the AccountHeader
-        AccountHeader header = new AccountHeaderBuilder()
+        AccountHeaderBuilder __headerBuilder = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(vn.ahaay.ambacsi.R.drawable.google_now)
-                .addProfiles(
-                        itemAccountProfile,
-                        itemRegister,
-                        itemLinkMyAccount
-                )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
                         if (currentProfile) {
                             startActivity(new Intent(AppDrawerActivity.this, MyProfileActivity.class));
+                        } else {
+                            swapProfile(cacheProfiles.get((int) profile.getIdentifier() - PROFILE_MIN_IDENTIFIER));
                         }
                         return false;
                     }
-                })
-                .build();
+                });
+
+        int __i = PROFILE_MIN_IDENTIFIER;
+        int __indexOfActiveProfile = PROFILE_MIN_IDENTIFIER;
+        for (CacheProfile __item : cacheProfiles) {
+            __headerBuilder.addProfiles(new ProfileDrawerItem()
+                    .withName(__item.getDisplayName())
+                    .withIcon(avatar)
+                    .withEmail(email)
+                    .withNameShown(true)
+                    .withIdentifier(__i)
+            );
+            if (__indexOfActiveProfile == PROFILE_MIN_IDENTIFIER
+                    && selectedProfile.getProfileId().equals(__item.getProfileId()))
+            {
+                __indexOfActiveProfile = __i;
+            }
+            __i++;
+        }
+
+        __headerBuilder.addProfiles(
+                itemAddProfile,
+                itemAccountSetting
+//                itemRegister,
+//                itemLinkMyAccount
+        );
+        AccountHeader header = __headerBuilder.build();
+        header.setActiveProfile(__indexOfActiveProfile);
 
 //        if (!loginType.equals(Constant.LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS)) {
 //            header.removeProfileByIdentifier(PROFILE_DRAWER_ITEM_REGISTER);
@@ -179,7 +307,7 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
 
         //create the drawer and remember the `Drawer` result object
         drawer = new DrawerBuilder()
-                .withActivity(mActivity)
+                .withActivity(this)
                 .withToolbar(mToolbar)
                 .withAccountHeader(header)
                 .addDrawerItems(
@@ -296,24 +424,12 @@ public abstract class AppDrawerActivity extends AppBaseActivity {
         }
     }
 
-    private void getAccountInformationForDrawer() {
-        // get current name, email, avatar
-        AmBacSiUser __user = null;
-        try {
-            __user = AmBacSiAuth.getLoginUser();
-        } catch (AmBacSiAuthException _e) {
-            _e.printStackTrace();
-        }
-        displayName = __user.getDisplayName();
-        email = __user.getEmail();
+    protected void swapProfile(CacheProfile _profile) {
+        selectedProfile = _profile;
+        UserDataManager __userDataManager = new UserDataManager(this);
+        __userDataManager.setPrimaryProfile(true);
+        __userDataManager.setPrimaryProfile(selectedProfile);
 
-        // TODO Move to profile
-        // get avatar
-        Bitmap avatar = UserDataManager.loadUserAvatar();
-        if (avatar != null) {
-            this.avatar = new BitmapDrawable(getResources(), avatar);
-        } else {
-            this.avatar = getResources().getDrawable(vn.ahaay.ambacsi.R.drawable.am_bac_si_with_background);
-        }
+        AmBacSiAuth.setAccountProfile(selectedProfile);
     }
 }

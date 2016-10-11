@@ -1,11 +1,15 @@
 package vn.ahaay.ambacsi.ui.medicals;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import vn.ahaay.ambacsi.R;
+import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.ui.AppDrawerActivity;
 
 import butterknife.BindView;
@@ -27,9 +31,7 @@ public class HomeActivity extends AppDrawerActivity {
         // setup toolbar
         setSupportActionBar(mToolbar);
 
-        // setup navigation drawer
-        // extent from AppDrawerActivity
-        setupNavigationDrawer(this, mToolbar, -1);
+        setupNavigationDrawer(mToolbar, -1);
     }
 
     @Override

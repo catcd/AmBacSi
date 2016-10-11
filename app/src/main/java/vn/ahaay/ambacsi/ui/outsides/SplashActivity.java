@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAccount;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.helper.ConnectivityReceiver;
 import vn.ahaay.ambacsi.ui.medicals.HomeActivity;
+import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
 
 public class SplashActivity extends AppCompatActivity {
     boolean isLoggedIn = false;
@@ -73,12 +76,34 @@ public class SplashActivity extends AppCompatActivity {
             // After completing http call
             // will close this activity and launch corresponding activity
             if (isLoggedIn) {
-                // Notify user if user is offline
-                if (!isOnline) {
-                    Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_offline, Toast.LENGTH_LONG).show();
+                // get login account to AmBacSiAuth
+                UserDataManager __userDataManager = new UserDataManager(SplashActivity.this);
+                UserDataManager.LoggedInAccount __account = __userDataManager.getLoggedInAccount();
+                if (__account != null) {
+                    AmBacSiAuth.setAccount(new AmBacSiAccount(
+                            __account.getUId(),
+                            __account.getUserName(),
+                            __account.getEmail(),
+                            __account.getToken()
+                    ));
                 }
 
-                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                if (new UserDataManager(SplashActivity.this).isHaveProfile()) {
+                    // Notify user if user is offline
+                    if (!isOnline) {
+                        Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_offline, Toast.LENGTH_LONG).show();
+                    }
+
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                } else {
+                    // Notify user if user is offline
+                    if (!isOnline) {
+                        // TODO start setting for result
+                        Toast.makeText(SplashActivity.this, vn.ahaay.ambacsi.R.string.splash_network_error, Toast.LENGTH_LONG).show();
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, CreateProfileActivity.class));
+                    }
+                }
             } else if(isOnline) {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             } else {

@@ -43,7 +43,7 @@ public class AmBacSiSchedule {
     private static boolean prevScheduleDone = false;
 
     public static void downloadSchedule(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         new AsyncTask<String, Void, Void>() {
             @Override
@@ -75,12 +75,12 @@ public class AmBacSiSchedule {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addSchedule(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __next =  __result.getString("next");
@@ -130,12 +130,12 @@ public class AmBacSiSchedule {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addSchedule(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __prev =  __result.getString("previous");
@@ -178,12 +178,12 @@ public class AmBacSiSchedule {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addSchedule(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __next =  __result.getString("next");
@@ -206,7 +206,7 @@ public class AmBacSiSchedule {
     }
 
     public static Task<Schedule> getSchedule(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Schedule>() {
             @Override
@@ -252,7 +252,7 @@ public class AmBacSiSchedule {
     }
 
     public static Task<String> createSchedule(@NonNull final Schedule _schedule) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
             @Override
@@ -301,7 +301,7 @@ public class AmBacSiSchedule {
     }
 
     public static Task<Void> deleteSchedule(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -345,7 +345,7 @@ public class AmBacSiSchedule {
     }
 
     public static Task<Void> updateSchedule(@NonNull final Schedule _schedule) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override

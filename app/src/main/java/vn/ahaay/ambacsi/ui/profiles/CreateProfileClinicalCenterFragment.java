@@ -11,9 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import vn.ahaay.ambacsi.R;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ClinicalCenterProfileChangeRequest;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
@@ -49,9 +52,13 @@ public class CreateProfileClinicalCenterFragment extends Fragment {
     @BindView(vn.ahaay.ambacsi.R.id.createClinicalCenterFoundYear) EditText createClinicalCenterFoundYear;
     @BindView(vn.ahaay.ambacsi.R.id.createClinicalCenterTel) EditText createClinicalCenterTel;
     @BindView(vn.ahaay.ambacsi.R.id.createClinicalCenterLocation) EditText createClinicalCenterLocation;
+    @BindView(R.id.progressBarCreateClinicalCenter) ProgressBar progressBarCreateClinicalCenter;
+    @BindView(R.id.submitCreateClinicalCenter) Button submitCreateClinicalCenter;
 
     private String username;
     private String email;
+
+    private boolean onLoading = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,7 +106,7 @@ public class CreateProfileClinicalCenterFragment extends Fragment {
         return view;
     }
 
-    @OnClick(vn.ahaay.ambacsi.R.id.submit) void submit() {
+    @OnClick(R.id.submitCreateClinicalCenter) void submit() {
         String __name = createClinicalCenterName.getText().toString();
         String __typeString = createClinicalCenterType.getText().toString();
         String __fYearString = createClinicalCenterFoundYear.getText().toString();
@@ -149,7 +156,7 @@ public class CreateProfileClinicalCenterFragment extends Fragment {
 
         if (mListener != null) {
             try {
-                mListener.createProfile(__request);
+                mListener.createClinicalCenterProfile(__request);
             } catch (AmBacSiAuthException _e) {
                 _e.printStackTrace();
             }
@@ -240,6 +247,18 @@ public class CreateProfileClinicalCenterFragment extends Fragment {
         createClinicalCenterFoundYear.setText(sdf.format(myCalendar.getTime()));
     }
 
+    public void startLoading() {
+        onLoading = true;
+        submitCreateClinicalCenter.setVisibility(View.GONE);
+        progressBarCreateClinicalCenter.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoading() {
+        onLoading = false;
+        submitCreateClinicalCenter.setVisibility(View.VISIBLE);
+        progressBarCreateClinicalCenter.setVisibility(View.GONE);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -247,6 +266,6 @@ public class CreateProfileClinicalCenterFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
-        void createProfile(ProfileChangeRequest _request) throws AmBacSiAuthException;
+        void createClinicalCenterProfile(ClinicalCenterProfileChangeRequest _request) throws AmBacSiAuthException;
     }
 }

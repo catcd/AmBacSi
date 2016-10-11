@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AmBacSi</string>
+    <string name="app_name">amBacSi</string>
 
     <!-- Strings related to splash screen -->
     <string name="splash_network_error">Cannot connect to the Internet!</string>
@@ -70,8 +70,8 @@
 
     <!-- Strings related to Create Profile -->
     <string name="create_profile_title">Create Profile</string>
-    <string name="create_profile_select_group">Select account type</string>
-    <string name="create_profile_select_group_caption">Account type cannot be changed.</string>
+    <string name="create_profile_select_group">Add profiles</string>
+    <string name="create_profile_select_group_caption">You can update and add profile later.</string>
     <string name="create_profile_user">Standard User</string>
     <string name="create_profile_user_detail">Use app as a normal user with standard feature</string>
     <string name="create_profile_doctor">Doctor</string>
@@ -79,6 +79,9 @@
     <string name="create_profile_clinical_center">Clinical Center</string>
     <string name="create_profile_clinical_center_detail">Use app to manage your doctors, schedule</string>
     <string name="create_profile_error_field_required">This field is required</string>
+
+    <string name="create_profile_skip_title">Skip create profile</string>
+    <string name="create_profile_skip_message">We will create a default Standard User profile automatically.</string>
 
     <string name="clinical_center_type">Clinical Center type</string>
     <string name="clinical_center_type_private">Private Clinical Center</string>
@@ -114,6 +117,8 @@
 
     <!-- Strings related to home -->
     <string name="home_title">Home</string>
+    <string name="home_select_profile_title">Select primary profile</string>
+    <string name="home_select_profile_remember">Remember on this device</string>
 
     <!-- Strings related to settings -->
     <string name="settings_title">Settings</string>
@@ -188,10 +193,10 @@
     <string name="drawer_item_logout">Logout</string>
 
     <!-- Strings related to profile navigation drawer -->
+    <string name="profile_drawer_item_add_profile">Add Profile</string>
+    <string name="profile_drawer_item_account_setting">Account Setting</string>
     <string name="profile_drawer_item_register">Register Now</string>
     <string name="profile_drawer_item_link_my_account">Link My Account</string>
-    <string name="profile_drawer_item_change_privacy">Change Privacy</string>
-    <string name="profile_drawer_item_edit_profile">Edit Profile</string>
 
     <!-- Strings related to introduction slider -->
     <string name="next">NEXT</string>
@@ -217,6 +222,8 @@
     <string name="menu_action_edit">Edit</string>
     <string name="menu_action_delete">Delete</string>
     <string name="menu_action_cancel">Cancel</string>
+    <string name="menu_action_done">Done</string>
+    <string name="menu_action_skip">Skip</string>
     <string name="menu_action_save">Save</string>
     <string name="view_schedule_title">Details</string>
     <string name="edit_schedule_title">Edit schedule</string>

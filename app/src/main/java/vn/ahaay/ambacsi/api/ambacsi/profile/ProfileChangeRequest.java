@@ -8,8 +8,6 @@ import org.json.JSONObject;
 public abstract class ProfileChangeRequest {
     protected JSONObject request;
 
-    public static final String KEY_ROLE = "role";
-
     public ProfileChangeRequest() {
         request = new JSONObject();
     }

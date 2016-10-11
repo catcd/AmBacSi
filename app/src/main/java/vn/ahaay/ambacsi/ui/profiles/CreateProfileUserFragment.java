@@ -11,9 +11,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
+import vn.ahaay.ambacsi.R;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.profile.ProfileChangeRequest;
 import vn.ahaay.ambacsi.api.ambacsi.profile.UserProfileChangeRequest;
@@ -42,15 +45,19 @@ public class CreateProfileUserFragment extends Fragment {
     private static final String ARG_PARAM_EMAIL = "param_email";
     private Unbinder unbinder;
 
-    @BindView(vn.ahaay.ambacsi.R.id.createUserUsername) EditText createUserUsername;
-    @BindView(vn.ahaay.ambacsi.R.id.createUserEmail) EditText createUserEmail;
-    @BindView(vn.ahaay.ambacsi.R.id.createUserFirstName) EditText createUserFirstName;
-    @BindView(vn.ahaay.ambacsi.R.id.createUserLastName) EditText createUserLastName;
-    @BindView(vn.ahaay.ambacsi.R.id.createUserGender) EditText createUserGender;
-    @BindView(vn.ahaay.ambacsi.R.id.createUserDob) EditText createUserDob;
+    @BindView(R.id.createUserUsername) EditText createUserUsername;
+    @BindView(R.id.createUserEmail) EditText createUserEmail;
+    @BindView(R.id.createUserFirstName) EditText createUserFirstName;
+    @BindView(R.id.createUserLastName) EditText createUserLastName;
+    @BindView(R.id.createUserGender) EditText createUserGender;
+    @BindView(R.id.createUserDob) EditText createUserDob;
+    @BindView(R.id.progressBarCreateUser) ProgressBar progressBarCreateUser;
+    @BindView(R.id.submitCreateUser) Button submitCreateUser;
 
     private String username;
     private String email;
+
+    private boolean onLoading = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -89,7 +96,7 @@ public class CreateProfileUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(vn.ahaay.ambacsi.R.layout.fragment_create_profile_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_profile_user, container, false);
         unbinder = ButterKnife.bind(this, view);
 
         createUserUsername.setText(username);
@@ -98,7 +105,7 @@ public class CreateProfileUserFragment extends Fragment {
         return view;
     }
 
-    @OnClick(vn.ahaay.ambacsi.R.id.submit) void submit() {
+    @OnClick(R.id.submitCreateUser) void submit() {
         String __firstName = createUserFirstName.getText().toString();
         String __lastName = createUserLastName.getText().toString();
         String __genderString = createUserGender.getText().toString();
@@ -143,7 +150,7 @@ public class CreateProfileUserFragment extends Fragment {
 
         if (mListener != null) {
             try {
-                mListener.createProfile(__request);
+                mListener.createUserProfile(__request);
             } catch (AmBacSiAuthException _e) {
                 _e.printStackTrace();
             }
@@ -239,6 +246,18 @@ public class CreateProfileUserFragment extends Fragment {
         createUserDob.setText(sdf.format(myCalendar.getTime()));
     }
 
+    public void startLoading() {
+        onLoading = true;
+        submitCreateUser.setVisibility(View.GONE);
+        progressBarCreateUser.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoading() {
+        onLoading = false;
+        submitCreateUser.setVisibility(View.VISIBLE);
+        progressBarCreateUser.setVisibility(View.GONE);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -246,6 +265,6 @@ public class CreateProfileUserFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
-        void createProfile(ProfileChangeRequest _request) throws AmBacSiAuthException;
+        void createUserProfile(UserProfileChangeRequest _request) throws AmBacSiAuthException;
     }
 }

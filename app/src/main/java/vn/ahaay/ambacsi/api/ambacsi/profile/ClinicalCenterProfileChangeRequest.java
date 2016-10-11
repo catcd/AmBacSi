@@ -17,15 +17,6 @@ public final class ClinicalCenterProfileChangeRequest extends ProfileChangeReque
     public static final String KEY_TEL = "tel";
     public static final String KEY_LOCATION = "location";
 
-    public ClinicalCenterProfileChangeRequest() {
-        super();
-        try {
-            request.putOpt(KEY_ROLE, UserRole.ROLE_CLINICAL_CENTER);
-        } catch (JSONException _e) {
-            _e.printStackTrace();
-        }
-    }
-
     @Override
     public String getDisplayName() {
         return request.optString(KEY_NAME, "");

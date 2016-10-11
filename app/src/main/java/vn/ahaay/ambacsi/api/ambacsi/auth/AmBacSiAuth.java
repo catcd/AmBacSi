@@ -17,13 +17,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import vn.ahaay.ambacsi.api.GlobalContext;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ApiUrl;
 import vn.ahaay.ambacsi.api.ambacsi.constant.ServerApiError;
 import vn.ahaay.ambacsi.api.ambacsi.helper.JSONParse;
-import vn.ahaay.ambacsi.api.device.UserDataManager;
+import vn.ahaay.ambacsi.api.device.DeviceUserDataManager;
+import vn.ahaay.ambacsi.api.model.profile.CacheProfile;
 import vn.ahaay.ambacsi.api.sharedpreference.constant.LoginUserPreference;
 import vn.ahaay.ambacsi.api.sharedpreference.constant.SettingPreference;
 
@@ -34,7 +37,7 @@ public final class AmBacSiAuth {
     private static final String TAG = "AmBacSiAuth";
 
     private static AmBacSiAuth mAuth;
-    private static AmBacSiUser mUser;
+    private static AmBacSiAccount mAccount;
 
     // require private constructor
     private AmBacSiAuth() {
@@ -49,9 +52,16 @@ public final class AmBacSiAuth {
         return mAuth;
     }
 
-    public static AmBacSiUser getLoginUser() throws AmBacSiAuthException {
-        if (mUser != null) {
-            return mUser;
+    public static void setAccount(AmBacSiAccount _account) {
+        mAccount = _account;
+    }
+    public static void setAccountProfile(CacheProfile _profile) {
+        mAccount.setProfile(_profile);
+    }
+
+    public static AmBacSiAccount getLoginAccount() throws AmBacSiAuthException {
+        if (mAccount != null) {
+            return mAccount;
         } else {
             throw new AmBacSiAuthException(
                     AmBacSiAuthException.ERROR_CODE_NOT_LOGIN,
@@ -61,25 +71,25 @@ public final class AmBacSiAuth {
     }
 
     @Nullable
-    public static AmBacSiUser loadOfflineLoginUser() {
+    public static AmBacSiAccount loadOfflineLoginUser() {
         // Restore preferences
 //        SharedPreferences __preferences = GlobalContext.getContext()
 //                .getSharedPreferences(LoginUserPreference.PREFS_NAME, Context.MODE_PRIVATE);
 //
 //        String __loginType = __preferences.getString(LoginUserPreference.PREFS_LOGIN_USER_TYPE, "");
-//        AmBacSiUser __user;
+//        AmBacSiAccount __user;
 //        switch (__loginType) {
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_ANONYMOUS:
-//                __user = new AmBacSiUser(
+//                __user = new AmBacSiAccount(
 //                        __preferences.getString(LoginUserPreference.LOGIN_USER_ID, ""),
 //                        __preferences.getString(LoginUserPreference.LOGIN_USER_TOKEN, "")
 //                );
-//                mUser = __user;
+//                mAccount = __user;
 //                return __user;
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_PASSWORD:
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_GOOGLE:
 //            case LoginUserTypeConstant.LOGIN_USER_TYPE_FACEBOOK:
-//                __user = new AmBacSiUser(
+//                __user = new AmBacSiAccount(
 //                        __preferences.getString(LoginUserPreference.LOGIN_USER_ID, ""),
 //                        __preferences.getString(LoginUserPreference.LOGIN_USER_USERNAME, ""),
 //                        __preferences.getString(LoginUserPreference.LOGIN_USER_EMAIL, ""),
@@ -89,7 +99,7 @@ public final class AmBacSiAuth {
 //                        __preferences.getInt(LoginUserPreference.LOGIN_USER_ROLE, 0),
 //                        __loginType
 //                );
-//                mUser = __user;
+//                mAccount = __user;
 //                return __user;
 //            default:
 //                return null;
@@ -119,7 +129,7 @@ public final class AmBacSiAuth {
                 // TODO delete caches
 
                 // Delete avatar
-                UserDataManager.deleteUserAvatar();
+                DeviceUserDataManager.deleteUserAvatar();
 
                 this.isComplete = true;
                 return null;
@@ -127,11 +137,14 @@ public final class AmBacSiAuth {
         };
     }
 
+    /**
+     * DONE
+     */
     @NonNull
-    public Task<AmBacSiUser> authWithUsernameAndPassword(final String _username, final String _password) {
-        return new Task<AmBacSiUser>() {
+    public Task<List<CacheProfile>> authWithUsernameAndPassword(final String _username, final String _password) {
+        return new Task<List<CacheProfile>>() {
             @Override
-            protected AmBacSiUser doInBackground(Void... voids) {
+            protected List<CacheProfile> doInBackground(Void... voids) {
                 // URL
                 String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_LOGIN;
 
@@ -150,6 +163,8 @@ public final class AmBacSiAuth {
                     Log.e(TAG + ":login", e.getMessage());
                 }
 
+                List<CacheProfile> __profiles = new ArrayList<>();
+
                 // Url Encoding the POST parameters
                 try {
                     __httpPost.setEntity(new StringEntity(__data.toString()));
@@ -165,28 +180,27 @@ public final class AmBacSiAuth {
                             String __uid            = __result.getString("uid");
                             String __username       = __result.getString("username");
                             String __email          = __result.getString("email");
-                            String __displayName    = __result.getString("display_name");
-                            String __uri            = __result.getString("photo_uri");
                             String __token          = __result.getString("token");
-                            int __role           = __result.getInt("role");
+                            mAccount = new AmBacSiAccount(__uid, __username, __email, __token);
+
+                            JSONObject __rawProfile = __result.getJSONObject("profiles");
+                            JSONArray __rawUser = __rawProfile.getJSONArray("users");
+                            JSONArray __rawDoctor = __rawProfile.getJSONArray("doctors");
+                            JSONArray __rawClinicalCenter = __rawProfile.getJSONArray("clinical_centers");
+
+                            for (int i = 0; i < __rawUser.length(); i++) {
+                                __profiles.add(new CacheProfile(__rawUser.getJSONObject(i)));
+                            }
+
+                            for (int i = 0; i < __rawDoctor.length(); i++) {
+                                __profiles.add(new CacheProfile(__rawDoctor.getJSONObject(i)));
+                            }
+
+                            for (int i = 0; i < __rawClinicalCenter.length(); i++) {
+                                __profiles.add(new CacheProfile(__rawClinicalCenter.getJSONObject(i)));
+                            }
 
                             this.isComplete = true;
-                            mUser = new AmBacSiUser(__uid, __username, __email, __displayName, __uri, __token, __role);
-
-                            GlobalContext.getContext()
-                                    .getSharedPreferences(
-                                            LoginUserPreference.PREFS_NAME,
-                                            Context.MODE_PRIVATE
-                                    )
-                                    .edit()
-                                    .putString(LoginUserPreference.LOGIN_USER_ID, __uid)
-                                    .putString(LoginUserPreference.LOGIN_USER_USERNAME, __username)
-                                    .putString(LoginUserPreference.LOGIN_USER_EMAIL, __email)
-                                    .putString(LoginUserPreference.LOGIN_USER_DISPLAY_NAME, __displayName)
-                                    .putString(LoginUserPreference.LOGIN_USER_PHOTO_URI, __uri)
-                                    .putString(LoginUserPreference.LOGIN_USER_TOKEN, __token)
-                                    .putInt(LoginUserPreference.LOGIN_USER_ROLE, __role)
-                                    .apply();
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             this.isComplete = true;
                             this.mException = new AmBacSiAuthInvalidCredentialsException(
@@ -194,7 +208,7 @@ public final class AmBacSiAuth {
                                     AmBacSiAuthInvalidCredentialsException.ERROR_CODE_SIGN_IN_FAILED
                             );
                         } else {
-                            this.isComplete = false;
+                            this.isComplete = true;
                             this.mException = new AmBacSiAuthException(
                                     AmBacSiAuthException.ERROR_CODE_SERVER_STATUS_CODE,
                                     AmBacSiAuthException.ERROR_CODE_SERVER_STATUS_CODE
@@ -204,7 +218,7 @@ public final class AmBacSiAuth {
                         // writing error to Log
                         Log.e(TAG + ":login", e.getMessage());
 
-                        this.isComplete = false;
+                        this.isComplete = true;
                         this.mException = e;
                     }
                 }
@@ -212,19 +226,19 @@ public final class AmBacSiAuth {
                     // writing error to Log
                     Log.e(TAG + ":login", e.getMessage());
 
-                    this.isComplete = false;
+                    this.isComplete = true;
                     this.mException = e;
                 }
-                return mUser;
+                return __profiles;
             }
         };
     }
 
     @NonNull
-    public Task<AmBacSiUser> authWithCredential(Credentials mCredentials) {
-        return new Task<AmBacSiUser>() {
+    public Task<AmBacSiAccount> authWithCredential(Credentials mCredentials) {
+        return new Task<AmBacSiAccount>() {
             @Override
-            protected AmBacSiUser doInBackground(Void... voids) {
+            protected AmBacSiAccount doInBackground(Void... voids) {
                 // URL
                 String url = ApiUrl.PREFIX_URL + ApiUrl.URL_LOGIN_WITH_CREDENTIAL;
 
@@ -235,16 +249,19 @@ public final class AmBacSiAuth {
                 HttpPost httpPost = new HttpPost(url);
 
                 // TODO auth with credential
-                return mUser;
+                return mAccount;
             }
         };
     }
 
+    /**
+     * DONE
+     */
     @NonNull
-    public Task<AmBacSiUser> createUserWithUsernameAndPassword(final String _username, final String _password, final String _email) {
-        return new Task<AmBacSiUser>() {
+    public Task<AmBacSiAccount> createUserWithUsernameAndPassword(final String _username, final String _password, final String _email) {
+        return new Task<AmBacSiAccount>() {
             @Override
-            protected AmBacSiUser doInBackground(Void... voids) {
+            protected AmBacSiAccount doInBackground(Void... voids) {
                 // URL
                 String __url = ApiUrl.PREFIX_URL + ApiUrl.URL_REGISTER;
 
@@ -260,8 +277,8 @@ public final class AmBacSiAuth {
                     __data.put("username", _username)
                             .put("password", _password)
                             .put("email", _email);
-                } catch (JSONException e) {
-                    Log.e(TAG + ":login", e.getMessage());
+                } catch (JSONException _e) {
+                    Log.e(TAG + ":login", _e.getMessage());
                 }
 
                 // Url Encoding the POST parameters
@@ -282,19 +299,7 @@ public final class AmBacSiAuth {
                             String __token      = __result.getString("token");
 
                             this.isComplete = true;
-                            mUser = new AmBacSiUser(__uid, __username, __email, __token);
-
-                            GlobalContext.getContext()
-                                    .getSharedPreferences(
-                                            LoginUserPreference.PREFS_NAME,
-                                            Context.MODE_PRIVATE
-                                    )
-                                    .edit()
-                                    .putString(LoginUserPreference.LOGIN_USER_ID, __uid)
-                                    .putString(LoginUserPreference.LOGIN_USER_USERNAME, __username)
-                                    .putString(LoginUserPreference.LOGIN_USER_EMAIL, __email)
-                                    .putString(LoginUserPreference.LOGIN_USER_TOKEN, __token)
-                                    .apply();
+                            mAccount = new AmBacSiAccount(__uid, __username, __email, __token);
                         } else if (__httpResponse.getStatusLine().getStatusCode() == 400) {
                             JSONObject __result = JSONParse.parse(__httpResponse);
 
@@ -364,7 +369,7 @@ public final class AmBacSiAuth {
                     this.isComplete = false;
                     this.mException = e;
                 }
-                return mUser;
+                return mAccount;
             }
         };
     }

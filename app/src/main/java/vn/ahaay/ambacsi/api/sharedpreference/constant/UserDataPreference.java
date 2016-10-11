@@ -13,6 +13,7 @@ public class UserDataPreference {
     public static final String LOGGED_IN_UID = "prefs_logged_in_uid";
     public static final String LOGGED_IN_EMAIL = "prefs_logged_in_email";
     public static final String LOGGED_IN_TOKEN = "prefs_logged_in_token";
+    public static final String LOGGED_IN_PROFILE_LIST = "prefs_logged_in_profile_list";
 
     // to save primary profile brief detail
     public static final String IS_SET_PRIMARY_PROFILE = "prefs_is_set_primary_profile";

@@ -42,7 +42,7 @@ public class AmBacSiAppointment {
     private static boolean prevAppointmentDone = false;
 
     public static void downloadAppointment(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         new AsyncTask<String, Void, Void>() {
             @Override
@@ -74,15 +74,15 @@ public class AmBacSiAppointment {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addAppointment(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
-                                }
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
+//                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __next =  __result.getString("next");
@@ -132,15 +132,15 @@ public class AmBacSiAppointment {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addAppointment(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
-                                }
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
+//                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __prev =  __result.getString("previous");
@@ -183,15 +183,15 @@ public class AmBacSiAppointment {
                                 JSONObject __temp = __results.getJSONObject(i);
                                 __dbHandler.addAppointment(__temp);
 
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
-                                }
-                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
-                                }
-                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
-                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
-                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("account"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("account"));
+//                                }
+//                                if (__cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("doctor"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("doctor"));
+//                                }
+//                                if (__temp.getJSONObject("clinical_center") != null && __cacheProfileDBHandler.addCacheProfile(__temp.getJSONObject("clinical_center"))) {
+//                                    AmBacSiCacheProfile.loadCacheThumb(__temp.getJSONObject("clinical_center"));
+//                                }
                             }
 
                             String __next =  __result.getString("next");
@@ -214,7 +214,7 @@ public class AmBacSiAppointment {
     }
 
     public static Task<Appointment> getAppointment(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Appointment>() {
             @Override
@@ -260,7 +260,7 @@ public class AmBacSiAppointment {
     }
 
     public static Task<String> createAppointment(@NonNull final Appointment _appointment) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
             @Override
@@ -309,7 +309,7 @@ public class AmBacSiAppointment {
     }
 
     public static Task<Void> deleteAppointment(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override

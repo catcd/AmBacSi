@@ -21,12 +21,14 @@ import java.util.UUID;
  * Last updated by Cat Can on 26-Sep-2016.
  */
 public class CacheProfileDBHandler extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "wecare";
     private static final String TABLE_NAME = "cache_profiles";
 
     private static final String COLUMN_ACCOUNT_ID = "accountId";
-    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_PROFILE_ID = "profileId";
+    private static final String COLUMN_ROLE= "role";
+    private static final String COLUMN_DISPLAY_NAME = "displayName";
     private static final String COLUMN_THUMB_PATH = "thumbPath";
 
     public CacheProfileDBHandler(Context _context, SQLiteDatabase.CursorFactory _factory) {
@@ -37,8 +39,10 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase _database) {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
                 + "("
-                + COLUMN_ACCOUNT_ID + " TEXT PRIMARY KEY,"
-                + COLUMN_NAME + " TEXT,"
+                + COLUMN_ACCOUNT_ID + " TEXT,"
+                + COLUMN_PROFILE_ID + " TEXT PRIMARY KEY,"
+                + COLUMN_ROLE + " INT,"
+                + COLUMN_DISPLAY_NAME + " TEXT,"
                 + COLUMN_THUMB_PATH + " TEXT"
                 + ")";
         _database.execSQL(CREATE_TABLE);
@@ -52,75 +56,39 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
 
     // return true if need update image thumb
     public boolean addCacheProfile(CacheProfile _profile) {
-        boolean __result = true;
+        boolean __result;
         SQLiteDatabase __database = this.getWritableDatabase();
         Cursor __cursor = __database.query(
-                TABLE_NAME, null,
-                COLUMN_ACCOUNT_ID + " = '?'", new String[]{_profile.getAccountId()},
+                TABLE_NAME, new String[] {COLUMN_DISPLAY_NAME, COLUMN_THUMB_PATH},
+                COLUMN_PROFILE_ID + " = ?", new String[]{_profile.getProfileId()},
                 null, null, null
         );
         ContentValues __row = parseCacheProfile(_profile);
 
         if (__cursor.moveToFirst()) {
-            if (!(!__cursor.getString(1).equals(_profile.getDisplayName()) || !__cursor.getString(2).equals(_profile.getThumbPath()))) {
+            if (__cursor.getString(0).equals(_profile.getDisplayName()) && __cursor.getString(1).equals(_profile.getThumbPath())) {
                 __result = false;
             } else {
-                __result = !__cursor.getString(2).equals(_profile.getThumbPath());
+                __result = !__cursor.getString(4).equals(_profile.getThumbPath());
                 __database.update(
                         TABLE_NAME,
                         __row,
-                        COLUMN_ACCOUNT_ID + " = '?'", new String[]{_profile.getAccountId()}
+                        COLUMN_PROFILE_ID + " = ?", new String[]{_profile.getProfileId()}
                 );
             }
         } else {
             __database.insert(TABLE_NAME, null, __row);
             __result = true;
         }
+        __cursor.close();
         __database.close();
 
         return __result;
     }
 
-    // return true if need update image thumb
-    public boolean addCacheProfile(JSONObject _profile) {
-        String __uuid = UUID.randomUUID().toString();
-        try {
-            boolean __result;
-            SQLiteDatabase __database = this.getWritableDatabase();
-            Cursor __cursor = __database.query(
-                    TABLE_NAME, null,
-                    COLUMN_ACCOUNT_ID + " = '?'", new String[]{_profile.getString("account_id")},
-                    null, null, null
-            );
-            ContentValues __row = parseCacheProfile(_profile);
-
-            if (__cursor.moveToFirst()) {
-                if (!(!__cursor.getString(1).equals(_profile.getString("name")) || !__cursor.getString(2).equals(_profile.getString("thumb_path")))) {
-                    __result = false;
-                } else {
-                    __result = !__cursor.getString(2).equals(_profile.getString("thumb_path"));
-                    __database.update(
-                            TABLE_NAME,
-                            __row,
-                            COLUMN_ACCOUNT_ID + " = '?'", new String[]{_profile.getString("account_id")}
-                    );
-                }
-            } else {
-                __database.insert(TABLE_NAME, null, __row);
-                __result = true;
-            }
-            __cursor.close();
-            __database.close();
-
-            return __result;
-        } catch (JSONException _e) {
-            return false;
-        }
-    }
-
-    public int deleteCacheProfile(String _accountId) {
+    public int deleteCacheProfile(String _profileId) {
         SQLiteDatabase __database = this.getWritableDatabase();
-        int __count = __database.delete(TABLE_NAME, COLUMN_ACCOUNT_ID + " = ?", new String[]{_accountId});
+        int __count = __database.delete(TABLE_NAME, COLUMN_PROFILE_ID + " = ?", new String[]{_profileId});
         __database.close();
         return __count;
     }
@@ -138,21 +106,26 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
         int __count = __database.update(
                 TABLE_NAME,
                 __row,
-                COLUMN_ACCOUNT_ID + " = '?'", new String[]{_profile.getAccountId()}
+                COLUMN_PROFILE_ID + " = ?", new String[]{_profile.getProfileId()}
         );
         __database.close();
         return __count;
     }
 
     @Nullable
-    public CacheProfile findCacheProfile(String _accountId) {
+    public CacheProfile findCacheProfile(String _profileId) {
         SQLiteDatabase __database = this.getReadableDatabase();
         Cursor __cursor = __database.query(
                 TABLE_NAME, null,
-                COLUMN_ACCOUNT_ID + " = '?'", new String[]{_accountId},
+                COLUMN_PROFILE_ID + " = ?", new String[]{_profileId},
                 null, null, null
         );
-        CacheProfile __profile = parseCursor(__cursor);
+        CacheProfile __profile;
+        if (__cursor.moveToFirst()) {
+            __profile = parseCursor(__cursor);
+        } else {
+            __profile = null;
+        }
         __cursor.close();
         __database.close();
         return __profile;
@@ -171,17 +144,10 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
     private ContentValues parseCacheProfile(CacheProfile _profile) {
         ContentValues row = new ContentValues();
         row.put(COLUMN_ACCOUNT_ID, _profile.getAccountId());
-        row.put(COLUMN_NAME, _profile.getDisplayName());
+        row.put(COLUMN_PROFILE_ID, _profile.getProfileId());
+        row.put(COLUMN_ROLE, _profile.getRole());
+        row.put(COLUMN_DISPLAY_NAME, _profile.getDisplayName());
         row.put(COLUMN_THUMB_PATH, _profile.getThumbPath());
-        return row;
-    }
-
-    @NonNull
-    private ContentValues parseCacheProfile(JSONObject _profile) throws JSONException {
-        ContentValues row = new ContentValues();
-        row.put(COLUMN_ACCOUNT_ID, _profile.getString("account_id"));
-        row.put(COLUMN_NAME, _profile.getString("name"));
-        row.put(COLUMN_THUMB_PATH, _profile.getString("thumb_path"));
         return row;
     }
 
@@ -189,15 +155,11 @@ public class CacheProfileDBHandler extends SQLiteOpenHelper {
     private CacheProfile parseCursor(Cursor _cursor) {
         CacheProfile __profile = new CacheProfile();
 
-        if (_cursor.moveToFirst()) {
-            _cursor.moveToFirst();
-
-            __profile.setAccountId(_cursor.getString(0));
-            __profile.setDisplayName(_cursor.getString(1));
-            __profile.setThumbPath(_cursor.getString(2));
-        } else {
-            __profile = null;
-        }
+        __profile.setAccountId(_cursor.getString(0));
+        __profile.setProfileId(_cursor.getString(1));
+        __profile.setRole(Integer.parseInt(_cursor.getString(2)));
+        __profile.setDisplayName(_cursor.getString(3));
+        __profile.setThumbPath(_cursor.getString(4));
 
         return __profile;
     }

@@ -18,14 +18,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
+import java.util.List;
+
 import vn.ahaay.ambacsi.api.ambacsi.OnCompleteListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnFailureListener;
 import vn.ahaay.ambacsi.api.ambacsi.OnSuccessListener;
 import vn.ahaay.ambacsi.api.ambacsi.Task;
+import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAccount;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuth;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthException;
 import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiAuthInvalidCredentialsException;
-import vn.ahaay.ambacsi.api.ambacsi.auth.AmBacSiUser;
+import vn.ahaay.ambacsi.api.localdb.profile.CacheProfileDBHandler;
+import vn.ahaay.ambacsi.api.model.profile.CacheProfile;
+import vn.ahaay.ambacsi.api.sharedpreference.UserDataManager;
 import vn.ahaay.ambacsi.ui.medicals.HomeActivity;
 import vn.ahaay.ambacsi.ui.profiles.CreateProfileActivity;
 
@@ -130,15 +137,15 @@ public class LoginActivity extends AppCompatActivity {
         // login with password and email
         // authenticate user
         amBacSiAuth.authWithUsernameAndPassword(mUsername, mPassword)
-                .addOnCompleteListener(new OnCompleteListener<AmBacSiUser>() {
+                .addOnCompleteListener(new OnCompleteListener<List<CacheProfile>>() {
                     @Override
-                    public void onComplete(@NonNull Task<AmBacSiUser> task) {
+                    public void onComplete(@NonNull Task<List<CacheProfile>> task) {
                         stopLoading();
                     }
                 })
-                .addOnFailureListener(new OnFailureListener<AmBacSiUser>() {
+                .addOnFailureListener(new OnFailureListener<List<CacheProfile>>() {
                     @Override
-                    public void onFailure(@NonNull Task<AmBacSiUser> task) {
+                    public void onFailure(@NonNull Task<List<CacheProfile>> task) {
                             Log.w(TAG, "signInWithEmailAndPassword", task.getException());
                             // there was an error
                             if (task.getException() instanceof AmBacSiAuthInvalidCredentialsException
@@ -152,52 +159,58 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                 })
-                .addOnSuccessListener(new OnSuccessListener<AmBacSiUser>() {
+                .addOnSuccessListener(new OnSuccessListener<List<CacheProfile>>() {
                     @Override
-                    public void onSuccess(@NonNull Task<AmBacSiUser> task) {
-                        AmBacSiUser __user = task.getResult();
+                    public void onSuccess(@NonNull Task<List<CacheProfile>> task) {
+                        List<CacheProfile> __profiles = task.getResult();
+
+                        UserDataManager __userDataManager = new UserDataManager(LoginActivity.this);
+
+                        __userDataManager.setLoggedIn(true);
                         try {
-                            __user.downloadData();
+                            AmBacSiAccount __account = AmBacSiAuth.getLoginAccount();
+                            __userDataManager.setLoggedInAccount(
+                                    __account.getUsername(),
+                                    __account.getUid(),
+                                    __account.getEmail(),
+                                    __account.getToken()
+                            );
                         } catch (AmBacSiAuthException _e) {
                             _e.printStackTrace();
                         }
 
-                        Toast.makeText(LoginActivity.this,
-                                getResources().getString(vn.ahaay.ambacsi.R.string.login_success),
-                                Toast.LENGTH_SHORT).show();
 
-                        String __name = __user.getDisplayName();
-                        if (__name == null || __name.equals("")) {
+                        if (__profiles.isEmpty()) {
+                            // TODO change text if necessary
+                            Toast.makeText(LoginActivity.this,
+                                    getResources().getString(vn.ahaay.ambacsi.R.string.login_success),
+                                    Toast.LENGTH_SHORT).show();
+
                             startActivity(new Intent(LoginActivity.this, CreateProfileActivity.class));
                         } else {
+                            CacheProfileDBHandler __cacheProfileDBHandler = new CacheProfileDBHandler (
+                                    LoginActivity.this,
+                                    null
+                            );
+                            for (CacheProfile __profile : __profiles) {
+                                __cacheProfileDBHandler.addCacheProfile(__profile);
+                                // TODO load cache profile image
+                            }
+
+                            __userDataManager.setProfileList(__profiles);
+
+                            // TODO load data
+
+                            Toast.makeText(LoginActivity.this,
+                                    getResources().getString(vn.ahaay.ambacsi.R.string.login_success),
+                                    Toast.LENGTH_SHORT).show();
+
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         }
                         finish();
                     }
                 })
                 .execute();
-    }
-
-    private void loginSuccess() {
-        AmBacSiUser __user = null;
-        try {
-            __user = AmBacSiAuth.getLoginUser();
-        } catch (AmBacSiAuthException _e) {
-            _e.printStackTrace();
-        }
-        if (__user != null) {
-            Toast.makeText(LoginActivity.this,
-                    getResources().getString(vn.ahaay.ambacsi.R.string.login_success),
-                    Toast.LENGTH_SHORT).show();
-
-            String __name = __user.getDisplayName();
-            if (__name == null || __name.equals("")) {
-                startActivity(new Intent(LoginActivity.this, CreateProfileActivity.class));
-            } else {
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            }
-            finish();
-        }
     }
 
     @OnClick(vn.ahaay.ambacsi.R.id.loginAnonymous) void loginAnonymous() {

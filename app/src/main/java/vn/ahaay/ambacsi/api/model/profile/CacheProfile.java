@@ -2,6 +2,9 @@ package vn.ahaay.ambacsi.api.model.profile;
 
 import android.graphics.Bitmap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Status: UPDATED
  * Created by SONY on 13-Aug-16.
@@ -25,6 +28,15 @@ public class CacheProfile {
         role = _role;
         displayName = _displayName;
         thumbPath = _thumbPath;
+    }
+
+    // by JSONObject
+    public CacheProfile(JSONObject _profile) throws JSONException {
+        accountId = _profile.getString("account_id");
+        profileId = _profile.getString("profile_id");
+        role = _profile.getInt("role");
+        displayName = _profile.getString("display_name");
+        thumbPath = _profile.getString("thumb_path");
     }
 
     // with bitmap thumb
@@ -57,6 +69,19 @@ public class CacheProfile {
         return role;
     }
 
+    public String getRoleString() {
+        switch (role) {
+            case 0:
+                return "User";
+            case 1:
+                return "Doctor";
+            case 2:
+                return "Clinical Center";
+            default:
+                return "Undefined";
+        }
+    }
+
     public void setRole(int _role) {
         role = _role;
     }
@@ -83,5 +108,16 @@ public class CacheProfile {
 
     public void setThumb(Bitmap _thumb) {
         thumb = _thumb;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "account_id='" + accountId + '\'' +
+                ", profile_id='" + profileId + '\'' +
+                ", role=" + role +
+                ", display_name='" + displayName + '\'' +
+                ", thumb_path='" + thumbPath + '\'' +
+                '}';
     }
 }

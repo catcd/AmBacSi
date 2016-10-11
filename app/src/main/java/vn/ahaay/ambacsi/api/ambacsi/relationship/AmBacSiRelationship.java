@@ -37,7 +37,7 @@ public class AmBacSiRelationship {
 //    private static boolean prevRelationshipDone = false;
 
 //    public static void downloadFriendRequest(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
-//        final String __token = AmBacSiAuth.getLoginUser().getToken();
+//        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 //
 //        new AsyncTask<String, Void, Void>() {
 //            @Override
@@ -209,7 +209,7 @@ public class AmBacSiRelationship {
 //    }
 
     public static Task<String> createFriendRequest(@NonNull final FriendRequest _friendRequest) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
             @Override
@@ -258,7 +258,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> deleteFriendRequest(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -302,7 +302,7 @@ public class AmBacSiRelationship {
     }
 
 //    public static void downloadRelationship(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
-//        final String __token = AmBacSiAuth.getLoginUser().getToken();
+//        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 //
 //        new AsyncTask<String, Void, Void>() {
 //            @Override
@@ -474,7 +474,7 @@ public class AmBacSiRelationship {
 //    }
 
     public static Task<Relationship> getRelationship(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Relationship>() {
             @Override
@@ -521,7 +521,7 @@ public class AmBacSiRelationship {
 
     // accept friend request
     public static Task<String> createRelationship(@NonNull final String _friendRequestId) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
             @Override
@@ -572,7 +572,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> deleteRelationship(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -616,7 +616,7 @@ public class AmBacSiRelationship {
     }
 
 //    public static void downloadFriendGroup(@Nullable String _link, @Nullable String _direction) throws AmBacSiAuthException {
-//        final String __token = AmBacSiAuth.getLoginUser().getToken();
+//        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 //
 //        new AsyncTask<String, Void, Void>() {
 //            @Override
@@ -788,7 +788,7 @@ public class AmBacSiRelationship {
 //    }
 
     public static Task<FriendGroup> getFriendGroup(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<FriendGroup>() {
             @Override
@@ -834,7 +834,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<String> createFriendGroup(@NonNull final FriendGroup _friendGroup) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<String>() {
             @Override
@@ -883,7 +883,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> updateFriendGroup(@NonNull final FriendGroup _friendGroup) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -929,7 +929,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> addFriendGroupMember(@NonNull final String _friendGroupId, @NonNull final String _friendIdList) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -977,7 +977,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> removeFriendGroupMember(@NonNull final String _friendGroupId, @NonNull final String _friendIdList) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override
@@ -1025,7 +1025,7 @@ public class AmBacSiRelationship {
     }
 
     public static Task<Void> deleteFriendGroup(@NonNull final String _id) throws AmBacSiAuthException {
-        final String __token = AmBacSiAuth.getLoginUser().getToken();
+        final String __token = AmBacSiAuth.getLoginAccount().getToken();
 
         return new Task<Void>() {
             @Override

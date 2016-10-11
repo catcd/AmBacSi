@@ -19,15 +19,6 @@ public class DoctorProfileChangeRequest extends ProfileChangeRequest {
     public static final String KEY_HOME_ADDRESS= "home_address";
     public static final String KEY_EXPERIENCE_YEAR = "experience_year";
 
-    public DoctorProfileChangeRequest() {
-        super();
-        try {
-            request.putOpt(KEY_ROLE, UserRole.ROLE_DOCTOR);
-        } catch (JSONException _e) {
-            _e.printStackTrace();
-        }
-    }
-
     @Override
     public String getDisplayName() {
         String __fName = request.optString(KEY_FIRST_NAME, "");
